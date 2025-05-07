@@ -1,0 +1,35 @@
+{
+    "login": {
+        "title": "WorkStation",
+        "heading": "Bienvenido",
+        "username": "Usuario",
+        "password": "Contraseña",
+        "button": "Iniciar Sesión",
+        "forgot_password": "¿Olvidaste tu contraseña?",
+        "no_account": "¿No tienes cuenta?",
+        "sign_up": "¡Regístrate!"
+    },
+    "register": {
+        "title": "WorkStation",
+        "heading": "Registrar",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "phone": "Número Telefónico",
+        "button": "¡Regístrate!"
+    },
+    "recover-account": {
+        "title": "WorkStation",
+        "heading": "Recuperar cuenta",
+        "instructions": "Ingresa tu correo electrónico para recuperar tu cuenta. Te enviaremos un código para cambiar tu contraseña.",
+        "email": "Correo electrónico",
+        "button": "Enviar"
+    },
+    "change-password": {
+        "title": "WorkStation",
+        "heading": "Cambiar contraseña",
+        "new_password": "Nueva contraseña",
+        "confirm_password": "Confirmar nueva contraseña",
+        "button": "Cambiar Contraseña"
+    }
+}
