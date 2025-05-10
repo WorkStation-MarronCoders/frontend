@@ -29,7 +29,9 @@ const password = ref('');
             <label for="password">{{ $t('login.password') }}</label>
           </pv-float-label>
         </div>
-        <pv-button :label="$t('login.button')" class="login-button" />
+        <router-link to="/dashboard">
+          <pv-button :label="$t('login.button')" class="login-button" />
+        </router-link>
       </div>
 
       <div class="links">

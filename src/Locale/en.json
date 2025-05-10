@@ -31,5 +31,15 @@
         "new_password": "New Password",
         "confirm_password": "Confirm New Password",
         "button": "Change Password"
+    },
+    "dashboard": {
+        "title": "WorkStation",
+        "description": "We enable thousands of people to easily access shared workspaces, private offices, and meeting rooms around the world.",
+        "home": "Home",
+        "plan": "My Plan",
+        "profile": "My Profile",
+        "search": "Search for workspaces",
+        "compare": "Compare workspaces",
+        "rent": "Rent with us"
     }
 }

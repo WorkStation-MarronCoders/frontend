@@ -3,6 +3,7 @@ import TheLogin from '../Login/Presentation/the-login.page.vue'
 import TheRegister from '../Login/Presentation/the-register.page.vue'
 import RecoverAccount from '../Login/Presentation/recover-account.page.vue'
 import ChangePassword from '../Login/Presentation/change-password.page.vue'
+import TheDashboard from '../Dashboard/Presentation/the-dashboard.page.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,6 +31,11 @@ const router = createRouter({
     {
       path: '/',
       redirect: '/login'
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: TheDashboard
     }
   ]
 })

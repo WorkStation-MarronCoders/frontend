@@ -31,5 +31,15 @@
         "new_password": "Nueva contraseña",
         "confirm_password": "Confirmar nueva contraseña",
         "button": "Cambiar Contraseña"
+    },
+    "dashboard": {
+        "title": "WorkStation",
+        "description": "Permitimos a miles de personas que accedan facilmente a espacios de trabajo compartidos, oficinas privadas y salas de reuniones en todo el mundo.",
+        "home": "Inicio",
+        "plan": "Mi Plan",
+        "profile": "Mi Perfil",
+        "search": "Busca espacios de trabajo",
+        "compare": "Compara espacios de trabajo",
+        "rent": "Alquila con nosotros"
     }
 }
