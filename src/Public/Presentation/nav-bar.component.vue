@@ -21,6 +21,10 @@
       <h1>{{ $t('dashboard.profile') }}</h1> 
     </router-link>
 
+    <router-link to="/login">
+      <pv-button :label="$t('dashboard.logout')" class="logout-button" />
+    </router-link>
+
     <LanguageSwitcher/>
   </nav>
 </template>
@@ -49,5 +53,17 @@
   text-decoration-line: underline;
   text-decoration-color: #0f0e2f;
   color: #000;
+}
+
+.logout-button{
+  background-color: #0f0e2f; 
+  color: rgb(255, 255, 255);
+  border: #0f0e2f;
+}
+
+.logout-button:hover{
+  background-color: #c8e6c9; 
+  color: #000;
+  border: #c8e6c9;
 }
 </style>

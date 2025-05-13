@@ -5,9 +5,6 @@ import theTitleComponent from './the-title.component.vue'
 
 const router = useRouter()
 
-function goToAddProperty() {
-  router.push('/add-property')
-}
 </script>
 
 <template>
@@ -43,7 +40,6 @@ function goToAddProperty() {
         </div>
       </router-link>
       
-
     </section>
   </div>
 </template>
