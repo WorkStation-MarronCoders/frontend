@@ -3,55 +3,62 @@
 </script>
 
 <template>
-    <navBarComponent />
-    <div class="container">
-        <h1>{{$t('plans.title')}}</h1>
-        <div class="plans-wrapper">
-            <div class="plan-card">
-                <div class="circle">{{$t('plans.basic.name')}}</div>
-                <div class="info-box">
-                    <h2>{{$t('plans.characteristics')}}</h2>
-                    <div class="text">
-                        <p>{{$t('plans.basic.description')}} </p>
+    <div class="acount-plans">
+        <navBarComponent />
+        <div class="container">
+            <h1>{{$t('plans.title')}}</h1>
+            <div class="plans-wrapper">
+                <div class="plan-card">
+                    <div class="circle">{{$t('plans.basic.name')}}</div>
+                    <div class="info-box">
+                        <h2>{{$t('plans.characteristics')}}</h2>
+                        <div class="text">
+                            <p>{{$t('plans.basic.description')}} </p>
+                        </div>
+                        <h2>{{$t('plans.basic.price')}}</h2>
+                        <button>{{$t('plans.button')}}</button>
                     </div>
-                    <h2>{{$t('plans.basic.price')}}</h2>
-                    <button>{{$t('plans.button')}}</button>
                 </div>
-            </div>
 
-            <div class="plan-card">
-                <div class="circle">{{$t('plans.intermediate.name')}}</div>
-                <div class="info-box">
-                    <h2>{{$t('plans.characteristics')}}</h2>
-                    <div class="text">
-                        <p>{{$t('plans.intermediate.description')}} </p>
+                <div class="plan-card">
+                    <div class="circle">{{$t('plans.intermediate.name')}}</div>
+                    <div class="info-box">
+                        <h2>{{$t('plans.characteristics')}}</h2>
+                        <div class="text">
+                            <p>{{$t('plans.intermediate.description')}} </p>
+                        </div>
+                        <h2>{{$t('plans.intermediate.price')}}</h2>
+                        <button>{{$t('plans.button')}}</button>
                     </div>
-                    <h2>{{$t('plans.intermediate.price')}}</h2>
-                    <button>{{$t('plans.button')}}</button>
                 </div>
-            </div>
 
-            <div class="plan-card">
-                <div class="circle">{{$t('plans.premium.name')}}</div>
-                <div class="info-box">
-                    <h2>{{$t('plans.characteristics')}}</h2>
-                    <div class="text">
-                        <p>{{$t('plans.premium.description')}} </p>
+                <div class="plan-card">
+                    <div class="circle">{{$t('plans.premium.name')}}</div>
+                    <div class="info-box">
+                        <h2>{{$t('plans.characteristics')}}</h2>
+                        <div class="text">
+                            <p>{{$t('plans.premium.description')}} </p>
+                        </div>
+                        <h2>{{$t('plans.premium.price')}}</h2>
+                        <button>{{$t('plans.button')}}</button>
                     </div>
-                    <h2>{{$t('plans.premium.price')}}</h2>
-                    <button>{{$t('plans.button')}}</button>
                 </div>
             </div>
         </div>
     </div>
+    
 </template>
 
 
 <style scoped>
 
+.acount-plans{
+    padding: 10px;
+    background-color: #f4f4f4; 
+    min-height: 100vh;
+}
+
 .container {
-  background-color: #f4f4f4; 
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
