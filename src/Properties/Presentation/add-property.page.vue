@@ -27,7 +27,7 @@
         <label>{{ $t("addProperty.photos") }}</label>
         <label class="custom-file-label">
           <input type="file" multiple @change="handleFileUpload" />
-           {{ $t("addProperty.chooseFiles") }}
+           {{  $t("addProperty.chooseFiles")  }}
         </label>
       </div>
 
