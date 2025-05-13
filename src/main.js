@@ -8,11 +8,12 @@ import SelectButton  from 'primevue/selectbutton';
 import i18n from './i18n'
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
-import router from './router'
 import Divider from 'primevue/divider';
 import Toolbar from 'primevue/toolbar';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
+
+import router from './router'
 
 
 const app = createApp(App);

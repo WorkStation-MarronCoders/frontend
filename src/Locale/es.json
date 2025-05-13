@@ -41,5 +41,26 @@
         "search": "Busca espacios de trabajo",
         "compare": "Compara espacios de trabajo",
         "rent": "Alquila con nosotros"
+    },
+    "plans": {
+        "title": "Elige tu plan:",
+        "characteristics": "Características:",
+        "basic": {
+        "name": "Plan Básico",
+        "description": "Acceso a espacios de trabajo compartidos con conexión a internet estándar y comunidad de usuarios. No incluye acceso a salas privadas ni herramientas premium. Publicidad mostrada en el espacio de trabajo.",
+        "price": "S/0 por mes"
+        },
+        "intermediate": {
+        "name": "Plan Intermedio",
+        "description": "Acceso a espacios de trabajo compartidos con conexión rápida y algunas herramientas avanzadas. Menos publicidad dentro de la plataforma y acceso limitado a salas de reunión privadas.",
+        "price": "S/50.00 por mes"
+        },
+        "premium": {
+        "name": "Plan Premium",
+        "description": "Acceso completo a oficinas privadas, salas de reuniones y herramientas exclusivas. Sin publicidad y soporte prioritario 24/7 para resolver problemas o consultas de manera inmediata.",
+        "price": "S/100.00 por mes"
+        },
+        "button": "Elegir"
     }
 }
+

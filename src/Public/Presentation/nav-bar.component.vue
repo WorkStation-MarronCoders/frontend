@@ -1,19 +1,20 @@
 <script setup>
-  import { ref } from 'vue';
   import LanguageSwitcher from '../../Public/Presentation/language-switcher.component.vue';
+  
 </script>
 
 <template>
-  <nav class="navbar">
-    <IconField>
-      <InputIcon class="pi pi-search"></InputIcon>
-      <InputText v-model="value1" placeholder="Search"></InputText>
-    </IconField>
 
+  <nav class="navbar">
+    <div class="logo">
+      <router-link to="/dashboard">
+        <img src="../../../assets/logo.jpg" alt="Buscar espacios de trabajo">
+      </router-link>
+    </div>
     <router-link to="/dashboard">
       <h1>{{ $t('dashboard.home') }}</h1> 
     </router-link>
-    <router-link to="/dashboard">
+    <router-link to="/plans">
       <h1>{{ $t('dashboard.plan') }}</h1> 
     </router-link>
     <router-link to="/dashboard">
@@ -27,10 +28,20 @@
 <style scoped>
 .navbar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between; 
   align-items: center;
-  background-color: #D3D4D8;
+  background-color: #ffffff;
   gap: 20px;
+}
+
+.logo {
+  margin-right: auto;
+  margin-left: 20px;
+}
+
+.logo img {
+  width: 50px;
+  height: 50px;
 }
 
 .navbar h1 {

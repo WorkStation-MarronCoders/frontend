@@ -1,5 +1,4 @@
 <script setup>
- import { ref } from 'vue'
  import navBarComponent  from '@/Public/Presentation/nav-bar.component.vue';
  import theTitleComponent from './the-title.component.vue';   
 </script>
@@ -36,6 +35,7 @@
 <style scoped>
 .dashboard-container {
     background-color: #f5f5f5;
+    min-height: 100vh;
 }
 
 .services {
