@@ -100,8 +100,7 @@ function goToAddProperty() {
 
 /* Estilo especial para la tarjeta de "Agregar Propiedad" */
 .add-property {
-  border: 2px dashed #4CAF50;
-  background-color: #e8f5e9;
+
 }
 
 .add-property:hover {
