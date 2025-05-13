@@ -1,4 +1,5 @@
 <template>
+  <navBarComponent />
   <div class="add-property">
     <h1>{{ $t("addProperty.title") }}</h1>
 
@@ -51,6 +52,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import navBarComponent from '@/Public/Presentation/nav-bar.component.vue'
 
 const form = ref({
   name: '',

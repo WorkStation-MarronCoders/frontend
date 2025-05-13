@@ -14,36 +14,36 @@ function goToAddProperty() {
   <div class="dashboard-container">
     <nav-bar-component />
     <theTitleComponent />
-
+    
     <section class="services">
-      <div class="service-card">
-        <img src="../../../assets/buscar.png" alt="Buscar espacios de trabajo" />
-        <div class="service-info">
-          <p>{{ $t('dashboard.search') }}</p>
+      <router-link to="/dashboard">
+        <div class="service-card">
+          <img src="../../../assets/buscar.png" alt="Buscar espacios de trabajo" />
+          <div class="service-info">
+            <p>{{ $t('dashboard.search') }}</p>
+          </div>
         </div>
-      </div>
+      </router-link>
+      
+      <router-link to="/dashboard">
+        <div class="service-card">
+          <img src="../../../assets/comparar.jpg" alt="Comparación de opciones" />
+          <div class="service-info">
+            <p>{{ $t('dashboard.compare') }}</p>
+          </div>
+        </div>
+      </router-link>
+     
+      <router-link to="/property">
+        <div class="service-card">
+          <img src="../../../assets/propietario.jpeg" alt="Espacios de trabajo físicos" />
+          <div class="service-info">
+            <p>{{ $t('dashboard.rent') }}</p>
+          </div>
+        </div>
+      </router-link>
+      
 
-      <div class="service-card">
-        <img src="../../../assets/comparar.jpg" alt="Comparación de opciones" />
-        <div class="service-info">
-          <p>{{ $t('dashboard.compare') }}</p>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <img src="../../../assets/propietario.jpeg" alt="Espacios de trabajo físicos" />
-        <div class="service-info">
-          <p>{{ $t('dashboard.rent') }}</p>
-        </div>
-      </div>
-
-      <!-- ✅ Tarjeta para Agregar Propiedad -->
-      <div class="service-card add-property" @click="goToAddProperty" style="cursor: pointer;">
-        <img src="https://via.placeholder.com/150?text=Add+Property" alt="Agregar propiedad" />
-        <div class="service-info">
-          <p>{{ $t('dashboard.addProperty') }}</p>
-        </div>
-      </div>
     </section>
   </div>
 </template>
@@ -52,7 +52,7 @@ function goToAddProperty() {
 .dashboard-container {
   background-color: #f5f5f5;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 10px;
 }
 
 .services {
@@ -78,6 +78,7 @@ function goToAddProperty() {
 .service-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background-color: #c8e6c9;
 }
 
 .service-card img {
@@ -98,12 +99,9 @@ function goToAddProperty() {
   color: #000000;
 }
 
-/* Estilo especial para la tarjeta de "Agregar Propiedad" */
-.add-property {
-
+a {
+  text-decoration: none;
+  color: inherit; 
 }
 
-.add-property:hover {
-  background-color: #c8e6c9;
-}
 </style>

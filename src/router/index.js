@@ -5,6 +5,7 @@ import RecoverAccount from '../Login/Presentation/recover-account.page.vue'
 import ChangePassword from '../Login/Presentation/change-password.page.vue'
 import TheDashboard from '../Dashboard/Presentation/the-dashboard.page.vue'
 import ThePlans from '../Plans/Presentation/account-plans.page.vue'
+import AddProperty from '../Properties/Presentation/add-property.page.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -42,6 +43,11 @@ const router = createRouter({
       path: '/plans',
       name: 'plans',
       component: ThePlans
+    },
+    {
+      path: '/property',
+      name: 'property',
+      component: AddProperty
     }
   ]
 })
