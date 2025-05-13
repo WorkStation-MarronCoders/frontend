@@ -107,6 +107,7 @@
 
 button {
     background-color: #092459;
+    color: #ffffff;
     border: none;
     border-radius: 20%;
     height: 40px ;
