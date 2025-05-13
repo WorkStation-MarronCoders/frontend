@@ -40,7 +40,8 @@
         "profile": "My Profile",
         "search": "Search for workspaces",
         "compare": "Compare workspaces",
-        "rent": "Rent with us"
+        "rent": "Rent with us",
+        "addProperty": "Add a Property"
     },
     "plans": {
         "title": "Choose your plan:",
@@ -61,5 +62,16 @@
             "price": "$50.00 per month"
         },
         "button": "Choose"
+    },
+    "addProperty": {
+        "title": "Add Property",
+        "name": "Office Name",
+        "description": "Description",
+        "location": "Location",
+        "price": "Price per day ($)",
+        "photos": "Photos",
+        "chooseFiles": "Choose Files",
+        "submit": "Publish",
+        "preview": "Preview"
     }
 }

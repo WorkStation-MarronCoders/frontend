@@ -40,7 +40,8 @@
         "profile": "Mi Perfil",
         "search": "Busca espacios de trabajo",
         "compare": "Compara espacios de trabajo",
-        "rent": "Alquila con nosotros"
+        "rent": "Alquila con nosotros",
+        "addProperty": "Agregar Propiedad"
     },
     "plans": {
         "title": "Elige tu plan:",
@@ -61,6 +62,17 @@
         "price": "S/100.00 por mes"
         },
         "button": "Elegir"
+    },
+    "addProperty": {
+        "title": "Agregar Propiedad",
+        "name": "Nombre de la oficina",
+        "description": "Descripción",
+        "location": "Ubicación",
+        "price": "Precio por día ($)",
+        "photos": "Fotos",
+        "chooseFiles": "Elegir archivos",
+        "submit": "Publicar",
+        "preview": "Vista previa"
     }
 }
 
