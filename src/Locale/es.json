@@ -1,0 +1,117 @@
+{
+    "login": {
+        "title": "WorkStation",
+        "heading": "Bienvenido",
+        "username": "Usuario",
+        "password": "Contraseña",
+        "button": "Iniciar Sesión",
+        "forgot_password": "¿Olvidaste tu contraseña?",
+        "no_account": "¿No tienes cuenta?",
+        "sign_up": "¡Regístrate!"
+    },
+    "register": {
+        "title": "WorkStation",
+        "heading": "Registrar",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "phone": "Número Telefónico",
+        "button": "¡Regístrate!"
+    },
+    "recover-account": {
+        "title": "WorkStation",
+        "heading": "Recuperar cuenta",
+        "instructions": "Ingresa tu correo electrónico para recuperar tu cuenta. Te enviaremos un código para cambiar tu contraseña.",
+        "email": "Correo electrónico",
+        "button": "Enviar"
+    },
+    "change-password": {
+        "title": "WorkStation",
+        "heading": "Cambiar contraseña",
+        "new_password": "Nueva contraseña",
+        "confirm_password": "Confirmar nueva contraseña",
+        "button": "Cambiar Contraseña"
+    },
+    "dashboard": {
+        "title": "WorkStation",
+        "description": "Permitimos a miles de personas que accedan facilmente a espacios de trabajo compartidos, oficinas privadas y salas de reuniones en todo el mundo.",
+        "home": "Inicio",
+        "plan": "Mi Plan",
+        "profile": "Mi Perfil",
+        "logout": "Cerrar sesión",
+        "search": "Busca espacios de trabajo",
+        "compare": "Compara espacios de trabajo",
+        "rent": "Alquila con nosotros",
+        "addProperty": "Agregar Propiedad"
+    },
+    "plans": {
+        "title": "Elige tu plan:",
+        "characteristics": "Características:",
+        "basic": {
+        "name": "Plan Básico",
+        "description": "Acceso a espacios de trabajo compartidos con conexión a internet estándar y comunidad de usuarios. No incluye acceso a salas privadas ni herramientas premium. Publicidad mostrada en el espacio de trabajo.",
+        "price": "S/0 por mes"
+        },
+        "intermediate": {
+        "name": "Plan Intermedio",
+        "description": "Acceso a espacios de trabajo compartidos con conexión rápida y algunas herramientas avanzadas. Menos publicidad dentro de la plataforma y acceso limitado a salas de reunión privadas.",
+        "price": "S/50.00 por mes"
+        },
+        "premium": {
+        "name": "Plan Premium",
+        "description": "Acceso completo a oficinas privadas, salas de reuniones y herramientas exclusivas. Sin publicidad y soporte prioritario 24/7 para resolver problemas o consultas de manera inmediata.",
+        "price": "S/100.00 por mes"
+        },
+        "button": "Elegir"
+    },
+    "addProperty": {
+        "title": "Agregar Propiedad",
+        "name": "Nombre de la oficina",
+        "description": "Descripción",
+        "location": "Ubicación",
+        "price": "Precio por día ($)",
+        "photos": "Fotos",
+        "chooseFiles": "Elegir archivos",
+        "submit": "Publicar",
+        "preview": "Vista previa"
+    },
+
+  "searchResults": {    
+  
+  "item1": {
+    "title": "Oficina en San Miguel",
+    "description": "Encuentra nuestras oficinas para tu trabajo en Lima..."
+  },
+  "item2": {
+    "title": "Cambiadores en Miraflores",
+    "description": "Desde modernos escritorios hasta acogedoras estaciones de trabajo..."
+  },
+
+
+
+    "searchPlaceholder": "Buscar espacios de trabajo...",
+    "searchButton": "Buscar",
+    "filters": "Filtros",
+    "title": "Principales resultados",
+    "projectType": "Tipo de proyecto",
+    "team": "Equipo",
+    "solo": "Solitario",
+    "fixedPrice": "Precio fijo",
+    "min": "Mín.",
+    "max": "Máx.",
+    "timeRequired": "Tiempo Requerido",
+    "oneHour": "1 hora",
+    "moreThanOneHour": "+1 hora",
+    "location": "Ubicación",
+    "select": "Seleccionar",
+    "sort": "Ordenar por",
+      "resultsCount": "Principales resultados {start}-{end} de {total} resultados"
+
+  }
+}
+
+
+
+
+
+

@@ -1,0 +1,111 @@
+{
+    "login": {
+        "title": "WorkStation",
+        "heading": "Welcome",
+        "username": "Username",
+        "password": "Password",
+        "button": "Sign In",
+        "forgot_password": "Forgot password?",
+        "no_account": "Don't have account?",
+        "sign_up": "Sign up!"
+    },
+    "register": {
+        "title": "WorkStation",
+        "heading": "Register",
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "phone": "Phone Number",
+        "button": "SIGN UP"
+    },
+    "recover-account": {
+        "title": "WorkStation",
+        "heading": "Recover Account",
+        "instructions": "Enter your email to recover your account. We will send you a code to change your password.",
+        "email": "Email",
+        "button": "Send"
+    },
+    "change-password": {
+        "title": "WorkStation",
+        "heading": "Change Password",
+        "new_password": "New Password",
+        "confirm_password": "Confirm New Password",
+        "button": "Change Password"
+    },
+    "dashboard": {
+        "title": "WorkStation",
+        "description": "We enable thousands of people to easily access shared workspaces, private offices, and meeting rooms around the world.",
+        "home": "Home",
+        "plan": "My Plan",
+        "profile": "My Profile",
+        "logout": "Log out",
+        "search": "Search for workspaces",
+        "compare": "Compare workspaces",
+        "rent": "Rent with us",
+        "addProperty": "Add a Property"
+    },
+    "plans": {
+        "title": "Choose your plan:",
+        "characteristics": "Characteristics:",
+        "basic": {
+            "name": "Basic Plan",
+            "description": "Access to shared workspaces with standard internet connection and user community. Does not include access to private rooms or premium tools. Ads displayed in the workspace.",
+            "price": "$0 per month"
+        },
+        "intermediate": {
+            "name": "Intermediate Plan",
+            "description": "Access to shared workspaces with fast connection and some advanced tools. Less advertising within the platform and limited access to private meeting rooms.",
+            "price": "$25.00 per month"
+        },
+        "premium": {
+            "name": "Premium Plan",
+            "description": "Full access to private offices, meeting rooms, and exclusive tools. No ads and 24/7 priority support to resolve issues or inquiries immediately.",
+            "price": "$50.00 per month"
+        },
+        "button": "Choose"
+    },
+    "addProperty": {
+        "title": "Add Property",
+        "name": "Office Name",
+        "description": "Description",
+        "location": "Location",
+        "price": "Price per day ($)",
+        "photos": "Photos",
+        "chooseFiles": "Choose Files",
+        "submit": "Publish",
+        "preview": "Preview"
+    },
+    "searchResults": {
+
+        "item1": {
+    "title": "Office in San Miguel",
+    "description": "Find our offices to work in Lima..."
+  },
+  "item2": {
+    "title": "Changing Rooms in Miraflores",
+    "description": "From modern desks to cozy workstations..."
+  },
+  "title": "Top results",
+  "projectType": "Project Type",
+  "team": "Team",
+  "solo": "Solo",
+  "fixedPrice": "Fixed Price",
+  "min": "Min",
+  "max": "Max",
+  "timeRequired": "Time Required",
+  "oneHour": "1 hour",
+  "moreThanOneHour": "+1 hour",
+  "location": "Location",
+  "select": "Select",
+  "sort": "Sort by",
+  "resultsCount": "Top results {start}-{end} of {total} results",
+  "rating": "Rating",
+  "reviews": "Reviews",
+  "description": "Explore, book and make your workday productive and comfortable!"
+  
+}
+
+
+
+    
+}
