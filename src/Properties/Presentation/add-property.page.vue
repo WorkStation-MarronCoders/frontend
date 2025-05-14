@@ -144,6 +144,10 @@ function submitForm() {
 
 .add-property-page {
   background-color: var(--cultured);
+  background-image: url('@/assets/backgrounds/form-bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
   padding: 2rem 1rem;
