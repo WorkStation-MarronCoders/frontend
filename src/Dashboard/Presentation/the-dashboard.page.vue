@@ -31,7 +31,7 @@ const router = useRouter()
         </div>
       </router-link>
      
-      <router-link to="/property">
+      <router-link to="/add-property">
         <div class="service-card">
           <img src="../../../assets/propietario.jpeg" alt="Espacios de trabajo físicos" />
           <div class="service-info">

@@ -123,6 +123,12 @@
   "reviews": "Reviews",
   "description": "Explore, book and make your workday productive and comfortable!"
   
-}
+},
+"properties": {
+        "title": "Properties",
+        "location": "Location",
+        "price": "Price",
+        "delete": "Delete"
+    }
 
 }

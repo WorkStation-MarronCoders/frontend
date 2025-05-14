@@ -126,7 +126,13 @@
     "sort": "Ordenar por",
       "resultsCount": "Principales resultados {start}-{end} de {total} resultados"
 
-  }
+  },
+  "properties": {
+        "title": "Propiedades",
+        "location": "Ubicación",
+        "price": "Precio",
+        "delete": "Eliminar"
+    }
 
 }
 

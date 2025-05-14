@@ -26,32 +26,6 @@
           <input type="number" v-model.number="form.price" required />
         </div>
 
-        <div class="file-upload">
-          
-          <label>{{ $t("addProperty.photos") }}</label>
-
-          <div class="text">
-            <label class="custom-file-label">
-            <input type="file" multiple @change="handleFileUpload" />
-            
-            {{  $t("addProperty.chooseFiles")  }}
-          </label>
-          </div>
-        </div>
-
-        <div class="photo" v-if="previewPhotos.length">
-          <h3>{{ $t("addProperty.preview") }}</h3>
-          <div class="photo-preview">
-            <img
-                v-for="(url, index) in previewPhotos"
-                :key="index"
-                :src="url"
-                alt="Preview"
-                width="150"
-            />
-          </div>
-        </div>
-
         <button type="submit">{{ $t("addProperty.submit") }}</button>
       </form>
 
@@ -64,29 +38,41 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import navBarComponent from '@/Public/Presentation/nav-bar.component.vue'
+import { PropertiesAPIService } from '../Application/property-api.service'
+import { Property } from '../Domain/property.entity'
+
+const router = useRouter()
+const propertiesService = new PropertiesAPIService()
 
 const form = ref({
   name: '',
   description: '',
   location: '',
-  price: null,
-  photos: [],
+  price: null
 })
 
-const previewPhotos = ref([])
-
-function handleFileUpload(event) {
-  const files = event.target.files
-  form.value.photos = files
-  previewPhotos.value = Array.from(files).map(file =>
-      URL.createObjectURL(file)
-  )
-}
-
-function submitForm() {
-  console.log('Propiedad enviada:', form.value)
-  alert('Propiedad enviada (simulado)')
+const submitForm = async () => {
+  try {
+    const propertyData = new Property({
+      name: form.value.name,
+      description: form.value.description,
+      location: form.value.location,
+      price: form.value.price
+    })
+    
+    await propertiesService.createProperty(propertyData)
+    form.value = {
+      name: '',
+      description: '',
+      location: '',
+      price: null
+    }
+    router.push('/properties')
+  } catch (error) {
+    console.error('Error creating property:', error)
+  }
 }
 </script>
 

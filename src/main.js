@@ -13,6 +13,8 @@ import Toolbar from 'primevue/toolbar';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import {Avatar} from "primevue";
+import SpeedDial from 'primevue/speeddial';
+
 import 'primeicons/primeicons.css'
 
 import router from './router'
@@ -35,6 +37,7 @@ app.component('pv-toolbar', Toolbar);
 app.component('pv-icon-field', IconField);
 app.component('pv-input-icon', InputIcon);
 app.component('pv-avatar', Avatar);
+app.component('pv-speed-dial', SpeedDial);
 app.use(i18n);
 app.use(router);
 app.mount('#app');

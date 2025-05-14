@@ -8,6 +8,7 @@ import ThePlans from '../Plans/Presentation/account-plans.page.vue'
 import AddProperty from '../Properties/Presentation/add-property.page.vue'
 import TheProfile from '../Profile/Presentation/the-profile.page.vue'
 import SearchResults from '../Search/the-search.page.vue'
+import PropertiesView from '../Properties/Presentation/properties-view.page.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -47,8 +48,8 @@ const router = createRouter({
       component: ThePlans
     },
     {
-      path: '/property',
-      name: 'property',
+      path: '/add-property',
+      name: 'add-property',
       component: AddProperty
     },
     {
@@ -60,6 +61,11 @@ const router = createRouter({
       path: '/search',
       name: 'search',
       component: SearchResults
+    },
+    {
+      path: '/properties',
+      name: 'properties',
+      component: PropertiesView
     }
   ]
 })
