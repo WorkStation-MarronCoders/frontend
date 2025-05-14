@@ -99,15 +99,9 @@
   
   <style scoped>
   .search-page {
-    min-height: 80vh;
-  }
-  </style>
-  <style scoped>
-  .search-page {
-    background-color: #ffffff;
+    background-color: #f4f4f4;
     min-height: 100vh;
-    padding: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px;
     color: #333;
   }
   
@@ -115,6 +109,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 1.5rem;
+    margin-top: 10px;
   }
   
   .search-header input[type="text"] {
@@ -128,14 +123,14 @@
     margin-left: 0.5rem;
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    background-color: #4CAF50;
+    background-color: #0f0e2f;
     color: white;
     border: none;
     cursor: pointer;
   }
   
   .search-header button:hover {
-    background-color: #45a049;
+    background-color: #2c3e50;
   }
   
   .filters {
@@ -209,7 +204,6 @@
   }
   
   .container {
-    max-width: 1200px;
     margin: auto;
   }
   </style>
