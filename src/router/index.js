@@ -55,6 +55,11 @@ const router = createRouter({
       name: 'profile',
       component: TheProfile
     },
+    {
+      path: '/search',
+      name: 'search',
+      component: SearchResults
+    }
   ]
 })
 

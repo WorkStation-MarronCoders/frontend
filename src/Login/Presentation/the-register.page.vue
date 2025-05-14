@@ -1,12 +1,42 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import LanguageSwitcher from '../../Public/Presentation/language-switcher.component.vue';
 
+const router = useRouter();
 const backgroundImg = 'https://www.coworkingcafe.com/blog/wp-content/uploads/sites/79/2025/03/WORKSPACE-PHOTOS-RESIZE-121.jpg';
 const name = ref('');
 const email = ref('');
 const password = ref('');
 const phoneNumber = ref('');
+const formSubmitted = ref(false);
+const touchedFields = ref({
+  name: false,
+  email: false,
+  password: false,
+  phoneNumber: false
+});
+
+const isFormValid = computed(() => {
+  return name.value.trim() !== '' && 
+         email.value.trim() !== '' && 
+         password.value.trim() !== '' && 
+         phoneNumber.value.trim() !== '';
+});
+
+const handleRegister = () => {
+  formSubmitted.value = true;
+  if (!isFormValid.value) return;
+  router.push('/dashboard');
+};
+
+const handleBlur = (field) => {
+  touchedFields.value[field] = true;
+};
+
+const isFieldInvalid = (field, value) => {
+  return (touchedFields.value[field] || formSubmitted.value) && value.trim() === '';
+};
 </script>
 
 <template>
@@ -21,33 +51,64 @@ const phoneNumber = ref('');
       <div class="form-container">
         <div class="input-group">
           <pv-float-label>
-            <pv-input-text id="name" v-model="name" />
-            <label for="name">{{ $t('register.name') }}</label>
+            <pv-input-text 
+              id="name" 
+              v-model="name"
+              :class="{ 'p-invalid': isFieldInvalid('name', name) }" 
+              @blur="handleBlur('name')"
+              required
+            />
+            <label for="name">{{ $t('register.name') }}*</label>
           </pv-float-label>
         </div>
 
         <div class="input-group">
           <pv-float-label>
-            <pv-input-text id="email" v-model="email" type="email" />
-            <label for="email">{{ $t('register.email') }}</label>
+            <pv-input-text 
+              id="email" 
+              v-model="email" 
+              type="email"
+              :class="{ 'p-invalid': isFieldInvalid('email', email) }"
+              @blur="handleBlur('email')"
+              required
+            />
+            <label for="email">{{ $t('register.email') }}*</label>
           </pv-float-label>
         </div>
 
         <div class="input-group">
           <pv-float-label>
-            <pv-input-text id="password" v-model="password" type="password" />
-            <label for="password">{{ $t('register.password') }}</label>
+            <pv-input-text 
+              id="password" 
+              v-model="password" 
+              type="password"
+              :class="{ 'p-invalid': isFieldInvalid('password', password) }"
+              @blur="handleBlur('password')"
+              required
+            />
+            <label for="password">{{ $t('register.password') }}*</label>
           </pv-float-label>
         </div>
 
         <div class="input-group">
           <pv-float-label>
-            <pv-input-text id="phone" v-model="phoneNumber" />
-            <label for="phone">{{ $t('register.phone') }}</label>
+            <pv-input-text 
+              id="phone" 
+              v-model="phoneNumber"
+              :class="{ 'p-invalid': isFieldInvalid('phoneNumber', phoneNumber) }"
+              @blur="handleBlur('phoneNumber')"
+              required
+            />
+            <label for="phone">{{ $t('register.phone') }}*</label>
           </pv-float-label>
         </div>
         
-        <pv-button :label="$t('register.button')" class="register-button" />
+        <pv-button 
+          :label="$t('register.button')" 
+          class="register-button" 
+          @click="handleRegister"
+          :disabled="!isFormValid"
+        />
       </div>
     </div>
   </div>
@@ -125,5 +186,13 @@ h2 {
 
 .language-switcher-header {
   margin-left: 1rem;
+}
+
+:deep(.p-invalid) {
+  border-color: #dc3545;
+}
+
+:deep(.p-invalid:enabled:focus) {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 </style>
