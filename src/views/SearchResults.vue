@@ -43,7 +43,7 @@
         </div>
         <div class="result-card border rounded p-4 mb-4" v-for="item in filteredResults" :key="item.id">
           <h3 class="font-semibold mb-1">{{ $t(item.title) }}</h3>
-<p class="mb-2">{{ $t(item.description) }}</p>
+          <p class="mb-2">{{ $t(item.description) }}</p>
           <p class="mb-2"><strong>{{ $t('searchResults.location') }}:</strong> {{ item.location }}</p>
           <div class="flex items-center">
             <span>⭐ {{ item.rating }}</span><span class="ml-2">💬 {{ item.reviews }}</span>
@@ -99,15 +99,9 @@ const paginatedText = computed(() => '1-20 de ' + results.value.length + ' resul
 
 <style scoped>
 .search-page {
-  min-height: 80vh;
-}
-</style>
-<style scoped>
-.search-page {
-  background-color: #ffffff;
   min-height: 100vh;
-  padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  padding: 10px;
   color: #333;
 }
 
@@ -128,14 +122,14 @@ const paginatedText = computed(() => '1-20 de ' + results.value.length + ' resul
   margin-left: 0.5rem;
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  background-color: #4CAF50;
+  background-color: #0f0e2f;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 .search-header button:hover {
-  background-color: #45a049;
+  background-color: #2c3e50;
 }
 
 .filters {
@@ -209,7 +203,6 @@ aside input[type="number"] {
 }
 
 .container {
-  max-width: 1200px;
   margin: auto;
 }
 </style>
