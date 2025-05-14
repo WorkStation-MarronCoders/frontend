@@ -92,7 +92,8 @@
         "nickname": "Nickname: ",
         "address": "Address: ",
         "phone": "Phone number: ",
-        "email": "E-mail: "
+        "email": "E-mail: ",
+        "edit": "Edit"
     },
     "searchResults": {
 

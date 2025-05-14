@@ -12,37 +12,46 @@ const user = ref({
 </script>
 
 <template>
- <NavBar/>
+  <div class="profile">
+     <NavBar/>
 
-  <div class = "content">
-    <img src="../../../assets/backgrounds/profile-bg.jpg" alt="profile background" class="bg-image"/>
-    <pv-card class="profile-card">
-      <template #title>
-        <div class="card-header">
-          <pv-avatar icon="pi pi-user" size="xlarge"/>
-          <span>{{user.name}}</span>
-        <pv-button aria-label="edit">EDIT</pv-button>
-        </div>
+      <div class = "content">
+        <img src="../../../assets/backgrounds/profile-bg.jpg" alt="profile background" class="bg-image"/>
+        <pv-card class="profile-card">
+          <template #title>
+            <div class="card-header">
+              <pv-avatar icon="pi pi-user" size="xlarge"/>
+              <span>{{user.name}}</span>
+              <pv-button class="button" aria-label="edit">{{ $t('profile.edit') }}</pv-button>
+            </div>
 
-      </template>
-      <template #content>
-        <p>{{ $t('profile.nickname') }} {{user.nickname}}</p>
-        <p>{{ $t('profile.address') }} {{user.address}}</p>
-        <p>{{ $t('profile.phone') }} {{user.phone}}</p>
-        <p>{{ $t('profile.email') }} {{user.email}}</p>
-      </template>
-    </pv-card>
+          </template>
+          <template #content>
+            <p>{{ $t('profile.nickname') }} {{user.nickname}}</p>
+            <p>{{ $t('profile.address') }} {{user.address}}</p>
+            <p>{{ $t('profile.phone') }} {{user.phone}}</p>
+            <p>{{ $t('profile.email') }} {{user.email}}</p>
+          </template>
+        </pv-card>
+      </div>
   </div>
 </template>
 
 <style scoped>
+.profile{
+  background-color: #f4f4f4;
+  max-height: 100vh;
+  padding: 10px;
+}
+
 .content {
   position: relative;
+  height: 100vh;
 }
 
 .bg-image{
   width: 100%;
-  max-height: 100vh;
+  max-height: 90vh;
 }
 
 .profile-card {
@@ -61,5 +70,10 @@ const user = ref({
   align-items: center;
 }
 
+.button{
+  background-color: #0f0e2f;
+  color: white;
+  border: none;
+}
 
 </style>

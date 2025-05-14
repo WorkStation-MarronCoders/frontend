@@ -92,7 +92,8 @@
         "nickname": "Apodo: ",
         "address": "Direccion: ",
         "phone": "Nro telefono: ",
-        "email": "E-mail: "
+        "email": "E-mail: ",
+        "edit": "Editar"
     },
     "searchResults": {    
   
