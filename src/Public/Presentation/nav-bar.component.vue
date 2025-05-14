@@ -17,7 +17,7 @@
     <router-link to="/plans">
       <h1>{{ $t('dashboard.plan') }}</h1> 
     </router-link>
-    <router-link to="/dashboard">
+    <router-link to="/profile">
       <h1>{{ $t('dashboard.profile') }}</h1> 
     </router-link>
 

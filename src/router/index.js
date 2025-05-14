@@ -6,6 +6,7 @@ import ChangePassword from '../Login/Presentation/change-password.page.vue'
 import TheDashboard from '../Dashboard/Presentation/the-dashboard.page.vue'
 import ThePlans from '../Plans/Presentation/account-plans.page.vue'
 import AddProperty from '../Properties/Presentation/add-property.page.vue'
+import TheProfile from '../Profile/Presentation/the-profile.page.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -48,7 +49,12 @@ const router = createRouter({
       path: '/property',
       name: 'property',
       component: AddProperty
-    }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: TheProfile
+    },
   ]
 })
 

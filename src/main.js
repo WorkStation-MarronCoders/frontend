@@ -12,6 +12,8 @@ import Divider from 'primevue/divider';
 import Toolbar from 'primevue/toolbar';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
+import {Avatar} from "primevue";
+import 'primeicons/primeicons.css'
 
 import router from './router'
 
@@ -32,6 +34,7 @@ app.component('pv-divider', Divider);
 app.component('pv-toolbar', Toolbar);
 app.component('pv-icon-field', IconField);
 app.component('pv-input-icon', InputIcon);
+app.component('pv-avatar', Avatar);
 app.use(i18n);
 app.use(router);
 app.mount('#app');

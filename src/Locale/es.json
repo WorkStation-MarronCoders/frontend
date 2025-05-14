@@ -87,6 +87,12 @@
         },
         "duration": "Tiempo Requerido",
         "select": "Seleccionar una opción"
+    },
+    "profile" : {
+        "nickname": "Apodo: ",
+        "address": "Direccion: ",
+        "phone": "Nro telefono: ",
+        "email": "E-mail: "
     }
 
 }

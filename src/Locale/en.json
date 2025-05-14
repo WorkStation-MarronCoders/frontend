@@ -87,6 +87,12 @@
         },
         "duration": "Required Time",
         "select": "Select an option"
+    },
+    "profile" : {
+        "nickname": "Nickname: ",
+        "address": "Address: ",
+        "phone": "Phone number: ",
+        "email": "E-mail: "
     }
 
 }
