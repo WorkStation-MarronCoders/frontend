@@ -65,15 +65,29 @@
         "button": "Elegir"
     },
     "addProperty": {
-        "title": "Agregar Propiedad",
-        "name": "Nombre de la oficina",
+        "title": "Añadir Propiedad",
+        "name": "Nombre de la Oficina",
         "description": "Descripción",
         "location": "Ubicación",
-        "price": "Precio por día ($)",
+        "price": "Precio por hora ($)",
         "photos": "Fotos",
-        "chooseFiles": "Elegir archivos",
+        "chooseFiles": "Elegir Archivos",
         "submit": "Publicar",
-        "preview": "Vista previa"
+        "preview": "Vista Previa",
+        "type": "Tipo de Oficina",
+        "types": {
+            "private": "Oficina Privada",
+            "shared": "Espacio Compartido",
+            "meeting": "Sala de Reuniones"
+        },
+        "teamMode": "Modo de Trabajo",
+        "modes": {
+            "solo": "Solo",
+            "team": "Con Equipo"
+        },
+        "duration": "Tiempo Requerido",
+        "select": "Seleccionar una opción"
     }
+
 }
 

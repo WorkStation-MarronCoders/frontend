@@ -69,10 +69,24 @@
         "name": "Office Name",
         "description": "Description",
         "location": "Location",
-        "price": "Price per day ($)",
+        "price": "Price per hour ($)",
         "photos": "Photos",
         "chooseFiles": "Choose Files",
         "submit": "Publish",
-        "preview": "Preview"
+        "preview": "Preview",
+        "type": "Office Type",
+        "types": {
+            "private": "Private Office",
+            "shared": "Shared Space",
+            "meeting": "Meeting Room"
+        },
+        "teamMode": "Work Mode",
+        "modes": {
+            "solo": "Solo",
+            "team": "With Team"
+        },
+        "duration": "Required Time",
+        "select": "Select an option"
     }
+
 }
