@@ -7,6 +7,7 @@ import TheDashboard from '../Dashboard/Presentation/the-dashboard.page.vue'
 import ThePlans from '../Plans/Presentation/account-plans.page.vue'
 import AddProperty from '../Properties/Presentation/add-property.page.vue'
 import TheProfile from '../Profile/Presentation/the-profile.page.vue'
+import SearchResults from '../Search/the-search.page.vue'
 
 const router = createRouter({
   history: createWebHistory(),

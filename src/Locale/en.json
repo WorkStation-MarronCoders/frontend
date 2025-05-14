@@ -93,6 +93,35 @@
         "address": "Address: ",
         "phone": "Phone number: ",
         "email": "E-mail: "
-    }
+    },
+    "searchResults": {
+
+        "item1": {
+    "title": "Office in San Miguel",
+    "description": "Find our offices to work in Lima..."
+  },
+  "item2": {
+    "title": "Changing Rooms in Miraflores",
+    "description": "From modern desks to cozy workstations..."
+  },
+  "title": "Top results",
+  "projectType": "Project Type",
+  "team": "Team",
+  "solo": "Solo",
+  "fixedPrice": "Fixed Price",
+  "min": "Min",
+  "max": "Max",
+  "timeRequired": "Time Required",
+  "oneHour": "1 hour",
+  "moreThanOneHour": "+1 hour",
+  "location": "Location",
+  "select": "Select",
+  "sort": "Sort by",
+  "resultsCount": "Top results {start}-{end} of {total} results",
+  "rating": "Rating",
+  "reviews": "Reviews",
+  "description": "Explore, book and make your workday productive and comfortable!"
+  
+}
 
 }

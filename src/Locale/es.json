@@ -93,7 +93,39 @@
         "address": "Direccion: ",
         "phone": "Nro telefono: ",
         "email": "E-mail: "
-    }
+    },
+    "searchResults": {    
+  
+  "item1": {
+    "title": "Oficina en San Miguel",
+    "description": "Encuentra nuestras oficinas para tu trabajo en Lima..."
+  },
+  "item2": {
+    "title": "Cambiadores en Miraflores",
+    "description": "Desde modernos escritorios hasta acogedoras estaciones de trabajo..."
+  },
+
+
+
+    "searchPlaceholder": "Buscar espacios de trabajo...",
+    "searchButton": "Buscar",
+    "filters": "Filtros",
+    "title": "Principales resultados",
+    "projectType": "Tipo de proyecto",
+    "team": "Equipo",
+    "solo": "Solitario",
+    "fixedPrice": "Precio fijo",
+    "min": "Mín.",
+    "max": "Máx.",
+    "timeRequired": "Tiempo Requerido",
+    "oneHour": "1 hora",
+    "moreThanOneHour": "+1 hora",
+    "location": "Ubicación",
+    "select": "Seleccionar",
+    "sort": "Ordenar por",
+      "resultsCount": "Principales resultados {start}-{end} de {total} resultados"
+
+  }
 
 }
 

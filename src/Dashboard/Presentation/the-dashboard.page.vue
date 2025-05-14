@@ -13,7 +13,7 @@ const router = useRouter()
     <theTitleComponent />
     
     <section class="services">
-      <router-link to="/dashboard">
+      <router-link to="/search">
         <div class="service-card">
           <img src="../../../assets/buscar.png" alt="Buscar espacios de trabajo" />
           <div class="service-info">
