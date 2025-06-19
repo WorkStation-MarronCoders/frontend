@@ -42,40 +42,48 @@ const items = ref([
   <div class="properties-page">
     <nav-bar-component />
     
-    <div class="container mx-auto p-4">
-      <h1 class="text-2xl font-bold mb-6">{{ $t('properties.title') }}</h1>
-      
-      <div class="properties-grid">
-        <pv-card v-for="property in properties" :key="property.id" class="property-card">
-          <template #title>
-            {{ property.name }}
-          </template>
-          
-          <template #content>
-            <p class="description">{{ property.description }}</p>
-            <p class="location"><strong>{{ $t('properties.location') }}:</strong> {{ property.location }}</p>
-            <p class="price"><strong>{{ $t('properties.price') }}:</strong> ${{ property.price }}</p>
-          </template>
-          
-          <template #footer>
-            <div class="card-footer">
-              <pv-button 
-                :label="$t('properties.delete')" 
-                class="delete-button"
-                @click="handleDelete(property.id)" 
-              />
-            </div>
-          </template>
-        </pv-card>
-      </div>
-    </div>
+    <div class="container mx-auto p-4" role="region" aria-label="Listado de propiedades">
+  <h1 class="text-2xl font-bold mb-6">{{ $t('properties.title') }}</h1>
+
+  <div class="properties-grid">
+    <pv-card
+      v-for="property in properties"
+      :key="property.id"
+      class="property-card"
+      :aria-label="`Propiedad: ${property.name}, Ubicación: ${property.location}, Precio: $${property.price}`"
+    >
+      <template #title>
+        {{ property.name }}
+      </template>
+
+      <template #content>
+        <p class="description">{{ property.description }}</p>
+        <p class="location"><strong>{{ $t('properties.location') }}:</strong> {{ property.location }}</p>
+        <p class="price"><strong>{{ $t('properties.price') }}:</strong> ${{ property.price }}</p>
+      </template>
+
+      <template #footer>
+        <div class="card-footer">
+          <pv-button
+            :label="$t('properties.delete')"
+            class="delete-button"
+            @click="handleDelete(property.id)"
+            :aria-label="`Eliminar propiedad ${property.name}`"
+          />
+        </div>
+      </template>
+    </pv-card>
+  </div>
+</div>
 
     <pv-speed-dial
       :model="items"
       direction="up"
       :style="{ position: 'fixed', right: '2rem', bottom: '2rem' }"
       class="speed-dial"
+      aria-label="Menú flotante para agregar propiedad"
     />
+
     <pv-toast />
   </div>
 </template>
@@ -90,10 +98,11 @@ const items = ref([
 
 .properties-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
   gap: 2rem;
   padding: 1rem;
 }
+
 
 .property-card {
   background: #0f0e2f;

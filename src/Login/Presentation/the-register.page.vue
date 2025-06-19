@@ -41,22 +41,24 @@ const isFieldInvalid = (field, value) => {
 
 <template>
   <div class="register-container" :style="{ backgroundImage: `url(${backgroundImg})` }">
-    <div class="register-card">
-      <div class="header-container">
-        <h1>{{ $t('register.title') }}</h1>
-        <LanguageSwitcher class="language-switcher-header" />
+    <div class="register-card" role="form" aria-label="Formulario de registro de usuario">
+  <div class="header-container">
+    <h1>{{ $t('register.title') }}</h1>
+    <LanguageSwitcher class="language-switcher-header" />
       </div>
       <h2>{{ $t('register.heading') }}</h2>
-      
+
       <div class="form-container">
         <div class="input-group">
           <pv-float-label>
-            <pv-input-text 
-              id="name" 
+            <pv-input-text
+              id="name"
               v-model="name"
-              :class="{ 'p-invalid': isFieldInvalid('name', name) }" 
+              :class="{ 'p-invalid': isFieldInvalid('name', name) }"
               @blur="handleBlur('name')"
-              required
+              aria-required="true"
+              :aria-invalid="isFieldInvalid('name', name)"
+              aria-label="Nombre completo"
             />
             <label for="name">{{ $t('register.name') }}*</label>
           </pv-float-label>
@@ -64,50 +66,55 @@ const isFieldInvalid = (field, value) => {
 
         <div class="input-group">
           <pv-float-label>
-            <pv-input-text 
-              id="email" 
-              v-model="email" 
+            <pv-input-text
+              id="email"
+              v-model="email"
               type="email"
               :class="{ 'p-invalid': isFieldInvalid('email', email) }"
               @blur="handleBlur('email')"
-              required
+              aria-required="true"
+              :aria-invalid="isFieldInvalid('email', email)"
+              aria-label="Correo electrónico"
             />
             <label for="email">{{ $t('register.email') }}*</label>
           </pv-float-label>
         </div>
-
         <div class="input-group">
           <pv-float-label>
-            <pv-input-text 
-              id="password" 
-              v-model="password" 
+            <pv-input-text
+              id="password"
+              v-model="password"
               type="password"
               :class="{ 'p-invalid': isFieldInvalid('password', password) }"
               @blur="handleBlur('password')"
-              required
+              aria-required="true"
+              :aria-invalid="isFieldInvalid('password', password)"
+              aria-label="Contraseña"
             />
             <label for="password">{{ $t('register.password') }}*</label>
           </pv-float-label>
         </div>
-
         <div class="input-group">
           <pv-float-label>
-            <pv-input-text 
-              id="phone" 
+            <pv-input-text
+              id="phone"
               v-model="phoneNumber"
               :class="{ 'p-invalid': isFieldInvalid('phoneNumber', phoneNumber) }"
               @blur="handleBlur('phoneNumber')"
-              required
+              aria-required="true"
+              :aria-invalid="isFieldInvalid('phoneNumber', phoneNumber)"
+              aria-label="Número de teléfono"
             />
             <label for="phone">{{ $t('register.phone') }}*</label>
           </pv-float-label>
         </div>
-        
-        <pv-button 
-          :label="$t('register.button')" 
-          class="register-button" 
+
+        <pv-button
+          :label="$t('register.button')"
+          class="register-button"
           @click="handleRegister"
           :disabled="!isFormValid"
+          aria-label="Registrar nueva cuenta"
         />
       </div>
     </div>
@@ -195,4 +202,19 @@ h2 {
 :deep(.p-invalid:enabled:focus) {
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
+
+@media (max-width: 600px) {
+  .register-card {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+}
+
 </style>

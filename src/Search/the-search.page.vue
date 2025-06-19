@@ -1,59 +1,112 @@
 <template>
-    <div class="search-page container mx-auto p-4">
-      <nav-bar-component />
-  
-      <div class="search-header flex items-center mb-6">
-        <input
-          v-model="query"
-          @keyup.enter="performSearch"
-          type="text"
-          :placeholder="$t('searchResults.searchPlaceholder')"
-          class="flex-1 border rounded-full px-4 py-2 focus:outline-none"
-        />
-        <button @click="performSearch" class="ml-2 px-4 py-2 border rounded-full">
-          {{ $t('searchResults.searchButton') }}
-        </button>
-      </div>
-  
-      <div class="flex">
-        <aside class="filters w-1/4 pr-4">
-          <h2 class="font-bold mb-2">{{ $t('searchResults.filters') }}</h2>
-          <div class="mb-4">
-            <h3 class="font-semibold">{{ $t('searchResults.projectType') }}</h3>
-            <label><input type="radio" value="Equipo" v-model="filters.type" /> {{ $t('searchResults.team') }}</label><br />
-            <label><input type="radio" value="Solitario" v-model="filters.type" /> {{ $t('searchResults.solo') }}</label>
-          </div>
-          <div class="mb-4">
-            <h3 class="font-semibold">{{ $t('searchResults.fixedPrice') }}</h3>
-            <label>{{ $t('searchResults.min') }}: <input type="number" v-model.number="filters.priceMin" class="border rounded px-2 py-1 w-full" /></label>
-            <label>{{ $t('searchResults.max') }}: <input type="number" v-model.number="filters.priceMax" class="border rounded px-2 py-1 w-full mt-1" /></label>
-          </div>
-          <div class="mb-4">
-            <h3 class="font-semibold">{{ $t('searchResults.timeRequired') }}</h3>
-            <label><input type="radio" value="1" v-model="filters.time" /> {{ $t('searchResults.oneHour') }}</label><br />
-            <label><input type="radio" value="+1" v-model="filters.time" /> {{ $t('searchResults.moreThanOneHour') }}</label>
-          </div>
-        </aside>
-  
-        <main class="results w-3/4">
-          <div class="results-header mb-4">
-            <span>{{ $t('searchResults.title') }}</span>
-            <small>{{ paginatedText }}</small>
-            <button @click="sortBy('price')" class="ml-4 underline">{{ $t('searchResults.sort') }}</button>
-          </div>
-          <div class="result-card border rounded p-4 mb-4" v-for="item in filteredResults" :key="item.id">
+  <div class="search-page container mx-auto p-4">
+    <nav-bar-component />
+
+    <section class="search-header flex items-center mb-6" role="search" aria-label="Barra de búsqueda de espacios">
+      <input
+        v-model="query"
+        @keyup.enter="performSearch"
+        type="text"
+        :placeholder="$t('searchResults.searchPlaceholder')"
+        class="flex-1 border rounded-full px-4 py-2 focus:outline-none"
+        aria-label="Campo de búsqueda"
+      />
+      <button
+        @click="performSearch"
+        class="ml-2 px-4 py-2 border rounded-full"
+        aria-label="Botón para realizar búsqueda"
+      >
+        {{ $t('searchResults.searchButton') }}
+      </button>
+    </section>
+
+    <div class="flex flex-wrap gap-4">
+      <aside class="filters w-full md:w-1/4 pr-4" role="region" aria-label="Filtros de búsqueda">
+        <h2 class="font-bold mb-2">{{ $t('searchResults.filters') }}</h2>
+
+        <div class="mb-4">
+          <h3 class="font-semibold">{{ $t('searchResults.projectType') }}</h3>
+          <label>
+            <input type="radio" value="Equipo" v-model="filters.type" aria-label="Proyecto en equipo" />
+            {{ $t('searchResults.team') }}
+          </label><br />
+          <label>
+            <input type="radio" value="Solitario" v-model="filters.type" aria-label="Proyecto solitario" />
+            {{ $t('searchResults.solo') }}
+          </label>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="font-semibold">{{ $t('searchResults.fixedPrice') }}</h3>
+          <label>
+            {{ $t('searchResults.min') }}:
+            <input
+              type="number"
+              v-model.number="filters.priceMin"
+              class="border rounded px-2 py-1 w-full"
+              aria-label="Precio mínimo"
+            />
+          </label>
+          <label>
+            {{ $t('searchResults.max') }}:
+            <input
+              type="number"
+              v-model.number="filters.priceMax"
+              class="border rounded px-2 py-1 w-full mt-1"
+              aria-label="Precio máximo"
+            />
+          </label>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="font-semibold">{{ $t('searchResults.timeRequired') }}</h3>
+          <label>
+            <input type="radio" value="1" v-model="filters.time" aria-label="Duración de 1 hora" />
+            {{ $t('searchResults.oneHour') }}
+          </label><br />
+          <label>
+            <input type="radio" value="+1" v-model="filters.time" aria-label="Duración mayor a 1 hora" />
+            {{ $t('searchResults.moreThanOneHour') }}
+          </label>
+        </div>
+      </aside>
+
+      <main class="results w-full md:w-3/4" role="region" aria-label="Resultados de búsqueda">
+        <div class="results-header mb-4 flex items-center">
+          <span class="font-bold">{{ $t('searchResults.title') }}</span>
+          <small class="ml-2">{{ paginatedText }}</small>
+          <button @click="sortBy('price')" class="ml-auto underline" aria-label="Ordenar por precio">
+            {{ $t('searchResults.sort') }}
+          </button>
+        </div>
+
+        <div role="list">
+          <div
+            class="result-card border rounded p-4 mb-4"
+            v-for="item in filteredResults"
+            :key="item.id"
+            role="listitem"
+            :aria-label="`Resultado: ${$t(item.title)}, ubicación: ${item.location}, rating: ${item.rating}`"
+          >
             <h3 class="font-semibold mb-1">{{ $t(item.title) }}</h3>
-  <p class="mb-2">{{ $t(item.description) }}</p>
+            <p class="mb-2">{{ $t(item.description) }}</p>
             <p class="mb-2"><strong>{{ $t('searchResults.location') }}:</strong> {{ item.location }}</p>
             <div class="flex items-center">
               <span>⭐ {{ item.rating }}</span><span class="ml-2">💬 {{ item.reviews }}</span>
-              <button class="ml-auto px-3 py-1 border rounded bg-gray-200">{{ $t('searchResults.select') }}</button>
+              <button
+                class="ml-auto px-3 py-1 border rounded bg-gray-200"
+                aria-label="Seleccionar resultado {{ $t(item.title) }}"
+              >
+                {{ $t('searchResults.select') }}
+              </button>
             </div>
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
-  </template>
+  </div>
+</template>
+
   
   <script setup>
   import { ref, computed } from 'vue'
@@ -206,5 +259,17 @@
   .container {
     margin: auto;
   }
+
+  @media (max-width: 768px) {
+  .filters {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .results {
+    width: 100%;
+  }
+}
+
   </style>
   

@@ -2,35 +2,35 @@
   <div class="properties">
     <navBarComponent />
 
-      <div class="add-property">
-      <h1>{{ $t("addProperty.title") }}</h1>
+      <div class="add-property" role="form" aria-label="Formulario para añadir una nueva propiedad">
+  <h1>{{ $t("addProperty.title") }}</h1>
 
-      <form @submit.prevent="submitForm">
-        <div>
-          <label>{{ $t("addProperty.name") }}</label>
-          <input v-model="form.name" required />
-        </div>
+  <form @submit.prevent="submitForm">
+    <div>
+      <label for="property-name">{{ $t("addProperty.name") }}</label>
+      <input id="property-name" v-model="form.name" required aria-label="Nombre de la propiedad" />
+    </div>
 
-        <div>
-          <label>{{ $t("addProperty.description") }}</label>
-          <textarea v-model="form.description" required></textarea>
-        </div>
+    <div>
+      <label for="property-description">{{ $t("addProperty.description") }}</label>
+      <textarea id="property-description" v-model="form.description" required aria-label="Descripción de la propiedad"></textarea>
+    </div>
 
-        <div>
-          <label>{{ $t("addProperty.location") }}</label>
-          <input v-model="form.location" required />
-        </div>
+    <div>
+      <label for="property-location">{{ $t("addProperty.location") }}</label>
+      <input id="property-location" v-model="form.location" required aria-label="Ubicación de la propiedad" />
+    </div>
 
-        <div>
-          <label>{{ $t("addProperty.price") }}</label>
-          <input type="number" v-model.number="form.price" required />
-        </div>
+    <div>
+      <label for="property-price">{{ $t("addProperty.price") }}</label>
+      <input id="property-price" type="number" v-model.number="form.price" required aria-label="Precio de la propiedad" />
+    </div>
 
-        <button type="submit">{{ $t("addProperty.submit") }}</button>
-      </form>
-
-      
-      </div>
+    <button type="submit" aria-label="Enviar formulario para añadir propiedad">
+      {{ $t("addProperty.submit") }}
+    </button>
+  </form>
+</div>
 
   </div>
   
@@ -200,6 +200,10 @@ const submitForm = async () => {
   .photo-preview img {
     width: 100px;
     height: 100px;
+  }
+  
+  .add-property form > div {
+    margin-bottom: 1rem;
   }
 }
 

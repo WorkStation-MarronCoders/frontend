@@ -9,39 +9,43 @@ const password = ref('');
 
 <template>
   <div class="login-container" :style="{ backgroundImage: `url(${loginSceneImg})` }">
-    <div class="login-card">
-      <div class="header-container">
-        <h1>{{ $t('login.title') }}</h1>
-        <LanguageSwitcher class="language-switcher-header" />
+    <div class="login-card" role="form" aria-label="Formulario de inicio de sesión">
+    <div class="header-container">
+      <h1>{{ $t('login.title') }}</h1>
+      <LanguageSwitcher class="language-switcher-header" />
+    </div>
+    <h2>{{ $t('login.heading') }}</h2>
+
+    <div class="form-container">
+      <div class="input-group">
+        <pv-float-label>
+          <pv-input-text
+            id="username"
+            v-model="username"
+            aria-required="true"
+            aria-label="Nombre de usuario"
+          />
+          <label for="username">{{ $t('login.username') }}</label>
+        </pv-float-label>
       </div>
-      <h2>{{ $t('login.heading') }}</h2>
-      
-      <div class="form-container">
-        <div class="input-group">
-          <pv-float-label>
-            <pv-input-text id="username" v-model="username" />
-            <label for="username">{{ $t('login.username') }}</label>
-          </pv-float-label>
-        </div>
-        <div class="input-group">
-          <pv-float-label>
-            <pv-input-text id="password" type="password" v-model="password" />
-            <label for="password">{{ $t('login.password') }}</label>
-          </pv-float-label>
-        </div>
-        <router-link to="/dashboard">
-          <pv-button :label="$t('login.button')" class="login-button" />
-        </router-link>
+      <div class="input-group">
+        <pv-float-label>
+          <pv-input-text
+            id="password"
+            type="password"
+            v-model="password"
+            aria-required="true"
+            aria-label="Contraseña"
+          />
+          <label for="password">{{ $t('login.password') }}</label>
+        </pv-float-label>
       </div>
 
-      <div class="links">
-        <router-link to="/recover-account">{{ $t('login.forgot_password') }}</router-link>
-        <div class="signup">
-          <span>{{ $t('login.no_account') }}</span>
-          <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
-        </div>
-      </div>
+      <router-link to="/dashboard" aria-label="Iniciar sesión">
+        <pv-button :label="$t('login.button')" class="login-button" />
+      </router-link>
     </div>
+  </div>
   </div>
 </template>
 
@@ -150,4 +154,19 @@ a:hover {
 span {
   color: #666;
 }
+
+@media (max-width: 600px) {
+  .login-card {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+}
+
 </style>

@@ -12,35 +12,34 @@ const router = useRouter()
     <nav-bar-component />
     <theTitleComponent />
     
-    <section class="services">
-      <router-link to="/search">
-        <div class="service-card">
-          <img src="../../../assets/buscar.png" alt="Buscar espacios de trabajo" />
-          <div class="service-info">
-            <p>{{ $t('dashboard.search') }}</p>
-          </div>
-        </div>
-      </router-link>
-      
-      <router-link to="/dashboard">
-        <div class="service-card">
-          <img src="../../../assets/comparar.jpg" alt="Comparación de opciones" />
-          <div class="service-info">
-            <p>{{ $t('dashboard.compare') }}</p>
-          </div>
-        </div>
-      </router-link>
-     
-      <router-link to="/add-property">
-        <div class="service-card">
-          <img src="../../../assets/propietario.jpeg" alt="Espacios de trabajo físicos" />
-          <div class="service-info">
-            <p>{{ $t('dashboard.rent') }}</p>
-          </div>
-        </div>
-      </router-link>
-      
-    </section>
+    <section class="services" role="region" aria-label="Accesos rápidos del dashboard">
+  <router-link to="/search" aria-label="Buscar espacios de trabajo">
+    <div class="service-card">
+      <img src="../../../assets/buscar.png" alt="Icono de búsqueda de espacios de trabajo" />
+      <div class="service-info">
+        <p>{{ $t('dashboard.search') }}</p>
+      </div>
+    </div>
+  </router-link>
+
+  <router-link to="/dashboard" aria-label="Comparar espacios disponibles">
+    <div class="service-card">
+      <img src="../../../assets/comparar.jpg" alt="Icono de comparación de espacios" />
+      <div class="service-info">
+        <p>{{ $t('dashboard.compare') }}</p>
+      </div>
+    </div>
+  </router-link>
+
+  <router-link to="/add-property" aria-label="Publicar mi propiedad">
+    <div class="service-card">
+      <img src="../../../assets/propietario.jpeg" alt="Icono para agregar propiedad" />
+      <div class="service-info">
+        <p>{{ $t('dashboard.rent') }}</p>
+      </div>
+    </div>
+  </router-link>
+</section>
   </div>
 </template>
 
@@ -69,6 +68,8 @@ const router = useRouter()
   padding: 15px;
   margin: 10px 0;
   transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%;
+  max-width: 400px;
 }
 
 .service-card:hover {
@@ -98,6 +99,29 @@ const router = useRouter()
 a {
   text-decoration: none;
   color: inherit; 
+}
+
+@media (max-width: 768px) {
+  .services {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .service-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .service-info {
+    padding-left: 0;
+    padding-top: 10px;
+  }
+
+  .service-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
 }
 
 </style>
