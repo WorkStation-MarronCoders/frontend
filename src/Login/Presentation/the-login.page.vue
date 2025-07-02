@@ -10,13 +10,13 @@ const password = ref('');
 <template>
   <div class="login-container" :style="{ backgroundImage: `url(${loginSceneImg})` }">
     <div class="login-card" role="form" aria-label="Formulario de inicio de sesión">
-    <div class="header-container">
-      <h1>{{ $t('login.title') }}</h1>
-      <LanguageSwitcher class="language-switcher-header" />
-    </div>
-    <h2>{{ $t('login.heading') }}</h2>
+      <div class="header-container">
+        <h1>{{ $t('login.title') }}</h1>
+        <LanguageSwitcher class="language-switcher-header" />
+      </div>
+      <h2>{{ $t('login.heading') }}</h2>
 
-    <div class="form-container">
+      <div class="form-container">
       <div class="input-group">
         <pv-float-label>
           <pv-input-text
@@ -45,6 +45,13 @@ const password = ref('');
         <pv-button :label="$t('login.button')" class="login-button" />
       </router-link>
     </div>
+    <div class="links">
+    <div class="signup">
+      <span>{{ $t('login.noAccount') }}</span>
+      <router-link to="/register">{{ $t('login.signup') }}</router-link>
+    </div>
+  </div>
+
   </div>
   </div>
 </template>

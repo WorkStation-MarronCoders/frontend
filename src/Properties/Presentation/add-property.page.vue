@@ -2,209 +2,277 @@
   <div class="properties">
     <navBarComponent />
 
-      <div class="add-property" role="form" aria-label="Formulario para añadir una nueva propiedad">
-  <h1>{{ $t("addProperty.title") }}</h1>
+    <pv-card class="add-office-card">
+      <template #title>
+        <h1>{{ $t("addOffice.title") }}</h1>
+      </template>
+      
+      <template #content>
+        <form @submit.prevent="submitForm" class="office-form">
+          <!-- Location -->
+          <pv-float-label>
+            <pv-input-text 
+              id="office-location" 
+              v-model="form.location" 
+              required 
+              :aria-label="$t('addOffice.location')"
+              class="w-full"
+            />
+            <label for="office-location">{{ $t("addOffice.location") }}</label>
+          </pv-float-label>
 
-  <form @submit.prevent="submitForm">
-    <div>
-      <label for="property-name">{{ $t("addProperty.name") }}</label>
-      <input id="property-name" v-model="form.name" required aria-label="Nombre de la propiedad" />
-    </div>
+          <!-- Capacity -->
+          <pv-float-label>
+            <pv-input-text 
+              id="office-capacity" 
+              type="number" 
+              v-model.number="form.capacity" 
+              required 
+              min="1"
+              :aria-label="$t('addOffice.capacity')"
+              class="w-full"
+            />
+            <label for="office-capacity">{{ $t("addOffice.capacity") }}</label>
+          </pv-float-label>
 
-    <div>
-      <label for="property-description">{{ $t("addProperty.description") }}</label>
-      <textarea id="property-description" v-model="form.description" required aria-label="Descripción de la propiedad"></textarea>
-    </div>
+          <!-- Cost per Day -->
+          <pv-float-label>
+            <pv-input-text 
+              id="office-cost" 
+              type="number" 
+              v-model.number="form.costPerDay" 
+              required 
+              min="0"
+              :aria-label="$t('addOffice.costPerDay')"
+              class="w-full"
+            />
+            <label for="office-cost">{{ $t("addOffice.costPerDay") }}</label>
+          </pv-float-label>
 
-    <div>
-      <label for="property-location">{{ $t("addProperty.location") }}</label>
-      <input id="property-location" v-model="form.location" required aria-label="Ubicación de la propiedad" />
-    </div>
+          <!-- Available -->
+          <div class="available-section">
+            <select-button 
+              v-model="form.available" 
+              :options="availableOptions" 
+              option-label="label" 
+              option-value="value"
+            />
+          </div>
 
-    <div>
-      <label for="property-price">{{ $t("addProperty.price") }}</label>
-      <input id="property-price" type="number" v-model.number="form.price" required aria-label="Precio de la propiedad" />
-    </div>
+          <pv-divider />
 
-    <button type="submit" aria-label="Enviar formulario para añadir propiedad">
-      {{ $t("addProperty.submit") }}
-    </button>
-  </form>
-</div>
+          <!-- Services Section -->
+          <div class="services-section">
+            <h3>{{ $t("addOffice.services") }}</h3>
+            
+            <pv-card 
+              v-for="(service, index) in form.services" 
+              :key="index" 
+              class="service-card"
+            >
+              <template #content>
+                <div class="service-fields">
+                  <!-- Service Name -->
+                  <pv-float-label>
+                    <pv-input-text 
+                      :id="`service-name-${index}`"
+                      v-model="service.name"
+                      required
+                      :aria-label="$t('addOffice.serviceName')"
+                      class="w-full"
+                    />
+                    <label :for="`service-name-${index}`">{{ $t("addOffice.serviceName") }}</label>
+                  </pv-float-label>
+                  
+                  <!-- Service Description -->
+                  <pv-float-label>
+                    <pv-input-text 
+                      :id="`service-description-${index}`"
+                      v-model="service.description"
+                      :aria-label="$t('addOffice.serviceDescription')"
+                      class="w-full"
+                    />
+                    <label :for="`service-description-${index}`">{{ $t("addOffice.serviceDescription") }}</label>
+                  </pv-float-label>
+                  
+                  <!-- Service Cost -->
+                  <pv-float-label>
+                    <pv-input-text 
+                      :id="`service-cost-${index}`"
+                      type="number"
+                      v-model.number="service.cost"
+                      min="0"
+                      :aria-label="$t('addOffice.serviceCost')"
+                      class="w-full"
+                    />
+                    <label :for="`service-cost-${index}`">{{ $t("addOffice.serviceCost") }}</label>
+                  </pv-float-label>
+                  
+                  <pv-button 
+                    type="button" 
+                    @click="removeService(index)"
+                    :aria-label="$t('addOffice.removeService')"
+                    severity="danger"
+                    size="small"
+                    class="remove-service-btn"
+                  >
+                    {{ $t("addOffice.removeService") }}
+                  </pv-button>
+                </div>
+              </template>
+            </pv-card>
+            
+            <pv-button 
+              type="button" 
+              @click="addService"
+              :aria-label="$t('addOffice.addService')"
+              severity="success"
+              outlined
+              class="add-service-btn"
+            >
+              {{ $t("addOffice.addService") }}
+            </pv-button>
+          </div>
 
+          <pv-divider />
+
+          <!-- Submit Button -->
+          <pv-button 
+            type="submit" 
+            :aria-label="$t('addOffice.submit')"
+            class="submit-btn"
+          >
+            {{ $t("addOffice.submit") }}
+          </pv-button>
+        </form>
+      </template>
+    </pv-card>
   </div>
-  
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import navBarComponent from '@/Public/Presentation/nav-bar.component.vue'
-import { PropertiesAPIService } from '../Application/property-api.service'
-import { Property } from '../Domain/property.entity'
+// You'll need to create these services/entities for offices
+// import { OfficesAPIService } from '../Application/office-api.service'
+// import { Office } from '../Domain/office.entity'
 
 const router = useRouter()
-const propertiesService = new PropertiesAPIService()
+// const officesService = new OfficesAPIService()
 
 const form = ref({
-  name: '',
-  description: '',
   location: '',
-  price: null
+  capacity: null,
+  costPerDay: null,
+  available: true,
+  services: []
 })
+
+const availableOptions = ref([
+  { label: 'Disponible', value: true },
+  { label: 'No Disponible', value: false }
+])
+
+const addService = () => {
+  form.value.services.push({
+    name: '',
+    description: '',
+    cost: null
+  })
+}
+
+const removeService = (index) => {
+  form.value.services.splice(index, 1)
+}
 
 const submitForm = async () => {
   try {
-    const propertyData = new Property({
-      name: form.value.name,
-      description: form.value.description,
+    // Prepare the data to match CreateOfficeCommand structure
+    const officeData = {
       location: form.value.location,
-      price: form.value.price
-    })
-    
-    await propertiesService.createProperty(propertyData)
-    form.value = {
-      name: '',
-      description: '',
-      location: '',
-      price: null
+      capacity: form.value.capacity,
+      costPerDay: form.value.costPerDay,
+      available: form.value.available,
+      services: form.value.services.map(service => ({
+        name: service.name,
+        description: service.description,
+        cost: service.cost
+      }))
     }
-    router.push('/properties')
+    
+    console.log('Office data to submit:', officeData)
+    
+    // Uncomment when you have the API service ready
+    // await officesService.createOffice(officeData)
+    
+    // Reset form
+    form.value = {
+      location: '',
+      capacity: null,
+      costPerDay: null,
+      available: true,
+      services: []
+    }
+    
+    router.push('/offices')
   } catch (error) {
-    console.error('Error creating property:', error)
+    console.error('Error creating office:', error)
   }
 }
 </script>
 
 <style scoped>
-.properties {
-  background-color: #f4f4f4;
-  padding: 10px;
-  min-height: 100vh;
+.add-office-card {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
 }
 
-.add-property {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 15px 20px;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.add-property form {
+.office-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 20px;
 }
 
-.add-property h1 {
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 1.5rem;
-}
-
-.photo-preview h3 {
-  color: #333;
-}
-
-.add-property label {
-  font-weight: bold;
-  color: #0f0e2f;
-  margin-bottom: 5px;
-  display: block;
-}
-
-.add-property input,
-.add-property textarea {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  background: #e2dede;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  transition: box-shadow 0.3s;
-}
-
-.add-property input:focus,
-.add-property textarea:focus {
-  outline: none;
-  box-shadow: 0 0 5px #0f0e2f;
-}
-
-.add-property button {
-  background: #0f0e2f;
-  color: white;
-  font-weight: bold;
-  border: none;
-  padding: 0.75rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.add-property button:hover {
-  background: #2c3e50;
-}
-
-.custom-file-label {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: #0f0e2f;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.custom-file-label:hover {
-  background: #2c3e50;
-}
-
-.file-upload input[type="file"] {
-  display: none; 
-}
-
-.text label {
-  color: white
-}
-
-.photo-preview {
+.available-section {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   gap: 10px;
-  margin-top: 1rem;
-  justify-content: center;
 }
 
-.photo-preview img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 2px solid #ddd;
+.services-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.photo h3{
-  color: #0f0e2f;
+.service-card {
+  border: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
 }
 
-@media (max-width: 640px) {
-  .add-property {
-    padding: 1rem;
-  }
-
-  .photo-preview img {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .add-property form > div {
-    margin-bottom: 1rem;
-  }
+.service-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
+.remove-service-btn {
+  align-self: flex-start;
+}
+
+.add-service-btn {
+  align-self: flex-start;
+}
+
+.submit-btn {
+  align-self: center;
+  padding: 12px 30px;
+  font-size: 16px;
+}
+
+.w-full {
+  width: 100%;
+}
 </style>

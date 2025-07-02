@@ -1,15 +1,30 @@
 <script setup>
-
 import NavBar from "@/Public/Presentation/nav-bar.component.vue";
-import {ref} from "vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
 const user = ref({
-  name: 'Pedro',
-  nickname: 'Picapiedra',
-  address: '12234 Av. Londres',
-  phone: '12424115515',
-  email: 'idfsfdfa@gmail.com'
-})
+  firstName: '',
+  lastName: '',
+  dni: '',
+  phoneNumber: '',
+  email: '',
+  role: ''
+});
+
+const fetchUserProfile = async () => {
+  try {
+    // Ajusta la URL al endpoint real de tu backend
+    //const response = await axios.get('https://tu-api.com/api/v1/users/me');
+    user.value = response.data;
+  } catch (error) {
+    console.error("Error al obtener el perfil del usuario:", error);
+  }
+};
+
+onMounted(fetchUserProfile);
 </script>
+
 
 <template>
   <div class="profile">
@@ -28,27 +43,25 @@ const user = ref({
           <template #title>
             <div class="card-header">
               <pv-avatar icon="pi pi-user" size="xlarge" aria-label="Avatar de usuario" />
-              <span class="user-name">{{ user.name }}</span>
-              <pv-button
-                class="button"
-                aria-label="Editar información del perfil"
-              >
+              <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+              <pv-button class="button" aria-label="Editar información del perfil">
                 {{ $t('profile.edit') }}
               </pv-button>
             </div>
           </template>
 
           <template #content>
-            <p><strong>{{ $t('profile.nickname') }}</strong> {{ user.nickname }}</p>
-            <p><strong>{{ $t('profile.address') }}</strong> {{ user.address }}</p>
-            <p><strong>{{ $t('profile.phone') }}</strong> {{ user.phone }}</p>
+            <p><strong>{{ $t('profile.dni') }}</strong> {{ user.dni }}</p>
+            <p><strong>{{ $t('profile.phone') }}</strong> {{ user.phoneNumber }}</p>
             <p><strong>{{ $t('profile.email') }}</strong> {{ user.email }}</p>
+            <p><strong>{{ $t('profile.role') }}</strong> {{ user.role }}</p>
           </template>
         </pv-card>
       </div>
     </div>
   </div>
 </template>
+
 
 
 <style scoped>

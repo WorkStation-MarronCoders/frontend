@@ -11,6 +11,7 @@ import InputText from 'primevue/inputtext';
 import Divider from 'primevue/divider';
 import Toolbar from 'primevue/toolbar';
 import IconField from 'primevue/iconfield';
+import Paginator from 'primevue/paginator';
 import InputIcon from 'primevue/inputicon';
 import {Avatar} from "primevue";
 import SpeedDial from 'primevue/speeddial';
@@ -28,6 +29,7 @@ app.use(PrimeVue, {
 });
 
 app.component('pv-button', Button);
+app.component('pv-paginator', Paginator);
 app.component('pv-float-label', FloatLabel); 
 app.component('pv-input-text', InputText);
 app.component('pv-card', Card);
