@@ -1,22 +1,23 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import LanguageSwitcher from '../../Public/Presentation/language-switcher.component.vue';
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import LanguageSwitcher from "../../Public/Presentation/language-switcher.component.vue";
 
 const router = useRouter();
-const backgroundImg = 'https://www.coworkingcafe.com/blog/wp-content/uploads/sites/79/2025/03/WORKSPACE-PHOTOS-RESIZE-121.jpg';
+const backgroundImg =
+  "https://www.coworkingcafe.com/blog/wp-content/uploads/sites/79/2025/03/WORKSPACE-PHOTOS-RESIZE-121.jpg";
 
 // Form fields matching CreateUserCommand
-const firstName = ref('');
-const lastName = ref('');
-const dni = ref('');
-const phoneNumber = ref('');
-const email = ref('');
+const firstName = ref("");
+const lastName = ref("");
+const dni = ref("");
+const phoneNumber = ref("");
+const email = ref("");
 const role = ref(null);
-const nickname = ref('');
-const description = ref('');
-const businessName = ref('');
-const extraInfo = ref('');
+const nickname = ref("");
+const description = ref("");
+const businessName = ref("");
+const extraInfo = ref("");
 
 const formSubmitted = ref(false);
 const touchedFields = ref({
@@ -29,29 +30,30 @@ const touchedFields = ref({
   nickname: false,
   description: false,
   businessName: false,
-  extraInfo: false
+  extraInfo: false,
 });
 
 // User role options
 const userRoleOptions = ref([
-  { label: 'Busco oficinas', value: 'Seeker' },
-  { label: 'Ofrezco oficinas', value: 'Lessor' }
+  { label: "Busco oficinas", value: "Seeker" },
+  { label: "Ofrezco oficinas", value: "Lessor" },
 ]);
 
-
 const isFormValid = computed(() => {
-  return firstName.value.trim() !== '' && 
-         lastName.value.trim() !== '' && 
-         dni.value.trim() !== '' && 
-         phoneNumber.value.trim() !== '' && 
-         email.value.trim() !== '' &&
-         role.value !== null;
+  return (
+    firstName.value.trim() !== "" &&
+    lastName.value.trim() !== "" &&
+    dni.value.trim() !== "" &&
+    phoneNumber.value.trim() !== "" &&
+    email.value.trim() !== "" &&
+    role.value !== null
+  );
 });
 
 const handleRegister = async () => {
   formSubmitted.value = true;
   if (!isFormValid.value) return;
-  
+
   try {
     // Prepare data to match CreateUserCommand structure
     const userData = {
@@ -64,17 +66,17 @@ const handleRegister = async () => {
       nickname: nickname.value.trim() || null,
       description: description.value.trim() || null,
       businessName: businessName.value.trim() || null,
-      extraInfo: extraInfo.value.trim() || null
+      extraInfo: extraInfo.value.trim() || null,
     };
-    
-    console.log('User data to submit:', userData);
-    
+
+    console.log("User data to submit:", userData);
+
     // Uncomment when you have the API service ready
     // await userService.createUser(userData);
-    
-    router.push('/dashboard');
+
+    router.push("/dashboard");
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error("Error creating user:", error);
   }
 };
 
@@ -83,10 +85,14 @@ const handleBlur = (field) => {
 };
 
 const isFieldInvalid = (field, value) => {
-  if (field === 'role') {
-    return (touchedFields.value[field] || formSubmitted.value) && value === null;
+  if (field === "role") {
+    return (
+      (touchedFields.value[field] || formSubmitted.value) && value === null
+    );
   }
-  return (touchedFields.value[field] || formSubmitted.value) && value.trim() === '';
+  return (
+    (touchedFields.value[field] || formSubmitted.value) && value.trim() === ""
+  );
 };
 
 const isOptionalFieldInvalid = (field, value) => {
@@ -96,32 +102,41 @@ const isOptionalFieldInvalid = (field, value) => {
 </script>
 
 <template>
-  <div class="register-container" :style="{ backgroundImage: `url(${backgroundImg})` }">
-    <div class="register-card" role="form" aria-label="Formulario de registro de usuario">
+  <div
+    class="register-container"
+    :style="{ backgroundImage: `url(${backgroundImg})` }"
+  >
+    <div
+      class="register-card"
+      role="form"
+      aria-label="Formulario de registro de usuario"
+    >
       <div class="header-container">
-        <h1>{{ $t('register.title') }}</h1>
+        <h1>{{ $t("register.title") }}</h1>
         <LanguageSwitcher class="language-switcher-header" />
       </div>
-      <h2>{{ $t('register.heading') }}</h2>
+      <h2>{{ $t("register.heading") }}</h2>
 
       <div class="form-container">
         <!-- Required Fields Section -->
         <div class="form-section">
-          <h3>{{ $t('register.requiredInfo') }}</h3>
-          
+          <h3>{{ $t("register.requiredInfo") }}</h3>
+
           <div class="input-row">
             <div class="input-group">
               <pv-float-label>
                 <pv-input-text
                   id="firstName"
                   v-model="firstName"
-                  :class="{ 'p-invalid': isFieldInvalid('firstName', firstName) }"
+                  :class="{
+                    'p-invalid': isFieldInvalid('firstName', firstName),
+                  }"
                   @blur="handleBlur('firstName')"
                   aria-required="true"
                   :aria-invalid="isFieldInvalid('firstName', firstName)"
                   aria-label="Nombre"
                 />
-                <label for="firstName">{{ $t('register.firstName') }}*</label>
+                <label for="firstName">{{ $t("register.firstName") }}*</label>
               </pv-float-label>
             </div>
 
@@ -136,7 +151,7 @@ const isOptionalFieldInvalid = (field, value) => {
                   :aria-invalid="isFieldInvalid('lastName', lastName)"
                   aria-label="Apellido"
                 />
-                <label for="lastName">{{ $t('register.lastName') }}*</label>
+                <label for="lastName">{{ $t("register.lastName") }}*</label>
               </pv-float-label>
             </div>
           </div>
@@ -153,7 +168,7 @@ const isOptionalFieldInvalid = (field, value) => {
                 aria-label="DNI"
                 maxlength="8"
               />
-              <label for="dni">{{ $t('register.dni') }}*</label>
+              <label for="dni">{{ $t("register.dni") }}*</label>
             </pv-float-label>
           </div>
 
@@ -169,7 +184,7 @@ const isOptionalFieldInvalid = (field, value) => {
                 :aria-invalid="isFieldInvalid('email', email)"
                 aria-label="Correo electrónico"
               />
-              <label for="email">{{ $t('register.email') }}*</label>
+              <label for="email">{{ $t("register.email") }}*</label>
             </pv-float-label>
           </div>
 
@@ -178,24 +193,43 @@ const isOptionalFieldInvalid = (field, value) => {
               <pv-input-text
                 id="phone"
                 v-model="phoneNumber"
-                :class="{ 'p-invalid': isFieldInvalid('phoneNumber', phoneNumber) }"
+                :class="{
+                  'p-invalid': isFieldInvalid('phoneNumber', phoneNumber),
+                }"
                 @blur="handleBlur('phoneNumber')"
                 aria-required="true"
                 :aria-invalid="isFieldInvalid('phoneNumber', phoneNumber)"
                 aria-label="Número de teléfono"
                 maxlength="9"
               />
-              <label for="phone">{{ $t('register.phone') }}*</label>
+              <label for="phone">{{ $t("register.phone") }}*</label>
+            </pv-float-label>
+          </div>
+          <div class="input-group">
+            <pv-float-label>
+              <pv-input-text
+                id="password"
+                v-model="password"
+                :class="{ 'p-invalid': isFieldInvalid('password', password) }"
+                @blur="handleBlur('password')"
+                aria-required="true"
+                :aria-invalid="isFieldInvalid('password', password)"
+                aria-label="Contraseña"
+                maxlength="20"
+              />
+              <label for="password">password</label>
             </pv-float-label>
           </div>
 
           <div class="input-group">
-            <label for="role" class="role-label">{{ $t('register.role') }}*</label>
-            <select-button 
+            <label for="role" class="role-label"
+              >{{ $t("register.role") }}*</label
+            >
+            <select-button
               id="role"
-              v-model="role" 
-              :options="userRoleOptions" 
-              option-label="label" 
+              v-model="role"
+              :options="userRoleOptions"
+              option-label="label"
               option-value="value"
               :class="{ 'p-invalid': isFieldInvalid('role', role) }"
               @blur="handleBlur('role')"
@@ -209,64 +243,67 @@ const isOptionalFieldInvalid = (field, value) => {
 
         <!-- Optional Fields Section -->
         <!-- Optional Fields Section -->
-<transition name="fade-slide">
-  <div class="form-section" v-if="role === 'Lessor'">
-    <h3>{{ $t('register.optionalInfo') }}</h3>
+        <transition name="fade-slide">
+          <div class="form-section" v-if="role === 'Lessor'">
+            <h3>{{ $t("register.optionalInfo") }}</h3>
 
-    <div class="input-group">
-      <pv-float-label>
-        <pv-input-text
-          id="nickname"
-          v-model="nickname"
-          @blur="handleBlur('nickname')"
-          aria-label="Apodo o nombre de usuario"
-        />
-        <label for="nickname">{{ $t('register.nickname') }}</label>
-      </pv-float-label>
-    </div>
+            <div class="input-group">
+              <pv-float-label>
+                <pv-input-text
+                  id="nickname"
+                  v-model="nickname"
+                  @blur="handleBlur('nickname')"
+                  aria-label="Apodo o nombre de usuario"
+                />
+                <label for="nickname">{{ $t("register.nickname") }}</label>
+              </pv-float-label>
+            </div>
 
-    <div class="input-group">
-      <pv-float-label>
-        <pv-input-text
-          id="businessName"
-          v-model="businessName"
-          @blur="handleBlur('businessName')"
-          aria-label="Nombre de empresa"
-        />
-        <label for="businessName">{{ $t('register.businessName') }}</label>
-      </pv-float-label>
-    </div>
+            <div class="input-group">
+              <pv-float-label>
+                <pv-input-text
+                  id="businessName"
+                  v-model="businessName"
+                  @blur="handleBlur('businessName')"
+                  aria-label="Nombre de empresa"
+                />
+                <label for="businessName">{{
+                  $t("register.businessName")
+                }}</label>
+              </pv-float-label>
+            </div>
 
-    <div class="input-group">
-      <pv-float-label>
-        <textarea
-          id="description"
-          v-model="description"
-          @blur="handleBlur('description')"
-          aria-label="Descripción personal"
-          rows="3"
-          class="p-inputtextarea"
-        />
-        <label for="description">{{ $t('register.description') }}</label>
-      </pv-float-label>
-    </div>
+            <div class="input-group">
+              <pv-float-label>
+                <textarea
+                  id="description"
+                  v-model="description"
+                  @blur="handleBlur('description')"
+                  aria-label="Descripción personal"
+                  rows="3"
+                  class="p-inputtextarea"
+                />
+                <label for="description">{{
+                  $t("register.description")
+                }}</label>
+              </pv-float-label>
+            </div>
 
-    <div class="input-group">
-      <pv-float-label>
-        <textarea
-          id="extraInfo"
-          v-model="extraInfo"
-          @blur="handleBlur('extraInfo')"
-          aria-label="Información adicional"
-          rows="3"
-          class="p-inputtextarea"
-        />
-        <label for="extraInfo">{{ $t('register.extraInfo') }}</label>
-      </pv-float-label>
-    </div>
-  </div>
-</transition>
-
+            <div class="input-group">
+              <pv-float-label>
+                <textarea
+                  id="extraInfo"
+                  v-model="extraInfo"
+                  @blur="handleBlur('extraInfo')"
+                  aria-label="Información adicional"
+                  rows="3"
+                  class="p-inputtextarea"
+                />
+                <label for="extraInfo">{{ $t("register.extraInfo") }}</label>
+              </pv-float-label>
+            </div>
+          </div>
+        </transition>
 
         <pv-button
           :label="$t('register.button')"
@@ -292,7 +329,7 @@ const isOptionalFieldInvalid = (field, value) => {
   background-repeat: no-repeat;
   padding: 20px;
 }
-  
+
 .register-card {
   width: 100%;
   max-width: 600px;
@@ -450,5 +487,4 @@ h3 {
   opacity: 0;
   transform: translateY(-10px);
 }
-
 </style>

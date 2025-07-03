@@ -1,9 +1,13 @@
 <template>
   <div class="offices-page">
     <nav-bar-component />
-    
-    <div class="container mx-auto p-4" role="region" aria-label="Listado de oficinas">
-      <h1 class="text-2xl font-bold mb-6">{{ $t('offices.title') }}</h1>
+
+    <div
+      class="container mx-auto p-4"
+      role="region"
+      aria-label="Listado de oficinas"
+    >
+      <h1 class="text-2xl font-bold mb-6">{{ $t("offices.title") }}</h1>
 
       <div class="offices-grid">
         <pv-card
@@ -19,25 +23,39 @@
           <template #content>
             <div class="office-details">
               <p class="capacity">
-                <strong>{{ $t('offices.capacity') }}:</strong> {{ office.capacity }} personas
+                <strong>{{ $t("offices.capacity") }}:</strong>
+                {{ office.capacity }} personas
               </p>
               <p class="cost">
-                <strong>{{ $t('offices.costPerDay') }}:</strong> ${{ office.costPerDay }}/día
+                <strong>{{ $t("offices.costPerDay") }}:</strong> ${{
+                  office.costPerDay
+                }}/día
               </p>
               <p class="availability">
-                <strong>{{ $t('offices.status') }}:</strong> 
+                <strong>{{ $t("offices.status") }}:</strong>
                 <span :class="office.available ? 'available' : 'unavailable'">
-                  {{ office.available ? $t('offices.available') : $t('offices.unavailable') }}
+                  {{
+                    office.available
+                      ? $t("offices.available")
+                      : $t("offices.unavailable")
+                  }}
                 </span>
               </p>
-              
-              <!-- Services -->
-              <div v-if="office.services && office.services.length > 0" class="services-section">
-                <strong>{{ $t('offices.services') }}:</strong>
+              <div
+                v-if="office.services && office.services.length > 0"
+                class="services-section"
+              >
+                <strong>{{ $t("offices.services") }}:</strong>
                 <ul class="services-list">
-                  <li v-for="service in office.services" :key="service.id" class="service-item">
+                  <li
+                    v-for="service in office.services"
+                    :key="service.name"
+                    class="service-item"
+                  >
                     <span class="service-name">{{ service.name }}</span>
-                    <span v-if="service.cost" class="service-cost">(${{ service.cost }})</span>
+                    <span v-if="service.cost" class="service-cost"
+                      >(${{ service.cost }})</span
+                    >
                   </li>
                 </ul>
               </div>
@@ -68,7 +86,6 @@
         </pv-card>
       </div>
 
-      <!-- Pagination -->
       <div class="pagination-container">
         <pv-paginator
           v-model:first="first"
@@ -94,110 +111,66 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import navBarComponent from '@/Public/Presentation/nav-bar.component.vue'
-// import { OfficesAPIService } from '../Application/office-api.service'
-// import { OfficeAssembler } from '../Application/office.assembler'
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import navBarComponent from "@/Public/Presentation/nav-bar.component.vue";
+import { OfficesAPIService } from "../Application/office-api.service";
+import { OfficeAssembler } from "../Application/office.assembler";
 
-const router = useRouter()
-// const officesService = new OfficesAPIService()
-const offices = ref([])
+const router = useRouter();
+const officesService = new OfficesAPIService();
+const offices = ref([]);
 
-// Pagination variables
-const first = ref(0)
-const rowsPerPage = ref(5)
+const first = ref(0);
+const rowsPerPage = ref(5);
 
-// Computed property for paginated offices
 const paginatedOffices = computed(() => {
-  const start = first.value
-  const end = start + rowsPerPage.value
-  return offices.value.slice(start, end)
-})
+  const start = first.value;
+  const end = start + rowsPerPage.value;
+  return offices.value.slice(start, end);
+});
 
 onMounted(async () => {
   try {
-    // Uncomment when you have the API service ready
-    // const response = await officesService.getAll()
-    // offices.value = OfficeAssembler.toEntitiesFromResponse(response)
-    
-    // Mock data for testing
-    offices.value = [
-      {
-        id: 1,
-        location: 'Centro de Lima - Piso 5',
-        capacity: 10,
-        costPerDay: 150,
-        available: true,
-        services: [
-          { id: 1, name: 'WiFi', cost: 0 },
-          { id: 2, name: 'Proyector', cost: 25 },
-          { id: 3, name: 'Café', cost: 15 }
-        ]
-      },
-      {
-        id: 2,
-        location: 'San Isidro - Torre Empresarial',
-        capacity: 6,
-        costPerDay: 200,
-        available: false,
-        services: [
-          { id: 4, name: 'WiFi', cost: 0 },
-          { id: 5, name: 'Sala de juntas', cost: 50 }
-        ]
-      },
-      // Add more mock data to test pagination
-      ...Array.from({ length: 15 }, (_, i) => ({
-        id: i + 3,
-        location: `Oficina ${i + 3} - Distrito ${i + 1}`,
-        capacity: Math.floor(Math.random() * 20) + 5,
-        costPerDay: Math.floor(Math.random() * 200) + 100,
-        available: Math.random() > 0.3,
-        services: [
-          { id: i * 10 + 1, name: 'WiFi', cost: 0 },
-          { id: i * 10 + 2, name: 'Servicio Premium', cost: Math.floor(Math.random() * 50) + 10 }
-        ]
-      }))
-    ]
+    const response = await officesService.getAll();
+    offices.value = OfficeAssembler.toEntitiesFromResponse(response);
   } catch (error) {
-    console.error('Error fetching offices:', error)
+    console.error("Error fetching offices:", error);
   }
-})
+});
 
 const handleDelete = async (id) => {
   try {
-    // await officesService.deleteOffice(id)
-    offices.value = offices.value.filter(o => o.id !== id)
-    
-    // Adjust pagination if current page becomes empty
-    const totalPages = Math.ceil(offices.value.length / rowsPerPage.value)
-    const currentPage = Math.floor(first.value / rowsPerPage.value)
+    await officesService.deleteOffice(id);
+    offices.value = offices.value.filter((o) => o.id !== id);
+    const totalPages = Math.ceil(offices.value.length / rowsPerPage.value);
+    const currentPage = Math.floor(first.value / rowsPerPage.value);
     if (currentPage >= totalPages && totalPages > 0) {
-      first.value = (totalPages - 1) * rowsPerPage.value
+      first.value = (totalPages - 1) * rowsPerPage.value;
     }
   } catch (error) {
-    console.error('Error deleting office:', error)
+    console.error("Error deleting office:", error);
   }
-}
+};
 
 const handleEdit = (id) => {
-  router.push(`/edit-office/${id}`)
-}
+  router.push(`/edit-office/${id}`);
+};
 
 const onPageChange = (event) => {
-  first.value = event.first
-  rowsPerPage.value = event.rows
-}
+  first.value = event.first;
+  rowsPerPage.value = event.rows;
+};
 
 const items = ref([
   {
-    label: 'Add Office',
-    icon: 'pi pi-plus',
+    label: "Add Office",
+    icon: "pi pi-plus",
     command: () => {
-      router.push('/add-office')
-    }
-  }
-])
+      router.push("/add-office");
+    },
+  },
+]);
 </script>
 
 <style scoped>
@@ -210,7 +183,7 @@ const items = ref([
 
 .offices-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
   padding: 1rem;
   margin-bottom: 2rem;
@@ -244,7 +217,9 @@ const items = ref([
   gap: 0.5rem;
 }
 
-.capacity, .cost, .availability {
+.capacity,
+.cost,
+.availability {
   margin: 0;
   font-size: 0.9rem;
 }
@@ -284,7 +259,7 @@ const items = ref([
 }
 
 .service-cost {
-  color: #90EE90;
+  color: #90ee90;
   font-weight: bold;
 }
 
@@ -332,14 +307,14 @@ const items = ref([
 :deep(.p-paginator .p-paginator-prev:hover),
 :deep(.p-paginator .p-paginator-first:hover),
 :deep(.p-paginator .p-paginator-last:hover) {
-  background: #90EE90;
+  background: #90ee90;
   color: #0f0e2f;
 }
 
 :deep(.p-paginator .p-paginator-page.p-highlight) {
-  background: #90EE90;
+  background: #90ee90;
   color: #0f0e2f;
-  border-color: #90EE90;
+  border-color: #90ee90;
 }
 
 :deep(.p-dropdown) {
@@ -349,12 +324,12 @@ const items = ref([
 }
 
 :deep(.p-dropdown:hover) {
-  border-color: #90EE90;
+  border-color: #90ee90;
 }
 
 /* Speed dial styles (same as original) */
 :deep(.p-speeddial-button) {
-  background: #90EE90 !important;
+  background: #90ee90 !important;
   width: 3.5rem;
   height: 3.5rem;
   color: #0f0e2f !important;
@@ -367,14 +342,14 @@ const items = ref([
 }
 
 :deep(.p-speeddial-button:hover) {
-  background: #98FB98 !important;
+  background: #98fb98 !important;
   transform: scale(1.1);
   transition: all 0.3s ease;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 :deep(.p-speeddial-action) {
-  background: #90EE90;
+  background: #90ee90;
   width: 2.5rem;
   height: 2.5rem;
   border: none;
@@ -384,7 +359,7 @@ const items = ref([
 }
 
 :deep(.p-speeddial-action:hover) {
-  background: #98FB98;
+  background: #98fb98;
   transform: scale(1.05);
   transition: all 0.3s ease;
 }
