@@ -14,8 +14,7 @@ const user = ref({
 
 const fetchUserProfile = async () => {
   try {
-    // Ajusta la URL al endpoint real de tu backend
-    //const response = await axios.get('https://tu-api.com/api/v1/users/me');
+
     user.value = response.data;
   } catch (error) {
     console.error("Error al obtener el perfil del usuario:", error);

@@ -48,7 +48,7 @@
     "dashboard": {
         "title": "WorkStation",
         "description": "We enable thousands of people to easily access shared workspaces, private offices, and meeting rooms around the world.",
-        "home": "Home",
+        "properties": "Search properties",
         "plan": "My Plan",
         "profile": "My Profile",
         "logout": "Log out",
@@ -82,11 +82,20 @@
         "name": "Office Name",
         "description": "Description",
         "location": "Location",
+        "capacity": "Capacity",
         "price": "Price per hour ($)",
         "photos": "Photos",
         "chooseFiles": "Choose Files",
         "submit": "Publish",
         "preview": "Preview",
+        "services":{
+            "title": "Add Services",
+            "add": "Add",
+            "name": "Service Name",
+            "description": "Service Description",
+            "cost": "Service Cost",
+            "removeService": "Remove Service"
+        },
         "type": "Office Type",
         "types": {
             "private": "Private Office",
@@ -106,7 +115,9 @@
         "address": "Address: ",
         "phone": "Phone number: ",
         "email": "E-mail: ",
-        "edit": "Edit"
+        "edit": "Edit",
+        "dni": "DNI: ",
+        "role": "Role: "
     },
     "searchResults": {
 

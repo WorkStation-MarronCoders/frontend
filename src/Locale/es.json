@@ -48,7 +48,7 @@
     "dashboard": {
         "title": "WorkStation",
         "description": "Permitimos a miles de personas que accedan facilmente a espacios de trabajo compartidos, oficinas privadas y salas de reuniones en todo el mundo.",
-        "home": "Inicio",
+        "properties": "Buscar propiedades",
         "plan": "Mi Plan",
         "profile": "Mi Perfil",
         "logout": "Cerrar sesión",
@@ -81,13 +81,24 @@
         "title": "Añadir Propiedad",
         "name": "Nombre de la Oficina",
         "description": "Descripción",
+        "capacity": "Capacidad",
         "location": "Ubicación",
         "price": "Precio por hora ($)",
         "photos": "Fotos",
+        "disponible": "Disponible",
+        "unavailable": "No disponible",
         "chooseFiles": "Elegir Archivos",
         "submit": "Publicar",
         "preview": "Vista Previa",
         "type": "Tipo de Oficina",
+        "services":{
+            "title": "Añadir Servicios",
+            "add": "Añadir",
+            "name": "Nombre del Servicio",
+            "description": "Descripción del Servicio",
+            "cost": "Costo del Servicio",
+            "removeService": "Eliminar Servicio"
+        },
         "types": {
             "private": "Oficina Privada",
             "shared": "Espacio Compartido",
@@ -106,7 +117,9 @@
         "address": "Direccion: ",
         "phone": "Nro telefono: ",
         "email": "E-mail: ",
-        "edit": "Editar"
+        "edit": "Editar",
+        "dni": "DNI: ",
+        "role": "Rol: "
     },
     "searchResults": {    
   

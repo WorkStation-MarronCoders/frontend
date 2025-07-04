@@ -4,7 +4,7 @@
 
     <pv-card class="add-office-card">
       <template #title>
-        <h1>{{ $t("addOffice.title") }}</h1>
+        <h1>{{ $t("addProperty.title") }}</h1>
       </template>
 
       <template #content>
@@ -15,10 +15,10 @@
               id="office-location"
               v-model="form.location"
               required
-              :aria-label="$t('addOffice.location')"
+              :aria-label="$t('addProperty.location')"
               class="w-full"
             />
-            <label for="office-location">{{ $t("addOffice.location") }}</label>
+            <label for="office-location">{{ $t("addProperty.location") }}</label>
           </pv-float-label>
           <small v-if="backendErrors.Location" class="error-text">
             {{ backendErrors.Location[0] }}
@@ -32,10 +32,10 @@
               v-model.number="form.capacity"
               required
               min="1"
-              :aria-label="$t('addOffice.capacity')"
+              :aria-label="$t('addProperty.capacity')"
               class="w-full"
             />
-            <label for="office-capacity">{{ $t("addOffice.capacity") }}</label>
+            <label for="office-capacity">{{ $t("addProperty.capacity") }}</label>
           </pv-float-label>
           <small v-if="backendErrors.Capacity" class="error-text">
             {{ backendErrors.Capacity[0] }}
@@ -49,10 +49,10 @@
               v-model.number="form.costPerDay"
               required
               min="0"
-              :aria-label="$t('addOffice.costPerDay')"
+              :aria-label="$t('addProperty.price')"
               class="w-full"
             />
-            <label for="office-cost">{{ $t("addOffice.costPerDay") }}</label>
+            <label for="office-cost">{{ $t("addProperty.price") }}</label>
           </pv-float-label>
           <small v-if="backendErrors.CostPerDay" class="error-text">
             {{ backendErrors.CostPerDay[0] }}
@@ -72,7 +72,7 @@
 
           <!-- Services Section -->
           <div class="services-section">
-            <h3>{{ $t("addOffice.services") }}</h3>
+            <h3>{{ $t("addProperty.services.title") }}</h3>
 
             <small v-if="backendErrors.Services" class="error-text">
               {{ backendErrors.Services[0] }}
@@ -91,11 +91,11 @@
                       :id="`service-name-${index}`"
                       v-model="service.name"
                       required
-                      :aria-label="$t('addOffice.serviceName')"
+                      :aria-label="$t('addProperty.services.name')"
                       class="w-full"
                     />
                     <label :for="`service-name-${index}`">{{
-                      $t("addOffice.serviceName")
+                      $t("addProperty.services.name")
                     }}</label>
                   </pv-float-label>
                   <small
@@ -116,11 +116,11 @@
                     <pv-input-text
                       :id="`service-description-${index}`"
                       v-model="service.description"
-                      :aria-label="$t('addOffice.serviceDescription')"
+                      :aria-label="$t('addProperty.services.description')"
                       class="w-full"
                     />
                     <label :for="`service-description-${index}`">{{
-                      $t("addOffice.serviceDescription")
+                      $t("addProperty.services.description")
                     }}</label>
                   </pv-float-label>
                   <small
@@ -143,11 +143,11 @@
                       type="number"
                       v-model.number="service.cost"
                       min="0"
-                      :aria-label="$t('addOffice.serviceCost')"
+                      :aria-label="$t('addProperty.services.cost')"
                       class="w-full"
                     />
                     <label :for="`service-cost-${index}`">{{
-                      $t("addOffice.serviceCost")
+                      $t("addProperty.services.cost")
                     }}</label>
                   </pv-float-label>
                   <small
@@ -166,12 +166,12 @@
                   <pv-button
                     type="button"
                     @click="removeService(index)"
-                    :aria-label="$t('addOffice.removeService')"
+                    :aria-label="$t('addProperty.services.removeService')"
                     severity="danger"
                     size="small"
                     class="remove-service-btn"
                   >
-                    {{ $t("addOffice.removeService") }}
+                    {{ $t("addProperty.services.removeService") }}
                   </pv-button>
                 </div>
               </template>
@@ -180,12 +180,12 @@
             <pv-button
               type="button"
               @click="addService"
-              :aria-label="$t('addOffice.addService')"
+              :aria-label="$t('addProperty.services.add')"
               severity="success"
               outlined
               class="add-service-btn"
             >
-              {{ $t("addOffice.addService") }}
+              {{ $t("addProperty.services.add") }}
             </pv-button>
           </div>
 
@@ -194,10 +194,10 @@
           <!-- Submit Button -->
           <pv-button
             type="submit"
-            :aria-label="$t('addOffice.submit')"
+            :aria-label="$t('addProperty.submit')"
             class="submit-btn"
           >
-            {{ $t("addOffice.submit") }}
+            {{ $t("addProperty.submit") }}
           </pv-button>
         </form>
       </template>
@@ -281,10 +281,19 @@ const submitForm = async () => {
 </script>
 
 <style scoped>
+.properties {
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  padding: 10px;
+  color: #fff;
+}
+
 .add-office-card {
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
+  background-color: #ffffff;
+  color: #0f0e2f;
 }
 
 .error-text {
@@ -297,6 +306,7 @@ const submitForm = async () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  color: #0f0e2f;
 }
 
 .available-section {
@@ -313,7 +323,8 @@ const submitForm = async () => {
 
 .service-card {
   border: 1px solid #e0e0e0;
-  background-color: #f9f9f9;
+  background-color: #ffffff; 
+  color: #0f0e2f;
 }
 
 .service-fields {
@@ -324,19 +335,36 @@ const submitForm = async () => {
 
 .remove-service-btn {
   align-self: flex-start;
+  background-color: #e0e0e0;
+  color: #0f0e2f;
+  border: none;
 }
 
 .add-service-btn {
   align-self: flex-start;
+  border: 1px solid #0f0e2f;
+  background-color: #ffffff;
+  color: #0f0e2f;
 }
 
 .submit-btn {
   align-self: center;
   padding: 12px 30px;
   font-size: 16px;
+  background-color: #0f0e2f;
+  color: white;
+  border: none;
 }
 
 .w-full {
   width: 100%;
 }
+
+input[type="text"],
+input[type="number"] {
+  background-color: #f5f5f5;
+  color: #0f0e2f;
+  border: 1px solid #ccc;
+}
+
 </style>

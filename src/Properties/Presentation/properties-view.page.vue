@@ -189,7 +189,7 @@ const items = ref([
 
 .offices-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
   padding: 1rem;
   margin-bottom: 2rem;
@@ -231,7 +231,7 @@ const items = ref([
 }
 
 .available {
-  color: #28a745;
+  color: #0f0e2f;
   font-weight: bold;
 }
 
@@ -265,7 +265,7 @@ const items = ref([
 }
 
 .service-cost {
-  color: #90ee90;
+  color: #0f0e2f;
   font-weight: bold;
 }
 
@@ -276,10 +276,7 @@ const items = ref([
   padding-top: 1rem;
 }
 
-.edit-button {
-  flex: 1;
-}
-
+.edit-button,
 .delete-button {
   flex: 1;
 }
@@ -313,14 +310,14 @@ const items = ref([
 :deep(.p-paginator .p-paginator-prev:hover),
 :deep(.p-paginator .p-paginator-first:hover),
 :deep(.p-paginator .p-paginator-last:hover) {
-  background: #90ee90;
+  background: #0f0e2f;
   color: #0f0e2f;
 }
 
 :deep(.p-paginator .p-paginator-page.p-highlight) {
-  background: #90ee90;
+  background: #0f0e2f;
   color: #0f0e2f;
-  border-color: #90ee90;
+  border-color: #0f0e2f;
 }
 
 :deep(.p-dropdown) {
@@ -330,12 +327,12 @@ const items = ref([
 }
 
 :deep(.p-dropdown:hover) {
-  border-color: #90ee90;
+  border-color: #0f0e2f;
 }
 
-/* Speed dial styles (same as original) */
+/* Speed dial styles */
 :deep(.p-speeddial-button) {
-  background: #90ee90 !important;
+  background: #0f0e2f !important;
   width: 3.5rem;
   height: 3.5rem;
   color: #0f0e2f !important;
@@ -348,14 +345,14 @@ const items = ref([
 }
 
 :deep(.p-speeddial-button:hover) {
-  background: #98fb98 !important;
+  background: #0f0e2f !important;
   transform: scale(1.1);
   transition: all 0.3s ease;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 :deep(.p-speeddial-action) {
-  background: #90ee90;
+  background: #0f0e2f;
   width: 2.5rem;
   height: 2.5rem;
   border: none;
@@ -365,8 +362,40 @@ const items = ref([
 }
 
 :deep(.p-speeddial-action:hover) {
-  background: #98fb98;
+  background: #0f0e2f;
   transform: scale(1.05);
   transition: all 0.3s ease;
+}
+
+/* 🧠 Responsividad */
+@media (max-width: 640px) {
+  .offices-page {
+    padding: 1rem;
+  }
+
+  .offices-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card-footer {
+    flex-direction: column;
+  }
+
+  .edit-button,
+  .delete-button {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .capacity,
+  .cost,
+  .availability,
+  .service-item {
+    font-size: 0.85rem;
+  }
 }
 </style>
