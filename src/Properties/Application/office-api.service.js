@@ -38,4 +38,7 @@ export class OfficesAPIService {
     //console.log("Deleting office with URL:", `${OfficesAPI}/${id}`);
     return await axios.delete(`${OfficesAPI}/${id}`);
   }
+  async updateOffice(id, office) {
+    return await axios.put(`${OfficesAPI}/${id}`, office);
+  }
 }
