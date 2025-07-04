@@ -6,7 +6,15 @@ export class Office {
    * @param {boolean} available
    * @param {Array<OfficeService>} services
    */
-  constructor(location, capacity, costPerDay, available = true, services = []) {
+  constructor(
+    id,
+    location,
+    capacity,
+    costPerDay,
+    available = true,
+    services = []
+  ) {
+    this.id = id;
     this.location = location;
     this.capacity = capacity;
     this.costPerDay = costPerDay;

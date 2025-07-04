@@ -132,7 +132,7 @@ const paginatedOffices = computed(() => {
 
 onMounted(async () => {
   try {
-    const response = await officesService.getAll();
+    const response = await officesService.getAllOffices();
     offices.value = OfficeAssembler.toEntitiesFromResponse(response);
   } catch (error) {
     console.error("Error fetching offices:", error);

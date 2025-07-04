@@ -1,45 +1,57 @@
 <script setup>
-import { useRouter } from 'vue-router'
-import navBarComponent from '@/Public/Presentation/nav-bar.component.vue'
-import theTitleComponent from './the-title.component.vue'
+import { useRouter } from "vue-router";
+import navBarComponent from "@/Public/Presentation/nav-bar.component.vue";
+import theTitleComponent from "./the-title.component.vue";
 
-const router = useRouter()
-
+const router = useRouter();
 </script>
 
 <template>
   <div class="dashboard-container">
     <nav-bar-component />
     <theTitleComponent />
-    
-    <section class="services" role="region" aria-label="Accesos rápidos del dashboard">
-  <router-link to="/search" aria-label="Buscar espacios de trabajo">
-    <div class="service-card">
-      <img src="../../../assets/buscar.png" alt="Icono de búsqueda de espacios de trabajo" />
-      <div class="service-info">
-        <p>{{ $t('dashboard.search') }}</p>
-      </div>
-    </div>
-  </router-link>
 
-  <router-link to="/dashboard" aria-label="Comparar espacios disponibles">
-    <div class="service-card">
-      <img src="../../../assets/comparar.jpg" alt="Icono de comparación de espacios" />
-      <div class="service-info">
-        <p>{{ $t('dashboard.compare') }}</p>
-      </div>
-    </div>
-  </router-link>
+    <section
+      class="services"
+      role="region"
+      aria-label="Accesos rápidos del dashboard"
+    >
+      <router-link to="/search" aria-label="Buscar espacios de trabajo">
+        <div class="service-card">
+          <img
+            src="../../../assets/buscar.png"
+            alt="Icono de búsqueda de espacios de trabajo"
+          />
+          <div class="service-info">
+            <p>{{ $t("dashboard.search") }}</p>
+          </div>
+        </div>
+      </router-link>
 
-  <router-link to="/add-property" aria-label="Publicar mi propiedad">
-    <div class="service-card">
-      <img src="../../../assets/propietario.jpeg" alt="Icono para agregar propiedad" />
-      <div class="service-info">
-        <p>{{ $t('dashboard.rent') }}</p>
-      </div>
-    </div>
-  </router-link>
-</section>
+      <router-link to="/properties" aria-label="Comparar espacios disponibles">
+        <div class="service-card">
+          <img
+            src="../../../assets/comparar.jpg"
+            alt="Icono de comparación de espacios"
+          />
+          <div class="service-info">
+            <p>{{ $t("dashboard.compare") }}</p>
+          </div>
+        </div>
+      </router-link>
+
+      <router-link to="/add-property" aria-label="Publicar mi propiedad">
+        <div class="service-card">
+          <img
+            src="../../../assets/propietario.jpeg"
+            alt="Icono para agregar propiedad"
+          />
+          <div class="service-info">
+            <p>{{ $t("dashboard.rent") }}</p>
+          </div>
+        </div>
+      </router-link>
+    </section>
   </div>
 </template>
 
@@ -98,7 +110,7 @@ const router = useRouter()
 
 a {
   text-decoration: none;
-  color: inherit; 
+  color: inherit;
 }
 
 @media (max-width: 768px) {
@@ -123,5 +135,4 @@ a {
     border-radius: 10px;
   }
 }
-
 </style>
