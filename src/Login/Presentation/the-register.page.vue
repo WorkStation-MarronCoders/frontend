@@ -136,7 +136,7 @@ const isOptionalFieldInvalid = (field, value) => {
                   :aria-invalid="isFieldInvalid('firstName', firstName)"
                   aria-label="Nombre"
                 />
-                <label for="firstName">{{ $t("register.firstName") }}*</label>
+                <label for="firstName">{{ $t("register.first_name") }}*</label>
               </pv-float-label>
             </div>
 
@@ -151,7 +151,7 @@ const isOptionalFieldInvalid = (field, value) => {
                   :aria-invalid="isFieldInvalid('lastName', lastName)"
                   aria-label="Apellido"
                 />
-                <label for="lastName">{{ $t("register.lastName") }}*</label>
+                <label for="lastName">{{ $t("register.last_name") }}*</label>
               </pv-float-label>
             </div>
           </div>
@@ -217,13 +217,13 @@ const isOptionalFieldInvalid = (field, value) => {
                 aria-label="Contraseña"
                 maxlength="20"
               />
-              <label for="password">password</label>
+              <label for="password">{{ $t("register.password") }}*</label>
             </pv-float-label>
           </div>
 
           <div class="input-group">
             <label for="role" class="role-label"
-              >{{ $t("register.role") }}*</label
+              >{{ $t("register.role") }}</label
             >
             <select-button
               id="role"
@@ -245,7 +245,7 @@ const isOptionalFieldInvalid = (field, value) => {
         <!-- Optional Fields Section -->
         <transition name="fade-slide">
           <div class="form-section" v-if="role === 'Lessor'">
-            <h3>{{ $t("register.optionalInfo") }}</h3>
+            <h3>{{ $t("register-optional.heading") }}</h3>
 
             <div class="input-group">
               <pv-float-label>
@@ -255,7 +255,7 @@ const isOptionalFieldInvalid = (field, value) => {
                   @blur="handleBlur('nickname')"
                   aria-label="Apodo o nombre de usuario"
                 />
-                <label for="nickname">{{ $t("register.nickname") }}</label>
+                <label for="nickname">{{ $t("register-optional.nickname") }}</label>
               </pv-float-label>
             </div>
 
@@ -268,7 +268,7 @@ const isOptionalFieldInvalid = (field, value) => {
                   aria-label="Nombre de empresa"
                 />
                 <label for="businessName">{{
-                  $t("register.businessName")
+                  $t("register-optional.businessName")
                 }}</label>
               </pv-float-label>
             </div>
@@ -284,7 +284,7 @@ const isOptionalFieldInvalid = (field, value) => {
                   class="p-inputtextarea"
                 />
                 <label for="description">{{
-                  $t("register.description")
+                  $t("register-optional.businessDescription")
                 }}</label>
               </pv-float-label>
             </div>
@@ -299,7 +299,7 @@ const isOptionalFieldInvalid = (field, value) => {
                   rows="3"
                   class="p-inputtextarea"
                 />
-                <label for="extraInfo">{{ $t("register.extraInfo") }}</label>
+                <label for="extraInfo">{{ $t("register-optional.extraInfo") }}</label>
               </pv-float-label>
             </div>
           </div>
@@ -487,4 +487,37 @@ h3 {
   opacity: 0;
   transform: translateY(-10px);
 }
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .register-card {
+    padding: 0.75rem;
+    border-radius: 0;
+    box-shadow: none;
+    max-height: none;
+  }
+
+  .form-container, .form-section {
+    gap: 1rem;
+  }
+
+  .register-button {
+    font-size: 1rem;
+  }
+}
+
 </style>

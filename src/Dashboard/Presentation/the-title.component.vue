@@ -1,6 +1,6 @@
 <template>
   <div class="workstation" role="banner" aria-label="Encabezado del panel principal con fondo visual">
-    <h1>{{$t('dashboard.title')}}</h1>
+    <h1 tabindex="0">{{$t('dashboard.title')}}</h1>
     <div class="separator"></div>
     <p>{{$t('dashboard.description')}}</p>
   </div>
@@ -20,6 +20,8 @@
   align-items: center;
   text-align: center;
   color: white;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .workstation::before {
@@ -38,7 +40,8 @@
 }
 
 .workstation h1 {
-  font-size: 3rem;
+  font-size: clamp(1.5rem, 6vw, 3rem);
+  line-height: 1.2;
 }
 
 .separator {
@@ -49,16 +52,38 @@
 }
 
 .workstation p {
-  font-size: 1.5rem;
+  font-size: clamp(0.9rem, 3vw, 1.5rem);
 }
 
+
 @media (max-width: 768px) {
+  .workstation {
+    padding: 1.5rem;
+    min-height: 50vh;
+  }
+
+  .separator {
+    width: 60%;
+    margin: 8px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .workstation {
+    padding: 1rem;
+    min-height: 40vh;
+  }
+
   .workstation h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .workstation p {
-    font-size: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .separator {
+    width: 50%;
   }
 }
 </style>

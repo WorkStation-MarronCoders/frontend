@@ -12,11 +12,24 @@
     "register": {
         "title": "WorkStation",
         "heading": "Register",
-        "name": "Name",
+        "requiredInfo": "Required Information",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "dni": "DNI",
         "email": "Email",
+        "role": "Role",
         "password": "Password",
         "phone": "Phone Number",
-        "button": "SIGN UP"
+        "button": "¡Sign up!",
+        "seeker": "Looking for offices",
+        "lessor": "Offering offices"
+    },
+    "register-optional":{
+        "heading": "Additional Information",
+        "nickname": "Nickname",
+        "businessName": "Business Name",
+        "businessDescription": "Business Description",
+        "extraInfo": "Extra Info"
     },
     "recover-account": {
         "title": "WorkStation",

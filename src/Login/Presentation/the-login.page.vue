@@ -47,8 +47,8 @@ const password = ref('');
     </div>
     <div class="links">
     <div class="signup">
-      <span>{{ $t('login.noAccount') }}</span>
-      <router-link to="/register">{{ $t('login.signup') }}</router-link>
+      <span>{{ $t('login.no_account') }}</span>
+      <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
     </div>
   </div>
 
@@ -163,17 +163,41 @@ span {
 }
 
 @media (max-width: 600px) {
-  .login-card {
+  .login-container {
     padding: 1rem;
+    flex-direction: column;
+  }
+
+  .login-card {
+    max-width: 100%;
+    padding: 1rem;
+    box-shadow: none;
+    border-radius: 0;
   }
 
   h1 {
     font-size: 2rem;
+    text-align: center;
   }
 
   h2 {
     font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .form-container {
+    gap: 1rem;
+  }
+
+  .language-switcher-login {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .links {
+    gap: 0.5rem;
   }
 }
+
 
 </style>

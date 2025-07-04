@@ -11,12 +11,25 @@
     },
     "register": {
         "title": "WorkStation",
-        "heading": "Registrar",
-        "name": "Nombre",
+        "heading": "Registrate",
+        "requiredInfo": "Información requerida",
+        "first_name": "Nombre",
+        "last_name": "Apellido",
+        "dni": "DNI",
+        "role": "Rol",
         "email": "Correo electrónico",
         "password": "Contraseña",
         "phone": "Número Telefónico",
-        "button": "¡Regístrate!"
+        "button": "¡Regístrate!",
+        "seeker": "Busco oficinas",
+        "lessor": "Ofrezco oficinas"
+    },
+    "register-optional":{
+        "heading": "Información Adicional",
+        "nickname": "Nombre de usuario",
+        "businessName": "Nombre de empresa",
+        "businessDescription": "Descripción de la empresa",
+        "extraInfo": "Información adicional"
     },
     "recover-account": {
         "title": "WorkStation",
@@ -105,8 +118,6 @@
     "title": "Cambiadores en Miraflores",
     "description": "Desde modernos escritorios hasta acogedoras estaciones de trabajo..."
   },
-
-
 
     "searchPlaceholder": "Buscar espacios de trabajo...",
     "searchButton": "Buscar",

@@ -59,13 +59,13 @@ const router = useRouter();
 .dashboard-container {
   background-color: #f5f5f5;
   min-height: 100vh;
-  padding: 10px;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
 }
 
 .services {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 1.5rem;
   align-items: center;
   justify-content: center;
 }
@@ -73,44 +73,54 @@ const router = useRouter();
 .service-card {
   display: flex;
   align-items: center;
-  background: white;
-  width: 400px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  margin: 10px 0;
-  transition: transform 0.3s, box-shadow 0.3s;
+  background: #ffffff;
   width: 100%;
   max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  margin: 0.75rem 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
+
 .service-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  background-color: #c8e6c9;
+  transform: translateY(-6px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  background-color: #e0f2f1;
 }
 
 .service-card img {
-  width: 150px;
-  height: 150px;
-  border-radius: 5px;
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
   object-fit: cover;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  background-color: #e0e0e0; /* relleno suave si hay transparencias */
 }
+
 
 .service-info {
   flex: 1;
-  padding-left: 15px;
+  padding-left: 1rem;
 }
 
 .service-info p {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #000000;
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  font-weight: 600;
+  color: #212121;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+}
+
+@media (max-width: 1024px) {
+  .service-card {
+    max-width: 95%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -122,17 +132,40 @@ a {
   .service-card {
     flex-direction: column;
     text-align: center;
+    padding: 1rem;
+  }
+
+  .service-card img {
+    width: 80px;
+    height: 80px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 0 auto;
   }
 
   .service-info {
     padding-left: 0;
-    padding-top: 10px;
+    padding-top: 0.5rem;
   }
 
-  .service-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
+  .service-info p {
+    font-size: clamp(0.9rem, 4vw, 1rem);
   }
 }
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 0.5rem;
+  }
+
+  .service-card {
+    padding: 0.75rem;
+  }
+
+  .service-info p {
+    font-size: 1rem;
+  }
+}
+
 </style>
