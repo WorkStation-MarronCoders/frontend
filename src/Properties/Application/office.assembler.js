@@ -3,35 +3,97 @@ import { OfficeService } from "../Domain/officeservice.entity.js";
 
 export class OfficeAssembler {
   static toEntitiesFromResponse(response) {
+    console.log("🔍 Processing response:", response);
+
     if (!response || !response.data) {
-      console.error("Invalid response received");
+      console.error("❌ No response or missing data in response:", response);
       return [];
     }
 
-    const officeArray = response.data;
+    const data = response.data.data ?? response.data;
+    console.log("🔍 Extracted data:", data);
 
-    if (!Array.isArray(officeArray)) {
-      console.error("Expected array of offices in response");
+    if (!Array.isArray(data)) {
+      console.error("❌ Expected array of offices in response, got:", data);
       return [];
     }
 
-    return officeArray.map((resource) => this.toEntityFromResource(resource));
+    console.log("🔍 About to map", data.length, "offices");
+
+    // Mapear directamente sin llamar a otros métodos de la clase
+    const result = data
+      .map((resource) => {
+        console.log("🔍 Processing resource:", resource);
+
+        if (!resource) {
+          console.error("❌ Resource is null or undefined:", resource);
+          return null;
+        }
+
+        try {
+          // Procesar servicios directamente
+          const services = [];
+          const servicesData = resource.services || resource.Services || [];
+
+          if (Array.isArray(servicesData)) {
+            servicesData.forEach((serviceData) => {
+              if (serviceData) {
+                services.push(
+                  new OfficeService(
+                    serviceData.name || serviceData.Name,
+                    serviceData.description || serviceData.Description,
+                    serviceData.cost || serviceData.Cost
+                  )
+                );
+              }
+            });
+          }
+
+          // Crear la entidad Office directamente
+          const office = new Office(
+            resource.id || resource.Id,
+            resource.location || resource.Location,
+            resource.capacity || resource.Capacity,
+            resource.costPerDay || resource.CostPerDay,
+            resource.available ?? resource.Available ?? true,
+            services
+          );
+
+          console.log("✅ Created office:", office);
+          return office;
+        } catch (error) {
+          console.error(
+            "❌ Error creating Office entity from resource:",
+            error,
+            resource
+          );
+          return null;
+        }
+      })
+      .filter((office) => office !== null);
+
+    console.log("🔍 Final result:", result);
+    return result;
   }
 
-  static toEntityFromResource(resource) {
-    const services = Array.isArray(resource.services)
-      ? resource.services.map(
-          (s) => new OfficeService(s.name, s.description, s.cost)
-        )
-      : [];
+  static toResourceFromEntity(office) {
+    if (!office) {
+      console.error("❌ Office entity is null or undefined");
+      return null;
+    }
 
-    return new Office(
-      resource.id, // importante: necesita existir
-      resource.location,
-      resource.capacity,
-      resource.costPerDay,
-      resource.available,
-      services
-    );
+    return {
+      id: office.id,
+      location: office.location,
+      capacity: office.capacity,
+      costPerDay: office.costPerDay,
+      available: office.available,
+      services:
+        office.services?.map((service) => ({
+          name: service.name,
+          description: service.description,
+          cost: service.cost,
+        })) || [],
+    };
   }
 }

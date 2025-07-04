@@ -132,10 +132,16 @@ const paginatedOffices = computed(() => {
 
 onMounted(async () => {
   try {
+    console.log("🔍 Making API call to:", OfficesAPIService);
     const response = await officesService.getAllOffices();
+    console.log("🔍 Raw API response:", response);
+    console.log("🔍 Response status:", response.status);
+    console.log("🔍 Response data:", response.data);
+
     offices.value = OfficeAssembler.toEntitiesFromResponse(response);
   } catch (error) {
-    console.error("Error fetching offices:", error);
+    console.error("❌ Error fetching offices:", error);
+    console.error("❌ Error response:", error.response?.data);
   }
 });
 
