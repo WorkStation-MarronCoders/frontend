@@ -385,11 +385,6 @@ const handleDelete = async (id) => {
   }
 };
 
-const handleEdit = (id) => {
-  // Esta función ya no se usa, pero la mantengo por compatibilidad
-  router.push(`/edit-office/${id}`);
-};
-
 const onPageChange = (event) => {
   first.value = event.first;
   rowsPerPage.value = event.rows;
@@ -400,7 +395,7 @@ const items = ref([
     label: "Add Office",
     icon: "pi pi-plus",
     command: () => {
-      router.push("/add-office");
+      router.push("/add-property");
     },
   },
 ]);
