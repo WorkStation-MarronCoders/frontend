@@ -249,7 +249,7 @@
           v-model:first="first"
           :rows="rowsPerPage"
           :total-records="offices.length"
-          :rows-per-page-options="[5, 10, 20]"
+          :rows-per-page-options="[4, 8, 12]"
           template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           @page="onPageChange"
         />
@@ -502,6 +502,7 @@ const paginatedOffices = computed(() => {
 }
 
 .offices-grid {
+  min-height: 300px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
@@ -825,14 +826,13 @@ const paginatedOffices = computed(() => {
 :deep(.p-paginator .p-paginator-prev:hover),
 :deep(.p-paginator .p-paginator-first:hover),
 :deep(.p-paginator .p-paginator-last:hover) {
-  background: #90ee90;
-  color: #0f0e2f;
+  background: #42415d;
 }
 
 :deep(.p-paginator .p-paginator-page.p-highlight) {
-  background: #90ee90;
+  background: #f8f8f8;
   color: #0f0e2f;
-  border-color: #90ee90;
+  border-color: #ffffff;
 }
 
 :deep(.p-dropdown) {
@@ -842,15 +842,14 @@ const paginatedOffices = computed(() => {
 }
 
 :deep(.p-dropdown:hover) {
-  border-color: #90ee90;
+  border-color: #ffffff;
 }
 
-/* Speed dial styles */
 :deep(.p-speeddial-button) {
-  background: #90ee90 !important;
+  background: #0f0e2f !important;
   width: 3.5rem;
   height: 3.5rem;
-  color: #0f0e2f !important;
+  color: #ffffff !important;
   border: none !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 50% !important;
@@ -860,14 +859,13 @@ const paginatedOffices = computed(() => {
 }
 
 :deep(.p-speeddial-button:hover) {
-  background: #98fb98 !important;
+  background: #111033 !important;
   transform: scale(1.1);
   transition: all 0.3s ease;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 :deep(.p-speeddial-action) {
-  background: #90ee90;
   width: 2.5rem;
   height: 2.5rem;
   border: none;
@@ -877,7 +875,6 @@ const paginatedOffices = computed(() => {
 }
 
 :deep(.p-speeddial-action:hover) {
-  background: #98fb98;
   transform: scale(1.05);
   transition: all 0.3s ease;
 }
