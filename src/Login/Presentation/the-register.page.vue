@@ -2,6 +2,7 @@
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import LanguageSwitcher from "../../Public/Presentation/language-switcher.component.vue";
+import { UserApiService } from "../Application/user-api.service";
 
 const router = useRouter();
 const backgroundImg =
@@ -13,6 +14,7 @@ const lastName = ref("");
 const dni = ref("");
 const phoneNumber = ref("");
 const email = ref("");
+const passwordHash = ref(""); // <- Renombrado
 const role = ref(null);
 const nickname = ref("");
 const description = ref("");
@@ -26,6 +28,7 @@ const touchedFields = ref({
   dni: false,
   phoneNumber: false,
   email: false,
+  passwordHash: false,
   role: false,
   nickname: false,
   description: false,
@@ -33,10 +36,9 @@ const touchedFields = ref({
   extraInfo: false,
 });
 
-// User role options
 const userRoleOptions = ref([
-  { label: "Busco oficinas", value: "Seeker" },
-  { label: "Ofrezco oficinas", value: "Lessor" },
+  { label: "Busco oficinas", value: 1 },
+  { label: "Ofrezco oficinas", value: 2 },
 ]);
 
 const isFormValid = computed(() => {
@@ -46,6 +48,7 @@ const isFormValid = computed(() => {
     dni.value.trim() !== "" &&
     phoneNumber.value.trim() !== "" &&
     email.value.trim() !== "" &&
+    passwordHash.value.trim() !== "" &&
     role.value !== null
   );
 });
@@ -55,7 +58,6 @@ const handleRegister = async () => {
   if (!isFormValid.value) return;
 
   try {
-    // Prepare data to match CreateUserCommand structure
     const userData = {
       firstName: firstName.value.trim(),
       lastName: lastName.value.trim(),
@@ -63,6 +65,7 @@ const handleRegister = async () => {
       phoneNumber: phoneNumber.value.trim(),
       email: email.value.trim(),
       role: role.value,
+      passwordHash: passwordHash.value.trim(),
       nickname: nickname.value.trim() || null,
       description: description.value.trim() || null,
       businessName: businessName.value.trim() || null,
@@ -71,9 +74,14 @@ const handleRegister = async () => {
 
     console.log("User data to submit:", userData);
 
-    // Uncomment when you have the API service ready
-    // await userService.createUser(userData);
+    await UserApiService.register(userData);
 
+    const jwt = await UserApiService.login({
+      email: userData.email,
+      passwordHash: userData.passwordHash,
+    });
+
+    localStorage.setItem("jwt", jwt);
     router.push("/dashboard");
   } catch (error) {
     console.error("Error creating user:", error);
@@ -93,11 +101,6 @@ const isFieldInvalid = (field, value) => {
   return (
     (touchedFields.value[field] || formSubmitted.value) && value.trim() === ""
   );
-};
-
-const isOptionalFieldInvalid = (field, value) => {
-  // Optional fields are never invalid, just show validation styling if they have content
-  return false;
 };
 </script>
 
@@ -208,23 +211,26 @@ const isOptionalFieldInvalid = (field, value) => {
           <div class="input-group">
             <pv-float-label>
               <pv-input-text
-                id="password"
-                v-model="password"
-                :class="{ 'p-invalid': isFieldInvalid('password', password) }"
-                @blur="handleBlur('password')"
+                id="passwordHash"
+                v-model="passwordHash"
+                :class="{
+                  'p-invalid': isFieldInvalid('passwordHash', passwordHash),
+                }"
+                @blur="handleBlur('passwordHash')"
                 aria-required="true"
-                :aria-invalid="isFieldInvalid('password', password)"
+                :aria-invalid="isFieldInvalid('passwordHash', passwordHash)"
                 aria-label="Contraseña"
                 maxlength="20"
+                type="password"
               />
-              <label for="password">{{ $t("register.password") }}*</label>
+              <label for="passwordHash">{{ $t("register.password") }}*</label>
             </pv-float-label>
           </div>
 
           <div class="input-group">
-            <label for="role" class="role-label"
-              >{{ $t("register.role") }}</label
-            >
+            <label for="role" class="role-label">{{
+              $t("register.role")
+            }}</label>
             <select-button
               id="role"
               v-model="role"
@@ -240,9 +246,6 @@ const isOptionalFieldInvalid = (field, value) => {
         </div>
 
         <pv-divider />
-
-        <!-- Optional Fields Section -->
-        <!-- Optional Fields Section -->
         <transition name="fade-slide">
           <div class="form-section" v-if="role === 'Lessor'">
             <h3>{{ $t("register-optional.heading") }}</h3>
@@ -255,7 +258,9 @@ const isOptionalFieldInvalid = (field, value) => {
                   @blur="handleBlur('nickname')"
                   aria-label="Apodo o nombre de usuario"
                 />
-                <label for="nickname">{{ $t("register-optional.nickname") }}</label>
+                <label for="nickname">{{
+                  $t("register-optional.nickname")
+                }}</label>
               </pv-float-label>
             </div>
 
@@ -299,7 +304,9 @@ const isOptionalFieldInvalid = (field, value) => {
                   rows="3"
                   class="p-inputtextarea"
                 />
-                <label for="extraInfo">{{ $t("register-optional.extraInfo") }}</label>
+                <label for="extraInfo">{{
+                  $t("register-optional.extraInfo")
+                }}</label>
               </pv-float-label>
             </div>
           </div>
@@ -511,7 +518,8 @@ h3 {
     max-height: none;
   }
 
-  .form-container, .form-section {
+  .form-container,
+  .form-section {
     gap: 1rem;
   }
 
@@ -519,5 +527,4 @@ h3 {
     font-size: 1rem;
   }
 }
-
 </style>

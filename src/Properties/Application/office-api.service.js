@@ -1,11 +1,4 @@
 import axios from "axios";
-
-//console.log("Environment variables:");
-//console.log("VITE_API_BASE_URL:", import.meta.env.VITE_API_BASE_URL);
-//console.log("MODE:", import.meta.env.MODE);
-//console.log("All env vars:", import.meta.env);
-
-// Fallback si no se encuentra la variable
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   "https://workstation-webapi-f6h3e4aqgxa6d5e7.canadacentral-01.azurewebsites.net";

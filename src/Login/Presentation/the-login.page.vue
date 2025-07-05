@@ -1,58 +1,111 @@
 <script setup>
-import { ref } from 'vue';
-import LanguageSwitcher from '../../Public/Presentation/language-switcher.component.vue';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import LanguageSwitcher from "../../Public/Presentation/language-switcher.component.vue";
+import { UserApiService } from "../Application/user-api.service";
 
-const loginSceneImg = 'https://www.tillersystems.com/wp-content/uploads/2020/01/coworking-place-tiller.jpeg';
-const username = ref('');
-const password = ref('');
+const loginSceneImg =
+  "https://www.tillersystems.com/wp-content/uploads/2020/01/coworking-place-tiller.jpeg";
+const email = ref("");
+const passwordHash = ref("");
+const errorMessage = ref("");
+const formSubmitted = ref(false);
+
+const router = useRouter();
+
+const isFormValid = () =>
+  email.value.trim() !== "" && passwordHash.value.trim() !== "";
+
+const handleLogin = async () => {
+  formSubmitted.value = true;
+  errorMessage.value = "";
+
+  if (!isFormValid()) {
+    errorMessage.value = "Por favor, completa todos los campos.";
+    return;
+  }
+
+  try {
+    const jwt = await UserApiService.login({
+      email: email.value.trim(),
+      passwordHash: passwordHash.value.trim(),
+    });
+
+    localStorage.setItem("jwt", jwt);
+    router.push("/dashboard");
+  } catch (error) {
+    errorMessage.value =
+      error?.message || "No se pudo iniciar sesión. Inténtalo nuevamente.";
+    console.error("❌ Error durante el login:", error);
+  }
+};
 </script>
 
 <template>
-  <div class="login-container" :style="{ backgroundImage: `url(${loginSceneImg})` }">
-    <div class="login-card" role="form" aria-label="Formulario de inicio de sesión">
+  <div
+    class="login-container"
+    :style="{ backgroundImage: `url(${loginSceneImg})` }"
+  >
+    <div
+      class="login-card"
+      role="form"
+      aria-label="Formulario de inicio de sesión"
+    >
       <div class="header-container">
-        <h1>{{ $t('login.title') }}</h1>
+        <h1>{{ $t("login.title") }}</h1>
         <LanguageSwitcher class="language-switcher-header" />
       </div>
-      <h2>{{ $t('login.heading') }}</h2>
+      <h2>{{ $t("login.heading") }}</h2>
 
       <div class="form-container">
-      <div class="input-group">
-        <pv-float-label>
-          <pv-input-text
-            id="username"
-            v-model="username"
-            aria-required="true"
-            aria-label="Nombre de usuario"
-          />
-          <label for="username">{{ $t('login.username') }}</label>
-        </pv-float-label>
-      </div>
-      <div class="input-group">
-        <pv-float-label>
-          <pv-input-text
-            id="password"
-            type="password"
-            v-model="password"
-            aria-required="true"
-            aria-label="Contraseña"
-          />
-          <label for="password">{{ $t('login.password') }}</label>
-        </pv-float-label>
+        <div class="input-group">
+          <pv-float-label>
+            <pv-input-text
+              id="email"
+              v-model="email"
+              :class="{ 'p-invalid': formSubmitted && email.trim() === '' }"
+              aria-required="true"
+              aria-label="Correo electrónico"
+            />
+            <label for="email">{{ $t("login.username") }}</label>
+          </pv-float-label>
+        </div>
+
+        <div class="input-group">
+          <pv-float-label>
+            <pv-input-text
+              id="passwordHash"
+              type="password"
+              v-model="passwordHash"
+              :class="{
+                'p-invalid': formSubmitted && passwordHash.trim() === '',
+              }"
+              aria-required="true"
+              aria-label="Contraseña"
+            />
+            <label for="passwordHash">{{ $t("login.password") }}</label>
+          </pv-float-label>
+        </div>
+
+        <pv-button
+          :label="$t('login.button')"
+          class="login-button"
+          @click="handleLogin"
+          aria-label="Botón para iniciar sesión"
+        />
+
+        <p v-if="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </p>
       </div>
 
-      <router-link to="/dashboard" aria-label="Iniciar sesión">
-        <pv-button :label="$t('login.button')" class="login-button" />
-      </router-link>
+      <div class="links">
+        <div class="signup">
+          <span>{{ $t("login.no_account") }}</span>
+          <router-link to="/register">{{ $t("login.sign_up") }}</router-link>
+        </div>
+      </div>
     </div>
-    <div class="links">
-    <div class="signup">
-      <span>{{ $t('login.no_account') }}</span>
-      <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
-    </div>
-  </div>
-
-  </div>
   </div>
 </template>
 
@@ -150,7 +203,7 @@ h2 {
 }
 
 a {
-  color: #2196F3;
+  color: #2196f3;
   text-decoration: none;
 }
 
@@ -198,6 +251,4 @@ span {
     gap: 0.5rem;
   }
 }
-
-
 </style>
