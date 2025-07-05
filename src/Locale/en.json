@@ -22,7 +22,12 @@
         "phone": "Phone Number",
         "button": "¡Sign up!",
         "seeker": "Looking for offices",
-        "lessor": "Offering offices"
+        "lessor": "Offering offices",
+        "errors":{
+            "fillAllFields": "Please, fill all fields.",
+            "tokenMissingUserId": "Could not get user ID from token.",
+            "failed": "Could not sign in. Try again."
+        }
     },
     "register-optional":{
         "heading": "Additional Information",
@@ -151,8 +156,17 @@
 "properties": {
         "title": "Properties",
         "location": "Location",
-        "price": "Price",
-        "delete": "Delete"
+        "capacity": "Capacity",
+        "disponible": "Disponible",
+        "nodisponible": "No disponible",
+        "status": "Status",
+        "price": "Price per day",
+        "delete": "Delete",
+        "edit": "Edit",
+        "services": "Services",
+        "all": "All",
+        "available": "Available",
+        "unavailable": "Unavailable"
     }
 
 }

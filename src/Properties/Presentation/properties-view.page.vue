@@ -7,7 +7,36 @@
       role="region"
       aria-label="Listado de oficinas"
     >
-      <h1 class="text-2xl font-bold mb-6">{{ $t("offices.title") }}</h1>
+        <div class="header-section">
+          <div class="header-left">
+            <i class="pi pi-building header-icon" aria-hidden="true"></i>
+            <h1 class="header-title">{{ $t("properties.title") }}</h1>
+          </div>
+
+          <div class="filter-buttons">
+            <button
+              class="filter-button"
+              :class="{ active: statusFilter === 'all' }"
+              @click="statusFilter = 'all'"
+            >
+              {{ $t("properties.all") }}
+            </button>
+            <button
+              class="filter-button"
+              :class="{ active: statusFilter === 'available' }"
+              @click="statusFilter = 'available'"
+            >
+              {{ $t("properties.available") }}
+            </button>
+            <button
+              class="filter-button"
+              :class="{ active: statusFilter === 'unavailable' }"
+              @click="statusFilter = 'unavailable'"
+            >
+              {{ $t("properties.unavailable") }}
+            </button>
+          </div>
+        </div>
 
       <div class="offices-grid">
         <pv-card
@@ -38,21 +67,21 @@
               <!-- Modo vista -->
               <div v-if="editingOffice !== office.id">
                 <p class="capacity">
-                  <strong>{{ $t("offices.capacity") }}:</strong>
+                  <strong>{{ $t("properties.capacity") }}:</strong>
                   {{ office.capacity }} personas
                 </p>
                 <p class="cost">
-                  <strong>{{ $t("offices.costPerDay") }}:</strong> ${{
+                  <strong>{{ $t("properties.price") }}:</strong> ${{
                     office.costPerDay
                   }}/día
                 </p>
                 <p class="availability">
-                  <strong>{{ $t("offices.status") }}:</strong>
+                  <strong>{{ $t("properties.status") }}: </strong>
                   <span :class="office.available ? 'available' : 'unavailable'">
                     {{
                       office.available
-                        ? $t("offices.available")
-                        : $t("offices.unavailable")
+                        ? $t("properties.disponible")
+                        : $t("properties.nodisponible")
                     }}
                   </span>
                 </p>
@@ -60,7 +89,7 @@
                   v-if="office.services && office.services.length > 0"
                   class="services-section"
                 >
-                  <strong>{{ $t("offices.services") }}:</strong>
+                  <strong>{{ $t("properties.services") }}:</strong>
                   <ul class="services-list">
                     <li
                       v-for="service in office.services"
@@ -194,7 +223,7 @@
           <template #footer>
             <div class="card-footer" v-if="editingOffice !== office.id">
               <pv-button
-                :label="$t('offices.edit')"
+                :label="$t('properties.edit')"
                 severity="secondary"
                 outlined
                 size="small"
@@ -203,7 +232,7 @@
                 class="edit-button"
               />
               <pv-button
-                :label="$t('offices.delete')"
+                :label="$t('properties.delete')"
                 severity="danger"
                 size="small"
                 @click="handleDelete(office.id)"
@@ -254,7 +283,6 @@ const toast = ref();
 const first = ref(0);
 const rowsPerPage = ref(5);
 
-// Estados para edición
 const editingOffice = ref(null);
 const saving = ref(false);
 const editForm = ref({
@@ -263,12 +291,6 @@ const editForm = ref({
   costPerDay: 0,
   available: true,
   services: [],
-});
-
-const paginatedOffices = computed(() => {
-  const start = first.value;
-  const end = start + rowsPerPage.value;
-  return offices.value.slice(start, end);
 });
 
 onMounted(async () => {
@@ -312,7 +334,6 @@ const saveEdit = async (officeId) => {
   saving.value = true;
 
   try {
-    // Aquí harías la llamada a tu API para actualizar la oficina
     const updatedOffice = {
       id: officeId,
       ...editForm.value,
@@ -320,13 +341,11 @@ const saveEdit = async (officeId) => {
     console.log("📦 Enviando payload al backend:", updatedOffice);
     await officesService.updateOffice(officeId, updatedOffice);
 
-    // Actualizar el estado local
     const index = offices.value.findIndex((o) => o.id === officeId);
     if (index !== -1) {
       offices.value[index] = { ...offices.value[index], ...editForm.value };
     }
 
-    // Mostrar mensaje de éxito
     toast.value.add({
       severity: "success",
       summary: "Éxito",
@@ -338,7 +357,6 @@ const saveEdit = async (officeId) => {
   } catch (error) {
     console.error("Error updating office:", error);
 
-    // Mostrar mensaje de error
     toast.value.add({
       severity: "error",
       summary: "Error",
@@ -399,9 +417,83 @@ const items = ref([
     },
   },
 ]);
+
+// Filtro por disponibilidad
+const statusFilter = ref("all");
+
+const filteredOffices = computed(() => {
+  if (statusFilter.value === "available") {
+    return offices.value.filter((o) => o.available);
+  }
+  if (statusFilter.value === "unavailable") {
+    return offices.value.filter((o) => !o.available);
+  }
+  return offices.value;
+});
+
+const paginatedOffices = computed(() => {
+  const start = first.value;
+  const end = start + rowsPerPage.value;
+  return filteredOffices.value.slice(start, end);
+});
+
 </script>
 
 <style scoped>
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #0f0e2f;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  font-size: 2rem;
+  color: #0f0e2f;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0f0e2f;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  padding: 0.4rem 0.9rem;
+  border: 2px solid #0f0e2f;
+  background-color: transparent;
+  color: #0f0e2f;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-button:hover {
+  background-color: #0f0e2f;
+  color: white;
+}
+
+.filter-button.active {
+  background-color: #0f0e2f;
+  color: white;
+}
+
 .offices-page {
   background-color: #f4f4f4;
   min-height: 100vh;
@@ -433,7 +525,7 @@ const items = ref([
 .office-card.editing {
   transform: scale(1.02);
   box-shadow: 0 8px 16px rgba(144, 238, 144, 0.3);
-  border: 2px solid #90ee90;
+  border: 2px solid rgba(255, 255, 255, 0.689);
 }
 
 :deep(.p-card-title) {
@@ -460,12 +552,12 @@ const items = ref([
 }
 
 .available {
-  color: #28a745;
+  color: #05691c;
   font-weight: bold;
 }
 
 .unavailable {
-  color: #dc3545;
+  color: #b50b1c;
   font-weight: bold;
 }
 
@@ -518,7 +610,6 @@ const items = ref([
   margin-left: 0.5rem;
 }
 
-/* Estilos para modo edición */
 .edit-form {
   display: flex;
   flex-direction: column;
@@ -534,7 +625,7 @@ const items = ref([
 .edit-label {
   font-size: 0.9rem;
   font-weight: bold;
-  color: #90ee90;
+  color: white;
 }
 
 .edit-input,
@@ -550,7 +641,7 @@ const items = ref([
 .edit-input:focus,
 .edit-select:focus {
   outline: none;
-  border-color: #90ee90;
+  border-color: white;
   box-shadow: 0 0 0 2px rgba(144, 238, 144, 0.2);
 }
 
@@ -600,7 +691,7 @@ const items = ref([
 
 .service-description-input:focus {
   outline: none;
-  border-color: #90ee90;
+  border-color: white;
   box-shadow: 0 0 0 2px rgba(144, 238, 144, 0.2);
 }
 
@@ -636,7 +727,7 @@ const items = ref([
 }
 
 .add-service-btn {
-  background: #90ee90;
+  background: #c82333;
   color: #0f0e2f;
   border: none;
   border-radius: 4px;
@@ -647,7 +738,7 @@ const items = ref([
 }
 
 .add-service-btn:hover {
-  background: #98fb98;
+  background: #c8606b;
 }
 
 .edit-actions {
@@ -709,7 +800,6 @@ const items = ref([
 .pagination-container {
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
 }
 
 :deep(.p-paginator) {

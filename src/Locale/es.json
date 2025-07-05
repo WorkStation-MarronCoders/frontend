@@ -22,7 +22,12 @@
         "phone": "Número Telefónico",
         "button": "¡Regístrate!",
         "seeker": "Busco oficinas",
-        "lessor": "Ofrezco oficinas"
+        "lessor": "Ofrezco oficinas",
+        "errors":{
+            "fillAllFields": "Por favor, completa todos los campos.",
+            "tokenMissingUserId": "No se pudo obtener el ID de usuario del token.",
+            "failed": "No se pudo iniciar sesión. Inténtalo nuevamente."
+        }
     },
     "register-optional":{
         "heading": "Información Adicional",
@@ -154,8 +159,17 @@
   "properties": {
         "title": "Propiedades",
         "location": "Ubicación",
-        "price": "Precio",
-        "delete": "Eliminar"
+        "capacity": "Capacidad",
+        "disponible": "Disponible",
+        "nodisponible": "No disponible",
+        "status": "Estado",
+        "price": "Precio por dia",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "services": "Servicios",
+        "all": "Todos",
+        "available": "Disponibles",
+        "unavailable": "No disponibles"
     }
 
 }

@@ -4,6 +4,9 @@ import { useRouter } from "vue-router";
 import LanguageSwitcher from "../../Public/Presentation/language-switcher.component.vue";
 import { UserApiService } from "../Application/user-api.service";
 import { jwtDecode } from "jwt-decode";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const loginSceneImg =
   "https://www.tillersystems.com/wp-content/uploads/2020/01/coworking-place-tiller.jpeg";
@@ -23,7 +26,7 @@ const handleLogin = async () => {
   errorMessage.value = "";
 
   if (!isFormValid()) {
-    errorMessage.value = "Por favor, completa todos los campos.";
+    errorMessage.value = t("register.errors.fillAllFields"); 
     return;
   }
 
@@ -34,21 +37,22 @@ const handleLogin = async () => {
     });
 
     localStorage.setItem("jwt", jwt);
-    const decoded = jwtDecode(jwt); // ✅ Cambiado aquí
+    const decoded = jwtDecode(jwt);
     const userId = decoded.nameid;
 
     if (!userId) {
-      throw new Error("No se pudo obtener el ID de usuario del token");
+      throw new Error(t("register.errors.tokenMissingUserId"));
     }
 
     localStorage.setItem("userId", userId);
     router.push("/dashboard");
   } catch (error) {
     errorMessage.value =
-      error?.message || "No se pudo iniciar sesión. Inténtalo nuevamente.";
-    console.error("❌ Error durante el login:", error);
+      error?.message || t("register.errors.failed");
+    console.error(" Error durante el login:", error);
   }
 };
+
 </script>
 
 <template>
@@ -223,6 +227,11 @@ a:hover {
 
 span {
   color: #666;
+}
+
+.error-message{
+  color: red;
+  justify-content: center;
 }
 
 @media (max-width: 600px) {
