@@ -1,35 +1,44 @@
 <script setup>
 import NavBar from "@/Public/Presentation/nav-bar.component.vue";
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import { UserApiService } from "../Application/user-api.service";
 
 const user = ref({
-  firstName: '',
-  lastName: '',
-  dni: '',
-  phoneNumber: '',
-  email: '',
-  role: ''
+  firstName: "",
+  lastName: "",
+  dni: "",
+  phoneNumber: "",
+  email: "",
+  role: "",
 });
 
 const fetchUserProfile = async () => {
   try {
+    const userId = localStorage.getItem("userId");
 
-    user.value = response.data;
+    if (!userId) {
+      console.error("⚠️ No se encontró el userId en localStorage.");
+      return;
+    }
+    const userData = await UserApiService.getUserById(userId);
+    user.value = userData;
   } catch (error) {
-    console.error("Error al obtener el perfil del usuario:", error);
+    console.error("❌ Error al obtener el perfil del usuario:", error);
   }
 };
 
 onMounted(fetchUserProfile);
 </script>
 
-
 <template>
   <div class="profile">
     <NavBar />
 
-    <div class="content" role="region" aria-label="Sección de perfil de usuario">
+    <div
+      class="content"
+      role="region"
+      aria-label="Sección de perfil de usuario"
+    >
       <img
         src="../../../assets/backgrounds/profile-bg.jpg"
         alt="Fondo decorativo del perfil"
@@ -38,30 +47,48 @@ onMounted(fetchUserProfile);
       />
 
       <div class="profile-card-container">
-        <pv-card class="profile-card" aria-label="Tarjeta con información del perfil de usuario">
+        <pv-card
+          class="profile-card"
+          aria-label="Tarjeta con información del perfil de usuario"
+        >
           <template #title>
             <div class="card-header">
-              <pv-avatar icon="pi pi-user" size="xlarge" aria-label="Avatar de usuario" />
-              <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
-              <pv-button class="button" aria-label="Editar información del perfil">
-                {{ $t('profile.edit') }}
+              <pv-avatar
+                icon="pi pi-user"
+                size="xlarge"
+                aria-label="Avatar de usuario"
+              />
+              <span class="user-name"
+                >{{ user.firstName }} {{ user.lastName }}</span
+              >
+              <pv-button
+                class="button"
+                aria-label="Editar información del perfil"
+              >
+                {{ $t("profile.edit") }}
               </pv-button>
             </div>
           </template>
 
           <template #content>
-            <p><strong>{{ $t('profile.dni') }}</strong> {{ user.dni }}</p>
-            <p><strong>{{ $t('profile.phone') }}</strong> {{ user.phoneNumber }}</p>
-            <p><strong>{{ $t('profile.email') }}</strong> {{ user.email }}</p>
-            <p><strong>{{ $t('profile.role') }}</strong> {{ user.role }}</p>
+            <p>
+              <strong>{{ $t("profile.dni") }}</strong> {{ user.dni }}
+            </p>
+            <p>
+              <strong>{{ $t("profile.phone") }}</strong> {{ user.phoneNumber }}
+            </p>
+            <p>
+              <strong>{{ $t("profile.email") }}</strong> {{ user.email }}
+            </p>
+            <p>
+              <strong>{{ $t("profile.role") }}</strong> {{ user.role }}
+            </p>
           </template>
         </pv-card>
       </div>
     </div>
   </div>
 </template>
-
-
 
 <style scoped>
 .profile {
@@ -132,5 +159,4 @@ onMounted(fetchUserProfile);
     text-align: center;
   }
 }
-
 </style>

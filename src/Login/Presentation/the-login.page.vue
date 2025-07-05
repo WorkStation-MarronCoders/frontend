@@ -3,9 +3,11 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import LanguageSwitcher from "../../Public/Presentation/language-switcher.component.vue";
 import { UserApiService } from "../Application/user-api.service";
+import { jwtDecode } from "jwt-decode";
 
 const loginSceneImg =
   "https://www.tillersystems.com/wp-content/uploads/2020/01/coworking-place-tiller.jpeg";
+
 const email = ref("");
 const passwordHash = ref("");
 const errorMessage = ref("");
@@ -32,6 +34,14 @@ const handleLogin = async () => {
     });
 
     localStorage.setItem("jwt", jwt);
+    const decoded = jwtDecode(jwt); // ✅ Cambiado aquí
+    const userId = decoded.nameid;
+
+    if (!userId) {
+      throw new Error("No se pudo obtener el ID de usuario del token");
+    }
+
+    localStorage.setItem("userId", userId);
     router.push("/dashboard");
   } catch (error) {
     errorMessage.value =
