@@ -126,9 +126,14 @@ onUnmounted(() => {
 
 .nav-links h1 {
   font-size: clamp(1rem, 2vw, 1.5rem);
-  text-decoration: underline;
+  text-decoration: none;
   color: #000;
   margin: 0;
+  transition: text-decoration 0.2s ease;
+}
+
+.nav-links h1:hover {
+  text-decoration: underline;
 }
 
 .nav-actions {

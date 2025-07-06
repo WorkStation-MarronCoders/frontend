@@ -36,8 +36,9 @@ const router = useRouter();
 
 <style scoped>
 .dashboard-container {
-  background-color: #f0f4f8;
+  background-color: #f4f4f4;
   min-height: 100vh;
+  padding: 10px;
 }
 
 .users-section {
