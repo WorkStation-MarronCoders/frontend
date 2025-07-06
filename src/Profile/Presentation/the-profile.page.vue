@@ -1,7 +1,7 @@
 <script setup>
 import NavBar from "@/Public/Presentation/nav-bar.component.vue";
 import { ref, onMounted } from "vue";
-import { UserApiService } from "../Application/user-api.service";
+import { UserApiService } from "../Application/user-api.service.js";
 
 const user = ref({
   firstName: "",
@@ -13,37 +13,38 @@ const user = ref({
 });
 
 const isEditing = ref(false);
+const isSaving = ref(false);
+const saveMessage = ref("");
+const userId = localStorage.getItem("userId");
 
 const fetchUserProfile = async () => {
   try {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      console.error("⚠️ No se encontró el userId en localStorage.");
-      return;
-    }
-    const userData = await UserApiService.getUserById(userId);
-    user.value = userData;
+    const data = await UserApiService.getUserById(userId);
+    user.value = data;
   } catch (error) {
-    console.error("❌ Error al obtener el perfil del usuario:", error);
+    console.error("Error al obtener el perfil del usuario:", error);
   }
 };
 
-const saveChanges = async () => {
+const saveUserProfile = async () => {
+  isSaving.value = true;
+  saveMessage.value = "";
   try {
-    const userId = localStorage.getItem("userId");
-    if (!userId) throw new Error("No se encontró userId.");
-
-    const payload = {
-      email: user.value.email,
-      phoneNumber: user.value.phoneNumber,
-    };
-
-    await UserApiService.updateUserContact(userId, payload);
+    await UserApiService.updateUser(userId, user.value);
     isEditing.value = false;
-    console.log("✅ Cambios guardados correctamente.");
+    saveMessage.value = "✅ Cambios guardados correctamente.";
+    setTimeout(() => (saveMessage.value = ""), 3000);
   } catch (error) {
-    console.error("❌ Error al guardar cambios:", error);
+    console.error("Error al actualizar el perfil del usuario:", error);
+    saveMessage.value = "❌ Hubo un error al guardar.";
+  } finally {
+    isSaving.value = false;
   }
+};
+
+const toggleEdit = () => {
+  isEditing.value = !isEditing.value;
+  saveMessage.value = "";
 };
 
 onMounted(fetchUserProfile);
@@ -53,7 +54,11 @@ onMounted(fetchUserProfile);
   <div class="profile">
     <NavBar />
 
-    <div class="content" role="region" aria-label="Sección de perfil de usuario">
+    <div
+      class="content"
+      role="region"
+      aria-label="Sección de perfil de usuario"
+    >
       <img
         src="../../../assets/backgrounds/profile-bg.jpg"
         alt="Fondo decorativo del perfil"
@@ -62,15 +67,21 @@ onMounted(fetchUserProfile);
       />
 
       <div class="profile-card-container">
-        <pv-card class="profile-card" aria-label="Tarjeta con información del perfil de usuario">
+        <pv-card class="profile-card" aria-label="Tarjeta de perfil editable">
           <template #title>
             <div class="card-header">
-              <pv-avatar icon="pi pi-user" size="xlarge" aria-label="Avatar de usuario" />
-              <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+              <pv-avatar
+                icon="pi pi-user"
+                size="xlarge"
+                aria-label="Avatar de usuario"
+              />
+              <span class="user-name">
+                {{ user.firstName }} {{ user.lastName }}
+              </span>
               <pv-button
                 class="button"
-                aria-label="Editar información del perfil"
-                @click="isEditing = !isEditing"
+                @click="toggleEdit"
+                aria-label="Editar perfil"
               >
                 {{ isEditing ? $t("profile.cancel") : $t("profile.edit") }}
               </pv-button>
@@ -78,38 +89,52 @@ onMounted(fetchUserProfile);
           </template>
 
           <template #content>
-            <p>
-              <strong>{{ $t("profile.dni") }}</strong> {{ user.dni }}
-            </p>
+            <div v-if="isEditing">
+              <label>{{ $t("profile.firstName") }}</label>
+              <pv-input-text v-model="user.firstName" />
 
-            <p v-if="isEditing">
-              <strong>{{ $t("profile.phone") }}</strong>
+              <label>{{ $t("profile.lastName") }}</label>
+              <pv-input-text v-model="user.lastName" />
+
+              <label>{{ $t("profile.dni") }}</label>
+              <pv-input-text v-model="user.dni" />
+
+              <label>{{ $t("profile.phone") }}</label>
               <pv-input-text v-model="user.phoneNumber" />
-            </p>
-            <p v-else>
-              <strong>{{ $t("profile.phone") }}</strong> {{ user.phoneNumber }}
-            </p>
 
-            <p v-if="isEditing">
-              <strong>{{ $t("profile.email") }}</strong>
+              <label>{{ $t("profile.email") }}</label>
               <pv-input-text v-model="user.email" />
-            </p>
-            <p v-else>
-              <strong>{{ $t("profile.email") }}</strong> {{ user.email }}
-            </p>
 
-            <p>
-              <strong>{{ $t("profile.role") }}</strong> {{ user.role }}
-            </p>
+              <label>{{ $t("profile.role") }}</label>
+              <pv-input-text :value="user.role" disabled />
 
-            <pv-button
-              v-if="isEditing"
-              class="save-button"
-              @click="saveChanges"
-              aria-label="Guardar cambios"
-            >
-              {{ $t("profile.save") }}
-            </pv-button>
+              <pv-button
+                class="button mt-4"
+                :disabled="isSaving"
+                @click="saveUserProfile"
+              >
+                {{ isSaving ? "Guardando..." : $t("profile.save") }}
+              </pv-button>
+
+              <p v-if="saveMessage" class="status-message">{{ saveMessage }}</p>
+            </div>
+
+            <div v-else>
+              <p>
+                <strong>{{ $t("profile.dni") }}</strong> {{ user.dni }}
+              </p>
+              <p>
+                <strong>{{ $t("profile.phone") }}</strong>
+                {{ user.phoneNumber }}
+              </p>
+              <p>
+                <strong>{{ $t("profile.email") }}</strong> {{ user.email }}
+              </p>
+              <p>
+                <strong>{{ $t("profile.role") }}</strong> {{ user.role }}
+              </p>
+              <p v-if="saveMessage" class="status-message">{{ saveMessage }}</p>
+            </div>
           </template>
         </pv-card>
       </div>
@@ -129,6 +154,12 @@ onMounted(fetchUserProfile);
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.status-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #2c3e50;
 }
 
 .bg-image {

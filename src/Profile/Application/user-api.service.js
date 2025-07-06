@@ -17,4 +17,14 @@ export const UserApiService = {
       throw error.response?.data || error;
     }
   },
+  async updateUser(userId, userData) {
+    try {
+      const response = await axios.put(`${UsersAPI}/${userId}`, userData);
+      return response.data;
+    } catch (error) {
+      if (import.meta.env.DEV)
+        console.error(`❌ Error updating user with ID ${userId}:`, error);
+      throw error.response?.data || error;
+    }
+  },
 };
