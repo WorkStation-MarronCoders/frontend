@@ -7,36 +7,36 @@
       role="region"
       aria-label="Listado de oficinas"
     >
-        <div class="header-section">
-          <div class="header-left">
-            <i class="pi pi-building header-icon" aria-hidden="true"></i>
-            <h1 class="header-title">{{ $t("properties.title") }}</h1>
-          </div>
-
-          <div class="filter-buttons">
-            <button
-              class="filter-button"
-              :class="{ active: statusFilter === 'all' }"
-              @click="statusFilter = 'all'"
-            >
-              {{ $t("properties.all") }}
-            </button>
-            <button
-              class="filter-button"
-              :class="{ active: statusFilter === 'available' }"
-              @click="statusFilter = 'available'"
-            >
-              {{ $t("properties.available") }}
-            </button>
-            <button
-              class="filter-button"
-              :class="{ active: statusFilter === 'unavailable' }"
-              @click="statusFilter = 'unavailable'"
-            >
-              {{ $t("properties.unavailable") }}
-            </button>
-          </div>
+      <div class="header-section">
+        <div class="header-left">
+          <i class="pi pi-building header-icon" aria-hidden="true"></i>
+          <h1 class="header-title">{{ $t("properties.title") }}</h1>
         </div>
+
+        <div class="filter-buttons">
+          <button
+            class="filter-button"
+            :class="{ active: statusFilter === 'all' }"
+            @click="statusFilter = 'all'"
+          >
+            {{ $t("properties.all") }}
+          </button>
+          <button
+            class="filter-button"
+            :class="{ active: statusFilter === 'available' }"
+            @click="statusFilter = 'available'"
+          >
+            {{ $t("properties.available") }}
+          </button>
+          <button
+            class="filter-button"
+            :class="{ active: statusFilter === 'unavailable' }"
+            @click="statusFilter = 'unavailable'"
+          >
+            {{ $t("properties.unavailable") }}
+          </button>
+        </div>
+      </div>
 
       <div class="offices-grid">
         <pv-card
@@ -296,11 +296,7 @@ const editForm = ref({
 onMounted(async () => {
   try {
     const response = await officesService.getAllOffices();
-    console.log("🔍 Raw API response:", response);
-    console.log("🔍 Response data:", response.data);
-
     offices.value = OfficeAssembler.toEntitiesFromResponse(response);
-    console.log("🔍 Assembled offices:", offices.value);
   } catch (error) {
     console.error("Error fetching offices:", error);
   }
@@ -338,7 +334,6 @@ const saveEdit = async (officeId) => {
       id: officeId,
       ...editForm.value,
     };
-    console.log("📦 Enviando payload al backend:", updatedOffice);
     await officesService.updateOffice(officeId, updatedOffice);
 
     const index = offices.value.findIndex((o) => o.id === officeId);
@@ -435,7 +430,6 @@ const paginatedOffices = computed(() => {
   const end = start + rowsPerPage.value;
   return filteredOffices.value.slice(start, end);
 });
-
 </script>
 
 <style scoped>

@@ -1,29 +1,37 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import LanguageSwitcher from '../../Public/Presentation/language-switcher.component.vue'
+import { ref, onMounted, onUnmounted } from "vue";
+import LanguageSwitcher from "../../Public/Presentation/language-switcher.component.vue";
+import { useRouter } from "vue-router";
 
-const showNav = ref(true)
-const isMobile = ref(window.innerWidth <= 768)
+const showNav = ref(true);
+const isMobile = ref(window.innerWidth <= 768);
+const userRole = ref(Number(localStorage.getItem("userRole")));
+const router = useRouter();
 
 function toggleNav() {
   if (isMobile.value) {
-    showNav.value = !showNav.value
+    showNav.value = !showNav.value;
   }
 }
 
+function handleLogout() {
+  localStorage.clear();
+  router.push("/login");
+}
+
 function handleResize() {
-  isMobile.value = window.innerWidth <= 768
-  showNav.value = !isMobile.value // mostrar siempre si no es móvil
+  isMobile.value = window.innerWidth <= 768;
+  showNav.value = !isMobile.value;
 }
 
 onMounted(() => {
-  window.addEventListener('resize', handleResize)
-  handleResize()
-})
+  window.addEventListener("resize", handleResize);
+  handleResize();
+});
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
-})
+  window.removeEventListener("resize", handleResize);
+});
 </script>
 
 <template>
@@ -33,7 +41,12 @@ onUnmounted(() => {
     </button>
   </div>
 
-  <nav v-show="showNav" class="navbar" role="navigation" aria-label="Barra de navegación principal">
+  <nav
+    v-show="showNav"
+    class="navbar"
+    role="navigation"
+    aria-label="Barra de navegación principal"
+  >
     <div class="logo">
       <router-link to="/dashboard" aria-label="Ir al inicio del panel">
         <img src="../../../assets/logo.jpg" alt="Logo del sitio" />
@@ -41,18 +54,37 @@ onUnmounted(() => {
     </div>
 
     <div class="nav-links">
-      <router-link to="/search" aria-label="Propiedades"><h1>{{ $t('dashboard.properties') }}</h1></router-link>
-      <router-link to="/properties" aria-label="Comparar Oficinas"><h1>{{ $t('dashboard.compareN') }}</h1></router-link>
-      <router-link to="/add-property" aria-label="Alquilar Oficinas"><h1>{{ $t('dashboard.rentN') }}</h1></router-link>
-      <router-link to="/plans" aria-label="Planes disponibles"><h1>{{ $t('dashboard.plan') }}</h1></router-link>
-      <router-link to="/profile" aria-label="Mi perfil"><h1>{{ $t('dashboard.profile') }}</h1></router-link>
+      <router-link v-if="userRole === 1" to="/search" aria-label="Propiedades"
+        ><h1>{{ $t("dashboard.properties") }}</h1></router-link
+      >
+      <router-link
+        v-if="userRole === 2"
+        to="/properties"
+        aria-label="Comparar Oficinas"
+        ><h1>{{ $t("dashboard.compareN") }}</h1></router-link
+      >
+      <router-link
+        v-if="userRole === 2"
+        to="/add-property"
+        aria-label="Alquilar Oficinas"
+        ><h1>{{ $t("dashboard.rentN") }}</h1></router-link
+      >
+      <router-link to="/plans" aria-label="Planes disponibles"
+        ><h1>{{ $t("dashboard.plan") }}</h1></router-link
+      >
+      <router-link to="/profile" aria-label="Mi perfil"
+        ><h1>{{ $t("dashboard.profile") }}</h1></router-link
+      >
     </div>
 
     <div class="nav-actions">
-      <router-link to="/login" aria-label="Cerrar sesión">
-        <pv-button :label="$t('dashboard.logout')" class="logout-button" />
-      </router-link>
-      <LanguageSwitcher/>
+      <pv-button
+        :label="$t('dashboard.logout')"
+        class="logout-button"
+        @click="handleLogout"
+        aria-label="Cerrar sesión"
+      />
+      <LanguageSwitcher />
     </div>
   </nav>
 </template>
@@ -75,7 +107,6 @@ onUnmounted(() => {
   color: #0f0e2f;
   margin-left: 3.5rem;
 }
-
 
 @media (max-width: 768px) {
   .mobile-menu-trigger {

@@ -3,35 +3,25 @@ import { OfficeService } from "../Domain/officeservice.entity.js";
 
 export class OfficeAssembler {
   static toEntitiesFromResponse(response) {
-    console.log("🔍 Processing response:", response);
-
     if (!response || !response.data) {
-      console.error("❌ No response or missing data in response:", response);
+      //console.error("❌ No response or missing data in response:", response);
       return [];
     }
 
     const data = response.data.data ?? response.data;
-    console.log("🔍 Extracted data:", data);
 
     if (!Array.isArray(data)) {
-      console.error("❌ Expected array of offices in response, got:", data);
+      //console.error("❌ Expected array of offices in response, got:", data);
       return [];
     }
 
-    console.log("🔍 About to map", data.length, "offices");
-
-    // Mapear directamente sin llamar a otros métodos de la clase
     const result = data
       .map((resource) => {
-        console.log("🔍 Processing resource:", resource);
-
         if (!resource) {
-          console.error("❌ Resource is null or undefined:", resource);
           return null;
         }
 
         try {
-          // Procesar servicios directamente
           const services = [];
           const servicesData = resource.services || resource.Services || [];
 
@@ -49,7 +39,6 @@ export class OfficeAssembler {
             });
           }
 
-          // Crear la entidad Office directamente
           const office = new Office(
             resource.id || resource.Id,
             resource.location || resource.Location,
@@ -59,7 +48,7 @@ export class OfficeAssembler {
             services
           );
 
-          console.log("✅ Created office:", office);
+          console.log("✅ Created office:");
           return office;
         } catch (error) {
           console.error(
@@ -72,13 +61,11 @@ export class OfficeAssembler {
       })
       .filter((office) => office !== null);
 
-    console.log("🔍 Final result:", result);
     return result;
   }
 
   static toResourceFromEntity(office) {
     if (!office) {
-      console.error("❌ Office entity is null or undefined");
       return null;
     }
 

@@ -27,4 +27,14 @@ export const UserApiService = {
       throw error.response?.data || error;
     }
   },
+  async getUserById(userId) {
+    try {
+      const response = await axios.get(`${UsersAPI}/${userId}`);
+      return response.data;
+    } catch (error) {
+      if (import.meta.env.DEV)
+        console.error(`❌ Error getting user with ID ${userId}:`, error);
+      throw error.response?.data || error;
+    }
+  },
 };

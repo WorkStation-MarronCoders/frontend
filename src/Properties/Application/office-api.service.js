@@ -5,30 +5,22 @@ const API_BASE_URL =
 
 const OfficesAPI = `${API_BASE_URL}/api/workstation/office`;
 
-//console.log("Final API URL:", OfficesAPI);
-
 export class OfficesAPIService {
   async createOffice(office) {
-    //console.log("Creating office with URL:", OfficesAPI);
     return await axios.post(OfficesAPI, office);
   }
 
   async getAllOffices() {
-    //console.log("Getting all offices from URL:", OfficesAPI);
     try {
       const response = await axios.get(OfficesAPI);
-      //console.log("Response status:", response.status);
-      //console.log("Response headers:", response.headers);
+
       return response;
     } catch (error) {
-      //console.error("Error in getAllOffices:", error);
-      //console.error("Error response:", error.response?.data);
       throw error;
     }
   }
 
   async deleteOffice(id) {
-    //console.log("Deleting office with URL:", `${OfficesAPI}/${id}`);
     return await axios.delete(`${OfficesAPI}/${id}`);
   }
   async updateOffice(id, office) {

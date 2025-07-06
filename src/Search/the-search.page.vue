@@ -19,7 +19,7 @@ const apiService = new OfficeSearchAPIService();
 
 const performSearch = async () => {
   if (isSearching.value) {
-    console.log("🔄 Search already in progress, skipping...");
+    console.log("Search already in progress, skipping...");
     return;
   }
 
@@ -28,28 +28,27 @@ const performSearch = async () => {
     selectedOffice.value = null;
 
     if (query.value.trim()) {
-      console.log("🔍 Searching for location:", query.value.trim());
       const response = await apiService.getOfficeByLocation(query.value.trim());
 
-      console.log("📡 API Response:", response);
+      //console.log("API Response:", response);
 
       const offices = OfficeAssembler.toEntitiesFromResponse(response);
       results.value = offices;
 
       if (results.value.length === 0) {
-        console.log("⚠️ No offices found for location:", query.value.trim());
+        //console.log("No offices found for location:", query.value.trim());
       }
     } else {
       await fetchOffices();
     }
   } catch (error) {
-    console.error("❌ Error al buscar oficina:", error);
+    console.error("Error al buscar oficina:", error);
 
     if (error.response?.status === 404) {
-      console.log("⚠️ No office found for location:", query.value.trim());
+      //console.log("No office found for location:", query.value.trim());
       results.value = [];
     } else {
-      console.error("❌ Unexpected error:", error);
+      console.error("Unexpected error:", error);
       results.value = [];
     }
   } finally {

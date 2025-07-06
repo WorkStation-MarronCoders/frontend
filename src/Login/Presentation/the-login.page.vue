@@ -26,7 +26,7 @@ const handleLogin = async () => {
   errorMessage.value = "";
 
   if (!isFormValid()) {
-    errorMessage.value = t("register.errors.fillAllFields"); 
+    errorMessage.value = t("register.errors.fillAllFields");
     return;
   }
 
@@ -43,16 +43,21 @@ const handleLogin = async () => {
     if (!userId) {
       throw new Error(t("register.errors.tokenMissingUserId"));
     }
-
     localStorage.setItem("userId", userId);
+
+    const userDetails = await UserApiService.getUserById(userId);
+    const userRole = userDetails.role;
+    if (!userRole) {
+      throw new Error("No se pudo obtener el rol del usuario");
+    }
+
+    localStorage.setItem("userRole", userRole);
     router.push("/dashboard");
   } catch (error) {
-    errorMessage.value =
-      error?.message || t("register.errors.failed");
+    errorMessage.value = error?.message || t("register.errors.failed");
     console.error(" Error durante el login:", error);
   }
 };
-
 </script>
 
 <template>
@@ -229,7 +234,7 @@ span {
   color: #666;
 }
 
-.error-message{
+.error-message {
   color: red;
   justify-content: center;
 }

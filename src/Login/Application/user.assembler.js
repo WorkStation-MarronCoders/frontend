@@ -3,7 +3,6 @@ import { User } from "../Domain/user.entity";
 export class UserAssembler {
   static toEntityFromResponse(response) {
     if (!response || !response.data) {
-      console.error("❌ Invalid response for user:", response);
       return null;
     }
 
