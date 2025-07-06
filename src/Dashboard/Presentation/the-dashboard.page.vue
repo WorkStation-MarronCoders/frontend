@@ -11,161 +11,144 @@ const router = useRouter();
     <nav-bar-component />
     <theTitleComponent />
 
-    <section
-      class="services"
-      role="region"
-      aria-label="Accesos rápidos del dashboard"
-    >
-      <router-link to="/search" aria-label="Buscar espacios de trabajo">
-        <div class="service-card">
-          <img
-            src="../../../assets/buscar.png"
-            alt="Icono de búsqueda de espacios de trabajo"
-          />
-          <div class="service-info">
-            <p>{{ $t("dashboard.search") }}</p>
-          </div>
-        </div>
-      </router-link>
+    <section class="users-section">
+    <h2 class="section-title">{{ $t("dashboard.users") }}</h2>
+    <div class="user-cards">
+      <div class="user-card">
+        <i class="pi pi-code user-icon" aria-hidden="true"></i>
+        <h3 class="user-title">{{ $t("dashboard.developer") }}</h3>
+        <p class="user-description">
+          {{ $t("dashboard.developerDescription") }}
+        </p>
+      </div>
 
-      <router-link to="/properties" aria-label="Comparar espacios disponibles">
-        <div class="service-card">
-          <img
-            src="../../../assets/comparar.jpg"
-            alt="Icono de comparación de espacios"
-          />
-          <div class="service-info">
-            <p>{{ $t("dashboard.compare") }}</p>
-          </div>
-        </div>
-      </router-link>
-
-      <router-link to="/add-property" aria-label="Publicar mi propiedad">
-        <div class="service-card">
-          <img
-            src="../../../assets/propietario.jpeg"
-            alt="Icono para agregar propiedad"
-          />
-          <div class="service-info">
-            <p>{{ $t("dashboard.rent") }}</p>
-          </div>
-        </div>
-      </router-link>
-    </section>
+      <div class="user-card">
+        <i class="pi pi-briefcase user-icon" aria-hidden="true"></i>
+        <h3 class="user-title">{{ $t("dashboard.corporate") }}</h3>
+        <p class="user-description">
+          {{ $t("dashboard.corporateDescription") }}
+        </p>
+      </div>
+    </div>
+  </section>
   </div>
 </template>
 
 <style scoped>
 .dashboard-container {
-  background-color: #f5f5f5;
+  background-color: #f0f4f8;
   min-height: 100vh;
-  padding: clamp(0.75rem, 2vw, 1.5rem);
 }
 
-.services {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  align-items: center;
-  justify-content: center;
+.users-section {
+  background:  #0f0e2f;
+  padding: 2rem 1rem;
+  color: #ffffff;
+  text-align: center;
 }
 
-.service-card {
-  display: flex;
-  align-items: center;
-  background: #ffffff;
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+  color: #eaf2ff;
+}
+
+.user-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  place-items: center;
+}
+
+.user-card {
+  background-color: #171836;
+  border-radius: 16px;
+  padding: 2rem;
   width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  padding: 1rem;
-  margin: 0.75rem 0;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-.service-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-  background-color: #e0f2f1;
+.user-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 
-.service-card img {
-  width: 140px;
-  height: 140px;
-  border-radius: 8px;
-  object-fit: cover;
-  aspect-ratio: 1 / 1;
-  flex-shrink: 0;
-  background-color: #e0e0e0; /* relleno suave si hay transparencias */
+.user-icon {
+  font-size: 3rem;
+  color: #63c7d2;
+  transition: color 0.3s ease;
 }
 
-
-.service-info {
-  flex: 1;
-  padding-left: 1rem;
+.user-card:hover .user-icon {
+  color: #17e3b7;
 }
 
-.service-info p {
-  font-size: clamp(1rem, 2.2vw, 1.3rem);
+.user-title {
+  font-size: 2rem;
   font-weight: 600;
-  color: #212121;
+  color: white;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+.user-description {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #d2d7ff;
 }
 
 @media (max-width: 1024px) {
-  .service-card {
-    max-width: 95%;
+  .user-cards {
+    gap: 1.5rem;
+  }
+
+  .user-card {
+    max-width: 320px;
+    padding: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
-  .services {
-    flex-direction: column;
-    align-items: stretch;
+  .users-section {
+    padding: 3rem 1rem;
   }
 
-  .service-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 1rem;
+  .user-card {
+    min-height: 240px;
   }
 
-  .service-card img {
-    width: 80px;
-    height: 80px;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 12px;
-    margin: 0 auto;
+  .user-title {
+    font-size: 1.3rem;
   }
 
-  .service-info {
-    padding-left: 0;
-    padding-top: 0.5rem;
-  }
-
-  .service-info p {
-    font-size: clamp(0.9rem, 4vw, 1rem);
+  .user-description {
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
   .dashboard-container {
-    padding: 0.5rem;
+    padding: 1rem;
   }
 
-  .service-card {
-    padding: 0.75rem;
+  .section-title {
+    font-size: 1.8rem;
   }
 
-  .service-info p {
-    font-size: 1rem;
+  .user-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .user-description {
+    font-size: 0.9rem;
   }
 }
+
 
 </style>

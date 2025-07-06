@@ -12,10 +12,11 @@ const user = ref({
   role: "",
 });
 
+const isEditing = ref(false);
+
 const fetchUserProfile = async () => {
   try {
     const userId = localStorage.getItem("userId");
-
     if (!userId) {
       console.error("⚠️ No se encontró el userId en localStorage.");
       return;
@@ -27,6 +28,24 @@ const fetchUserProfile = async () => {
   }
 };
 
+const saveChanges = async () => {
+  try {
+    const userId = localStorage.getItem("userId");
+    if (!userId) throw new Error("No se encontró userId.");
+
+    const payload = {
+      email: user.value.email,
+      phoneNumber: user.value.phoneNumber,
+    };
+
+    await UserApiService.updateUserContact(userId, payload);
+    isEditing.value = false;
+    console.log("✅ Cambios guardados correctamente.");
+  } catch (error) {
+    console.error("❌ Error al guardar cambios:", error);
+  }
+};
+
 onMounted(fetchUserProfile);
 </script>
 
@@ -34,11 +53,7 @@ onMounted(fetchUserProfile);
   <div class="profile">
     <NavBar />
 
-    <div
-      class="content"
-      role="region"
-      aria-label="Sección de perfil de usuario"
-    >
+    <div class="content" role="region" aria-label="Sección de perfil de usuario">
       <img
         src="../../../assets/backgrounds/profile-bg.jpg"
         alt="Fondo decorativo del perfil"
@@ -47,25 +62,17 @@ onMounted(fetchUserProfile);
       />
 
       <div class="profile-card-container">
-        <pv-card
-          class="profile-card"
-          aria-label="Tarjeta con información del perfil de usuario"
-        >
+        <pv-card class="profile-card" aria-label="Tarjeta con información del perfil de usuario">
           <template #title>
             <div class="card-header">
-              <pv-avatar
-                icon="pi pi-user"
-                size="xlarge"
-                aria-label="Avatar de usuario"
-              />
-              <span class="user-name"
-                >{{ user.firstName }} {{ user.lastName }}</span
-              >
+              <pv-avatar icon="pi pi-user" size="xlarge" aria-label="Avatar de usuario" />
+              <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
               <pv-button
                 class="button"
                 aria-label="Editar información del perfil"
+                @click="isEditing = !isEditing"
               >
-                {{ $t("profile.edit") }}
+                {{ isEditing ? $t("profile.cancel") : $t("profile.edit") }}
               </pv-button>
             </div>
           </template>
@@ -74,15 +81,35 @@ onMounted(fetchUserProfile);
             <p>
               <strong>{{ $t("profile.dni") }}</strong> {{ user.dni }}
             </p>
-            <p>
+
+            <p v-if="isEditing">
+              <strong>{{ $t("profile.phone") }}</strong>
+              <pv-input-text v-model="user.phoneNumber" />
+            </p>
+            <p v-else>
               <strong>{{ $t("profile.phone") }}</strong> {{ user.phoneNumber }}
             </p>
-            <p>
+
+            <p v-if="isEditing">
+              <strong>{{ $t("profile.email") }}</strong>
+              <pv-input-text v-model="user.email" />
+            </p>
+            <p v-else>
               <strong>{{ $t("profile.email") }}</strong> {{ user.email }}
             </p>
+
             <p>
               <strong>{{ $t("profile.role") }}</strong> {{ user.role }}
             </p>
+
+            <pv-button
+              v-if="isEditing"
+              class="save-button"
+              @click="saveChanges"
+              aria-label="Guardar cambios"
+            >
+              {{ $t("profile.save") }}
+            </pv-button>
           </template>
         </pv-card>
       </div>
@@ -120,28 +147,38 @@ onMounted(fetchUserProfile);
 
 .profile-card {
   width: 100%;
-  max-width: 400px;
+  max-width: 440px;
   background-color: #ffffff;
-  border-radius: 10px;
+  border-radius: 12px;
   color: #0f0e2f;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  padding: 1.5rem;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.button {
+.user-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #1e1e3f;
+}
+
+.button,
+.save-button {
   background-color: #0f0e2f;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
 }
 
 @media (max-width: 600px) {
@@ -154,7 +191,8 @@ onMounted(fetchUserProfile);
     margin-top: -40px;
   }
 
-  .button {
+  .button,
+  .save-button {
     width: 100%;
     text-align: center;
   }

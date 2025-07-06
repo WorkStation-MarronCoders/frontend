@@ -60,7 +60,15 @@
         "search": "Busca espacios de trabajo",
         "compare": "Compara espacios de trabajo",
         "rent": "Alquila con nosotros",
-        "addProperty": "Agregar Propiedad"
+        "addProperty": "Agregar Propiedad",
+        "searchN": "Busca Oficinas",
+        "compareN": "Compara Oficinas",
+        "rentN": "Alquila Oficinas",
+        "users": "Nuestros Usuarios",
+        "developer": "Programadores",
+        "corporate": "Propietarios Corporativos",
+        "developerDescription": "Los programadores son profesionales que crean software y aplicaciones. Buscan espacios de trabajo que fomenten la creatividad y la colaboración.",
+        "corporateDescription": "Los propietarios corporativos son empresas que ofrecen oficinas y espacios de trabajo. Buscan arrendatarios confiables y espacios bien ubicados."
     },
     "plans": {
         "title": "Elige tu plan:",
@@ -124,7 +132,9 @@
         "email": "E-mail: ",
         "edit": "Editar",
         "dni": "DNI: ",
-        "role": "Rol: "
+        "role": "Rol: ",
+        "save": "Guardar",
+        "cancel": "Cancelar"
     },
     "searchResults": {    
   

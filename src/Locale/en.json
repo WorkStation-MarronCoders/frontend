@@ -60,7 +60,15 @@
         "search": "Search for workspaces",
         "compare": "Compare workspaces",
         "rent": "Rent with us",
-        "addProperty": "Add a Property"
+        "addProperty": "Add a Property",
+        "searchN": "Search Offices",
+        "compareN": "Compare Offices",
+        "rentN": "Rent Offices",
+        "users": "Our Users",
+        "developer": "Developers",
+        "corporate": "Corporate Owners",
+        "developerDescription": "Developers are professionals who create software and applications. They seek workspaces that foster creativity and collaboration.",
+        "corporateDescription": "Corporate owners are companies that offer offices and workspaces. They seek trustworthy accommodations and well-located spaces."
     },
     "plans": {
         "title": "Choose your plan:",
@@ -122,7 +130,9 @@
         "email": "E-mail: ",
         "edit": "Edit",
         "dni": "DNI: ",
-        "role": "Role: "
+        "role": "Role: ",
+        "save": "Save",
+        "cancel": "Cancel"
     },
     "searchResults": {
 
@@ -157,8 +167,8 @@
         "title": "Properties",
         "location": "Location",
         "capacity": "Capacity",
-        "disponible": "Disponible",
-        "nodisponible": "No disponible",
+        "disponible": "Available",
+        "nodisponible": "Not available",
         "status": "Status",
         "price": "Price per day",
         "delete": "Delete",

@@ -281,7 +281,7 @@ const offices = ref([]);
 const toast = ref();
 
 const first = ref(0);
-const rowsPerPage = ref(5);
+const rowsPerPage = ref(4);
 
 const editingOffice = ref(null);
 const saving = ref(false);
@@ -418,7 +418,6 @@ const items = ref([
   },
 ]);
 
-// Filtro por disponibilidad
 const statusFilter = ref("all");
 
 const filteredOffices = computed(() => {

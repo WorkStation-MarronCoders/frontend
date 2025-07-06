@@ -18,7 +18,7 @@
               :aria-label="$t('addProperty.location')"
               class="w-full"
             />
-            <label for="office-location">{{ $t("addProperty.location") }}</label>
+            <label class="text" for="office-location">{{ $t("addProperty.location") }}</label>
           </pv-float-label>
           <small v-if="backendErrors.Location" class="error-text">
             {{ backendErrors.Location[0] }}
@@ -47,6 +47,9 @@
               id="office-cost"
               type="number"
               v-model.number="form.costPerDay"
+              mode="currency"
+              currency="PEN"
+              locale="es-PE"
               required
               min="0"
               :aria-label="$t('addProperty.price')"
@@ -58,7 +61,6 @@
             {{ backendErrors.CostPerDay[0] }}
           </small>
 
-          <!-- Available -->
           <div class="available-section">
             <select-button
               v-model="form.available"
@@ -70,7 +72,6 @@
 
           <pv-divider />
 
-          <!-- Services Section -->
           <div class="services-section">
             <h3>{{ $t("addProperty.services.title") }}</h3>
 
@@ -85,7 +86,7 @@
             >
               <template #content>
                 <div class="service-fields">
-                  <!-- Service Name -->
+
                   <pv-float-label>
                     <pv-input-text
                       :id="`service-name-${index}`"
@@ -111,7 +112,7 @@
                     }}
                   </small>
 
-                  <!-- Service Description -->
+
                   <pv-float-label>
                     <pv-input-text
                       :id="`service-description-${index}`"
@@ -136,7 +137,7 @@
                     }}
                   </small>
 
-                  <!-- Service Cost -->
+
                   <pv-float-label>
                     <pv-input-text
                       :id="`service-cost-${index}`"
@@ -191,7 +192,7 @@
 
           <pv-divider />
 
-          <!-- Submit Button -->
+
           <pv-button
             type="submit"
             :aria-label="$t('addProperty.submit')"
@@ -210,6 +211,14 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import navBarComponent from "@/Public/Presentation/nav-bar.component.vue";
 import { OfficesAPIService } from "../Application/office-api.service";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
+const availableOptions = ref([
+  { label: t("properties.disponible"), value: true },
+  { label: t("properties.nodisponible"), value: false },
+]);
 
 const router = useRouter();
 const officesService = new OfficesAPIService();
@@ -223,11 +232,6 @@ const form = ref({
 });
 
 const backendErrors = ref({});
-
-const availableOptions = ref([
-  { label: "Disponible", value: true },
-  { label: "No Disponible", value: false },
-]);
 
 const addService = () => {
   form.value.services.push({
@@ -285,21 +289,22 @@ const submitForm = async () => {
   background-color: #f4f4f4;
   min-height: 100vh;
   padding: 10px;
-  color: #fff;
+  color: #0f0e2f;
 }
 
 .add-office-card {
   max-width: 800px;
   margin: 20px auto;
-  padding: 20px;
+  padding: 24px;
   background-color: #ffffff;
   color: #0f0e2f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
 }
 
-.error-text {
-  color: red;
-  font-size: 0.875rem;
-  margin-top: 4px;
+h1, h3, label {
+  color: #0f0e2f;
+  font-weight: 600;
 }
 
 .office-form {
@@ -309,42 +314,54 @@ const submitForm = async () => {
   color: #0f0e2f;
 }
 
+input[type="text"],
+input[type="number"],
+.p-inputtext {
+  background-color: #f9f9f9;
+  color: #0f0e2f;
+  border: 1px solid #0f0e2f;
+  padding: 10px;
+  border-radius: 6px;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+.p-inputtext:focus {
+  border-color: #1f1e4a;
+  box-shadow: 0 0 0 2px rgba(15, 14, 47, 0.2);
+  outline: none;
+}
+
+.error-text {
+  color: #b00020;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
 .available-section {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .services-section {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
 }
 
 .service-card {
-  border: 1px solid #e0e0e0;
-  background-color: #ffffff; 
+  border: 1px solid #dcdcdc;
+  background-color: #ffffff;
   color: #0f0e2f;
+  border-radius: 8px;
 }
 
 .service-fields {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-}
-
-.remove-service-btn {
-  align-self: flex-start;
-  background-color: #e0e0e0;
-  color: #0f0e2f;
-  border: none;
-}
-
-.add-service-btn {
-  align-self: flex-start;
-  border: 1px solid #0f0e2f;
-  background-color: #ffffff;
-  color: #0f0e2f;
+  gap: 25px;
 }
 
 .submit-btn {
@@ -352,19 +369,111 @@ const submitForm = async () => {
   padding: 12px 30px;
   font-size: 16px;
   background-color: #0f0e2f;
-  color: white;
+  color: #ffffff;
   border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: #1f1e4a;
+}
+
+.add-service-btn {
+  align-self: flex-start;
+  border: 1px solid #0f0e2f;
+  background-color: transparent;
+  color: #0f0e2f;
+  border-radius: 6px;
+  padding: 8px 20px;
+  transition: all 0.2s ease;
+}
+
+.add-service-btn:hover {
+  background-color: #1f1e4a;
+  color: #ffffff;
+  border-color: #1f1e4a;
+}
+
+.remove-service-btn {
+  align-self: flex-start;
+  background-color: #ffffff;
+  border: 1px solid #b00020;
+  color: #b00020;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.remove-service-btn:hover {
+  background-color: #b00020;
+  color: #ffffff;
 }
 
 .w-full {
   width: 100%;
 }
 
-input[type="text"],
-input[type="number"] {
-  background-color: #f5f5f5;
+.p-selectbutton .p-button {
+  background-color: #ffffff;
+  border: 1px solid #0f0e2f;
   color: #0f0e2f;
-  border: 1px solid #ccc;
+  transition: all 0.2s ease;
+  padding: 8px 14px;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+.p-selectbutton .p-button.p-highlight {
+  background-color: #0f0e2f;
+  color: #ffffff;
+  border-color: #0f0e2f;
+}
+
+.p-selectbutton .p-button:hover {
+  background-color: #1f1e4a;
+  color: #ffffff;
+  border-color: #1f1e4a;
+}
+
+.p-divider {
+  border-top: 1px solid #cccccc;
+}
+
+:deep(.p-float-label > label) {
+  color: #6c757d !important;
+}
+
+:deep(.p-inputtext:focus),
+:deep(.p-inputtext:hover) {
+  border-color: #1f1e4a !important;
+  box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+}
+
+:deep(.add-service-btn) {
+  background: #0f0e2f !important;
+  color: #ffffff !important;
+}
+
+:deep(.add-service-btn :hover) {
+  background: #111033 !important;
+  transform: scale(1.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+:deep(.submit-btn) {
+  background: #0f0e2f !important;
+  color: #ffffff !important;
+}
+
+:deep(.submit-btn :hover) {
+  background: #111033 !important;
+  transform: scale(1.1);
+  transition: all 0.5s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 </style>
