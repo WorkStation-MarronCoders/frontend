@@ -41,8 +41,8 @@ onUnmounted(() => {
     </div>
 
     <div class="nav-links">
-      <router-link to="/search" aria-label="Propiedades"><h1>{{ $t('dashboard.properties') }}</h1></router-link>
-      <router-link to="/plans" aria-label="Planes disponibles"><h1>{{ $t('dashboard.plan') }}</h1></router-link>
+      <router-link to="/properties" aria-label="Comparar Oficinas"><h1>{{ $t('dashboard.compareN') }}</h1></router-link>
+      <router-link to="/add-property" aria-label="Alquilar Oficinas"><h1>{{ $t('dashboard.rentN') }}</h1></router-link>
       <router-link to="/profile" aria-label="Mi perfil"><h1>{{ $t('dashboard.profile') }}</h1></router-link>
     </div>
 
