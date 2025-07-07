@@ -124,6 +124,8 @@
         "select": "Select an option"
     },
     "profile" : {
+        "firstName": "First Name: ",
+        "lastName": "Last Name: ",
         "nickname": "Nickname: ",
         "address": "Address: ",
         "phone": "Phone number: ",

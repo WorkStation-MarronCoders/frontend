@@ -90,23 +90,35 @@ onMounted(fetchUserProfile);
 
           <template #content>
             <div v-if="isEditing">
-              <label>{{ $t("profile.firstName") }}</label>
-              <pv-input-text v-model="user.firstName" />
+              <div class="field-group">
+                <label>{{ $t("profile.firstName") }}</label>
+                <pv-input-text v-model="user.firstName" />
+              </div>
 
-              <label>{{ $t("profile.lastName") }}</label>
-              <pv-input-text v-model="user.lastName" />
+              <div class="field-group">
+                <label>{{ $t("profile.lastName") }}</label>
+                <pv-input-text v-model="user.lastName" />
+              </div>
 
-              <label>{{ $t("profile.dni") }}</label>
-              <pv-input-text v-model="user.dni" />
+              <div class="field-group">
+                <label>{{ $t("profile.dni") }}</label>
+                <pv-input-text v-model="user.dni" />
+              </div>
 
-              <label>{{ $t("profile.phone") }}</label>
-              <pv-input-text v-model="user.phoneNumber" />
+              <div class="field-group">
+                <label>{{ $t("profile.phone") }}</label>
+                <pv-input-text v-model="user.phoneNumber" />
+              </div>
 
-              <label>{{ $t("profile.email") }}</label>
-              <pv-input-text v-model="user.email" />
+              <div class="field-group">
+                <label>{{ $t("profile.email") }}</label>
+                <pv-input-text v-model="user.email" />
+              </div>
 
-              <label>{{ $t("profile.role") }}</label>
-              <pv-input-text :value="user.role" disabled />
+              <div class="field-group">
+                <label>{{ $t("profile.role") }}</label>
+                <pv-input-text :value="user.role" disabled />
+              </div>
 
               <pv-button
                 class="button mt-4"
@@ -198,6 +210,10 @@ onMounted(fetchUserProfile);
   font-weight: 600;
   font-size: 1.2rem;
   color: #1e1e3f;
+}
+
+.field-group {
+  margin-bottom: 1rem;
 }
 
 .button,

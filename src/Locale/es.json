@@ -126,6 +126,8 @@
         "select": "Seleccionar una opción"
     },
     "profile" : {
+        "firstName": "Nombre: ",
+        "lastName": "Apellido: ",
         "nickname": "Apodo: ",
         "address": "Direccion: ",
         "phone": "Nro telefono: ",
