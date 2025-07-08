@@ -325,33 +325,20 @@ onMounted(async () => {
               :key="item.id"
               class="office-card">
               <img
-                :src="`/assets/office${(index % 5) + 1}.png`"
-                alt="Imagen de oficina"
-                class="office-image" />
-
-              <div class="office-title">
-                {{ item.location }}
-              </div>
-              class="result-card border rounded-lg p-4 shadow-sm bg-white
-              hover:shadow-md transition-shadow" role="listitem" >
-              <div class="flex flex-col md:flex-row gap-4">
-                <!-- Imagen de la oficina -->
-                <div class="office-image-container">
-                  <img
                     :src="item.imageUrl || '/placeholder-office.jpg'"
                     :alt="`Imagen de ${item.location}`"
                     class="office-image"
                     @error="$event.target.src = '/placeholder-office.jpg'" />
-                </div>
 
-                <!-- Contenido de la oficina -->
+
+              <div class="office-title">
+                {{ item.location }}
+              </div>
+              <div class="flex flex-col md:flex-row gap-4">
+                
+
                 <div class="flex-1">
-                  <div class="flex justify-between items-start mb-3">
-                    <h3 class="font-semibold text-lg text-primary">
-                      {{ item.location }}
-                    </h3>
-                  </div>
-
+                  
                   <div class="office-rating">
                     <template v-for="i in 5" :key="i">
                       <i
@@ -363,8 +350,11 @@ onMounted(async () => {
                   </div>
 
                   <div class="office-description">
-                    Espacio ideal para equipos colaborativos, reuniones o
-                    trabajo individual.
+                    <p
+                      v-if="item.description"
+                      class="description">
+                      {{ item.description }}
+                    </p>
                   </div>
 
                   <hr class="office-divider" />
@@ -384,30 +374,8 @@ onMounted(async () => {
                       {{ item.available ? "Sí" : "No" }}
                     </p>
                   </div>
-                  <!-- Descripción -->
-                  <p
-                    v-if="item.description"
-                    class="text-gray-600 mb-3 text-sm leading-relaxed">
-                    {{ item.description }}
-                  </p>
+                  
 
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                    <div class="flex items-center text-gray-600">
-                      <i class="fas fa-users mr-2"></i>
-                      <span
-                        ><strong>Capacidad:</strong>
-                        {{ item.capacity }} personas</span
-                      >
-                    </div>
-                    <div class="flex items-center text-gray-600">
-                      <i class="fas fa-dollar-sign mr-2"></i>
-                      <span
-                        ><strong>Precio:</strong> S/.{{
-                          item.costPerDay
-                        }}/día</span
-                      >
-                    </div>
-                  </div>
 
                   <div class="office-action">
                     <button
@@ -417,12 +385,6 @@ onMounted(async () => {
                       Reservar
                     </button>
                   </div>
-                  <button
-                    @click="selectOffice(item)"
-                    class="green-button w-full md:w-auto"
-                    :disabled="!item.available">
-                    {{ item.available ? "Ver detalles" : "No disponible" }}
-                  </button>
                 </div>
               </div>
             </div>
@@ -919,7 +881,6 @@ onMounted(async () => {
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
   color: #4b5563;
-  flex-grow: 1;
 }
 
 .office-divider {
