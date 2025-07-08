@@ -9,6 +9,8 @@ export class Office {
   constructor(
     id,
     location,
+    description,
+    imageUrl,
     capacity,
     costPerDay,
     available = true,
@@ -16,6 +18,8 @@ export class Office {
   ) {
     this.id = id;
     this.location = location;
+    this.description = description;
+    this.imageUrl = imageUrl;
     this.capacity = capacity;
     this.costPerDay = costPerDay;
     this.available = available;

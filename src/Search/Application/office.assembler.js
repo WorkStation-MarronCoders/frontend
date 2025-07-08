@@ -48,6 +48,8 @@ export class OfficeAssembler {
           const office = new Office(
             resource.id || resource.Id,
             resource.location || resource.Location,
+            resource.description || resource.Description,
+            resource.imageUrl || resource.ImageUrl,
             resource.capacity || resource.Capacity,
             resource.costPerDay || resource.CostPerDay,
             resource.available ?? resource.Available ?? true,
@@ -81,6 +83,8 @@ export class OfficeAssembler {
       id: office.id,
       location: office.location,
       capacity: office.capacity,
+      description: office.description,
+      imageUrl: office.imageUrl,
       costPerDay: office.costPerDay,
       available: office.available,
       services:

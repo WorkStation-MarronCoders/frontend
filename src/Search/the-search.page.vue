@@ -78,7 +78,7 @@ const fetchOffices = async () => {
 
 const selectOffice = async (office) => {
   selectedOffice.value = { ...office, services: [] };
-  console.log("not implemented yet");
+  //console.log("not implemented yet");
 };
 
 const filteredResults = computed(() => {
@@ -254,7 +254,7 @@ onMounted(fetchOffices);
             {{ $t("search.clearFilters") }}
           </button>
 
-          <div v-if="hasActiveFilters" class="active-filters-card"W>
+          <div v-if="hasActiveFilters" class="active-filters-card">
             <p class="title">{{ $t("search.hasActiveFilters") }}:</p>
             <div class="tags">
               <span v-if="filters.capacityMin" class="tag">
@@ -328,51 +328,95 @@ onMounted(fetchOffices);
               class="result-card border rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition-shadow"
               role="listitem"
             >
-              <div class="flex justify-between items-start mb-3">
-                <h3 class="font-semibold text-lg text-primary">
-                  {{ item.location }}
-                </h3>
-              </div>
-
-              <div class="grid grid-cols-2 gap-4 mb-3">
-                <div class="flex items-center text-gray-600">
-                  <i class="fas fa-users mr-2"></i>
-                  <span><strong>Capacidad:</strong> {{ item.capacity }} personas</span>
+              <div class="flex flex-col md:flex-row gap-4">
+                <!-- Imagen de la oficina -->
+                <div class="office-image-container">
+                  <img
+                    :src="item.imageUrl || '/placeholder-office.jpg'"
+                    :alt="`Imagen de ${item.location}`"
+                    class="office-image"
+                    @error="$event.target.src = '/placeholder-office.jpg'"
+                  />
                 </div>
-                <div class="flex items-center text-gray-600">
-                  <i class="fas fa-dollar-sign mr-2"></i>
-                  <span><strong>Precio:</strong> S/.{{ item.costPerDay }}/día</span>
+
+                <!-- Contenido de la oficina -->
+                <div class="flex-1">
+                  <div class="flex justify-between items-start mb-3">
+                    <h3 class="font-semibold text-lg text-primary">
+                      {{ item.location }}
+                    </h3>
+                  </div>
+
+                  <!-- Descripción -->
+                  <p v-if="item.description" class="text-gray-600 mb-3 text-sm leading-relaxed">
+                    {{ item.description }}
+                  </p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                    <div class="flex items-center text-gray-600">
+                      <i class="fas fa-users mr-2"></i>
+                      <span><strong>Capacidad:</strong> {{ item.capacity }} personas</span>
+                    </div>
+                    <div class="flex items-center text-gray-600">
+                      <i class="fas fa-dollar-sign mr-2"></i>
+                      <span><strong>Precio:</strong> S/.{{ item.costPerDay }}/día</span>
+                    </div>
+                  </div>
+
+                  <button
+                    @click="selectOffice(item)"
+                    class="green-button w-full md:w-auto"
+                    :disabled="!item.available"
+                  >
+                    {{ item.available ? "Ver detalles" : "No disponible" }}
+                  </button>
                 </div>
               </div>
-
-              <button
-                @click="selectOffice(item)"
-                class="green-button w-full md:w-auto"
-                :disabled="!item.available"
-              >
-                {{ item.available ? "Ver detalles" : "No disponible" }}
-              </button>
             </div>
           </div>
         </div>
 
         <div v-else class="result-card border rounded p-4 bg-white shadow-md">
-          <h2 class="font-bold text-xl mb-2 text-primary">
-            {{ $t("search.details") }}
-          </h2>
-          <p><strong>{{ $t("search.ubicacion") }}:</strong> {{ selectedOffice.location }}</p>
-          <p><strong>{{ $t("search.capacitacion") }}:</strong> {{ selectedOffice.capacity }}</p>
-          <p>
-            <strong>{{ $t("search.precio") }}:</strong> S/.{{ selectedOffice.costPerDay }}
-          </p>
-          <p>
-            <strong>{{ $t("search.disponible") }}:</strong>
-            {{ selectedOffice.available ? "Sí" : "No" }}
-          </p>
+          <div class="flex flex-col md:flex-row gap-6">
+            <!-- Imagen en vista de detalles -->
+            <div class="detail-image-container">
+              <img
+                :src="selectedOffice.imageUrl || '/placeholder-office.jpg'"
+                :alt="`Imagen de ${selectedOffice.location}`"
+                class="detail-image"
+                @error="$event.target.src = '/placeholder-office.jpg'"
+              />
+            </div>
 
-          <button @click="selectedOffice = null" class="green-button mt-4">
-            Volver a resultados
-          </button>
+            <!-- Contenido de detalles -->
+            <div class="flex-1">
+              <h2 class="font-bold text-xl mb-4 text-primary">
+                {{ $t("search.details") }}
+              </h2>
+              
+              <div class="space-y-3">
+                <p><strong>{{ $t("search.ubicacion") }}:</strong> {{ selectedOffice.location }}</p>
+                
+                <div v-if="selectedOffice.description">
+                  <p><strong>{{ $t("search.descripcion") }}:</strong></p>
+                  <p class="text-gray-600 mt-1 leading-relaxed">{{ selectedOffice.description }}</p>
+                </div>
+                
+                <p><strong>{{ $t("search.capacitacion") }}:</strong> {{ selectedOffice.capacity }} personas</p>
+                <p><strong>{{ $t("search.precio") }}:</strong> S/.{{ selectedOffice.costPerDay }}/día</p>
+                <p>
+                  <strong>{{ $t("search.disponible") }}:</strong>
+                  <span :class="selectedOffice.available ? 'text-green-600' : 'text-red-600'">
+                    {{ selectedOffice.available ? "Sí" : "No" }}
+                  </span>
+                </p>
+              </div>
+
+              <button @click="selectedOffice = null" class="green-button mt-4">
+                Volver a resultados
+              </button>
+            </div>
+          </div>
         </div>
       </main>
     </div>
@@ -636,6 +680,42 @@ onMounted(fetchOffices);
   cursor: not-allowed;
 }
 
+/* Estilos para las imágenes de oficinas */
+.office-image-container {
+  width: 200px;
+  height: 140px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background-color: #f3f4f6;
+}
+
+.office-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.office-image:hover {
+  transform: scale(1.05);
+}
+
+.detail-image-container {
+  width: 100%;
+  max-width: 300px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 1rem;
+  background-color: #f3f4f6;
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .details-card {
   padding: 2rem;
   border-radius: 1rem;
@@ -714,6 +794,16 @@ onMounted(fetchOffices);
 
   .range-values {
     font-size: 0.75rem;
+  }
+
+  .office-image-container {
+    width: 100%;
+    height: 180px;
+  }
+
+  .detail-image-container {
+    max-width: 100%;
+    height: 180px;
   }
 }
 

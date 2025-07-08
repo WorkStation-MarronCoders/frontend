@@ -5,8 +5,7 @@
     <div
       class="container mx-auto p-4"
       role="region"
-      aria-label="Listado de oficinas"
-    >
+      aria-label="Listado de oficinas">
       <div class="header-section">
         <div class="header-left">
           <i class="pi pi-building header-icon" aria-hidden="true"></i>
@@ -17,22 +16,19 @@
           <button
             class="filter-button"
             :class="{ active: statusFilter === 'all' }"
-            @click="statusFilter = 'all'"
-          >
+            @click="statusFilter = 'all'">
             {{ $t("properties.all") }}
           </button>
           <button
             class="filter-button"
             :class="{ active: statusFilter === 'available' }"
-            @click="statusFilter = 'available'"
-          >
+            @click="statusFilter = 'available'">
             {{ $t("properties.available") }}
           </button>
           <button
             class="filter-button"
             :class="{ active: statusFilter === 'unavailable' }"
-            @click="statusFilter = 'unavailable'"
-          >
+            @click="statusFilter = 'unavailable'">
             {{ $t("properties.unavailable") }}
           </button>
         </div>
@@ -44,8 +40,7 @@
           :key="office.id"
           class="office-card"
           :class="{ editing: editingOffice === office.id }"
-          :aria-label="`Oficina: ${office.location}, Capacidad: ${office.capacity} personas, Precio: $${office.costPerDay} por día`"
-        >
+          :aria-label="`Oficina: ${office.location}, Capacidad: ${office.capacity} personas, Precio: $${office.costPerDay} por día`">
           <template #title>
             <div v-if="editingOffice !== office.id">
               {{ office.location }}
@@ -57,8 +52,7 @@
                 type="text"
                 class="edit-input"
                 @keyup.enter="saveEdit(office.id)"
-                @keyup.escape="cancelEdit"
-              />
+                @keyup.escape="cancelEdit" />
             </div>
           </template>
 
@@ -66,6 +60,19 @@
             <div class="office-details">
               <!-- Modo vista -->
               <div v-if="editingOffice !== office.id">
+                <p class="description" v-if="office.description">
+                  <strong>Descripción:</strong> {{ office.description }}
+                </p>
+
+                <p class="image-url" v-if="office.imageUrl">
+                  <strong>Imagen:</strong>
+                  <a
+                    :href="office.imageUrl"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    Ver imagen
+                  </a>
+                </p>
                 <p class="capacity">
                   <strong>{{ $t("properties.capacity") }}:</strong>
                   {{ office.capacity }} personas
@@ -87,15 +94,13 @@
                 </p>
                 <div
                   v-if="office.services && office.services.length > 0"
-                  class="services-section"
-                >
+                  class="services-section">
                   <strong>{{ $t("properties.services") }}:</strong>
                   <ul class="services-list">
                     <li
                       v-for="service in office.services"
                       :key="service.name"
-                      class="service-item"
-                    >
+                      class="service-item">
                       <div class="service-info">
                         <span class="service-name">{{ service.name }}</span>
                         <span
@@ -115,6 +120,24 @@
               <!-- Modo edición -->
               <div v-else class="edit-form">
                 <div class="edit-field">
+                  <label class="edit-label">Descripción:</label>
+                  <textarea
+                    v-model="editForm.description"
+                    class="edit-input"
+                    rows="3"
+                    placeholder="Descripción de la oficina"></textarea>
+                </div>
+
+                <div class="edit-field">
+                  <label class="edit-label">URL de imagen:</label>
+                  <input
+                    v-model="editForm.imageUrl"
+                    type="url"
+                    class="edit-input"
+                    placeholder="https://imagen.com/oficina.jpg" />
+                </div>
+
+                <div class="edit-field">
                   <label class="edit-label">Capacidad:</label>
                   <input
                     v-model.number="editForm.capacity"
@@ -122,8 +145,7 @@
                     class="edit-input"
                     min="1"
                     @keyup.enter="saveEdit(office.id)"
-                    @keyup.escape="cancelEdit"
-                  />
+                    @keyup.escape="cancelEdit" />
                 </div>
 
                 <div class="edit-field">
@@ -135,8 +157,7 @@
                     min="0"
                     step="0.01"
                     @keyup.enter="saveEdit(office.id)"
-                    @keyup.escape="cancelEdit"
-                  />
+                    @keyup.escape="cancelEdit" />
                 </div>
 
                 <div class="edit-field">
@@ -145,8 +166,7 @@
                     v-model="editForm.available"
                     class="edit-select"
                     @keyup.enter="saveEdit(office.id)"
-                    @keyup.escape="cancelEdit"
-                  >
+                    @keyup.escape="cancelEdit">
                     <option :value="true">Disponible</option>
                     <option :value="false">No disponible</option>
                   </select>
@@ -158,43 +178,37 @@
                     <div
                       v-for="(service, index) in editForm.services"
                       :key="index"
-                      class="service-edit-item"
-                    >
+                      class="service-edit-item">
                       <div class="service-inputs">
                         <input
                           v-model="service.name"
                           type="text"
                           class="service-input"
-                          placeholder="Nombre del servicio"
-                        />
+                          placeholder="Nombre del servicio" />
                         <textarea
                           v-model="service.description"
                           class="service-description-input"
                           placeholder="Descripción del servicio"
-                          rows="2"
-                        ></textarea>
+                          rows="2"></textarea>
                         <input
                           v-model.number="service.cost"
                           type="number"
                           class="service-cost-input"
                           placeholder="Costo"
                           min="0"
-                          step="0.01"
-                        />
+                          step="0.01" />
                       </div>
                       <button
                         @click="removeService(index)"
                         class="remove-service-btn"
-                        type="button"
-                      >
+                        type="button">
                         ×
                       </button>
                     </div>
                     <button
                       @click="addService"
                       class="add-service-btn"
-                      type="button"
-                    >
+                      type="button">
                       + Agregar servicio
                     </button>
                   </div>
@@ -204,15 +218,13 @@
                   <button
                     @click="saveEdit(office.id)"
                     class="save-btn"
-                    :disabled="saving"
-                  >
+                    :disabled="saving">
                     {{ saving ? "Guardando..." : "Guardar" }}
                   </button>
                   <button
                     @click="cancelEdit"
                     class="cancel-btn"
-                    :disabled="saving"
-                  >
+                    :disabled="saving">
                     Cancelar
                   </button>
                 </div>
@@ -229,16 +241,14 @@
                 size="small"
                 @click="startEdit(office)"
                 :aria-label="`Editar oficina ${office.location}`"
-                class="edit-button"
-              />
+                class="edit-button" />
               <pv-button
                 :label="$t('properties.delete')"
                 severity="danger"
                 size="small"
                 @click="handleDelete(office.id)"
                 :aria-label="`Eliminar oficina ${office.location}`"
-                class="delete-button"
-              />
+                class="delete-button" />
             </div>
           </template>
         </pv-card>
@@ -251,8 +261,7 @@
           :total-records="offices.length"
           :rows-per-page-options="[4, 8, 12]"
           template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-          @page="onPageChange"
-        />
+          @page="onPageChange" />
       </div>
     </div>
 
@@ -261,8 +270,7 @@
       direction="up"
       :style="{ position: 'fixed', right: '2rem', bottom: '2rem' }"
       class="speed-dial"
-      aria-label="Menú flotante para agregar oficina"
-    />
+      aria-label="Menú flotante para agregar oficina" />
 
     <pv-toast ref="toast" />
   </div>
@@ -287,6 +295,8 @@ const editingOffice = ref(null);
 const saving = ref(false);
 const editForm = ref({
   location: "",
+  description: "",
+  imageUrl: "",
   capacity: 0,
   costPerDay: 0,
   available: true,
@@ -306,6 +316,8 @@ const startEdit = (office) => {
   editingOffice.value = office.id;
   editForm.value = {
     location: office.location,
+    description: office.description,
+    imageUrl: office.imageUrl,
     capacity: office.capacity,
     costPerDay: office.costPerDay,
     available: office.available,
@@ -317,6 +329,8 @@ const cancelEdit = () => {
   editingOffice.value = null;
   editForm.value = {
     location: "",
+    description: "",
+    imageUrl: "",
     capacity: 0,
     costPerDay: 0,
     available: true,

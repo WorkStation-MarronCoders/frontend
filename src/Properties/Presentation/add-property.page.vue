@@ -16,12 +16,43 @@
               v-model="form.location"
               required
               :aria-label="$t('addProperty.location')"
-              class="w-full"
-            />
-            <label class="text" for="office-location">{{ $t("addProperty.location") }}</label>
+              class="w-full" />
+            <label class="text" for="office-location">{{
+              $t("addProperty.location")
+            }}</label>
           </pv-float-label>
           <small v-if="backendErrors.Location" class="error-text">
             {{ backendErrors.Location[0] }}
+          </small>
+          <!-- Description -->
+          <pv-float-label>
+            <pv-input-text
+              id="office-description"
+              v-model="form.description"
+              :aria-label="$t('addProperty.description')"
+              class="w-full"
+              required />
+            <label for="office-description">{{
+              $t("addProperty.description")
+            }}</label>
+          </pv-float-label>
+          <small v-if="backendErrors.Description" class="error-text">
+            {{ backendErrors.Description[0] }}
+          </small>
+
+          <!-- Image URL -->
+          <pv-float-label>
+            <pv-input-text
+              id="office-image-url"
+              v-model="form.imageUrl"
+              :aria-label="$t('addProperty.imageUrl')"
+              class="w-full" />
+            <label for="office-image-url">{{
+              $t("addProperty.imageUrl")
+            }}</label>
+          </pv-float-label>
+          <small v-if="backendErrors.ImageUrl" class="error-text">
+            {{ backendErrors.ImageUrl[0] }}
           </small>
 
           <!-- Capacity -->
@@ -33,9 +64,10 @@
               required
               min="1"
               :aria-label="$t('addProperty.capacity')"
-              class="w-full"
-            />
-            <label for="office-capacity">{{ $t("addProperty.capacity") }}</label>
+              class="w-full" />
+            <label for="office-capacity">{{
+              $t("addProperty.capacity")
+            }}</label>
           </pv-float-label>
           <small v-if="backendErrors.Capacity" class="error-text">
             {{ backendErrors.Capacity[0] }}
@@ -53,8 +85,7 @@
               required
               min="0"
               :aria-label="$t('addProperty.price')"
-              class="w-full"
-            />
+              class="w-full" />
             <label for="office-cost">{{ $t("addProperty.price") }}</label>
           </pv-float-label>
           <small v-if="backendErrors.CostPerDay" class="error-text">
@@ -66,8 +97,7 @@
               v-model="form.available"
               :options="availableOptions"
               option-label="label"
-              option-value="value"
-            />
+              option-value="value" />
           </div>
 
           <pv-divider />
@@ -82,19 +112,16 @@
             <pv-card
               v-for="(service, index) in form.services"
               :key="index"
-              class="service-card"
-            >
+              class="service-card">
               <template #content>
                 <div class="service-fields">
-
                   <pv-float-label>
                     <pv-input-text
                       :id="`service-name-${index}`"
                       v-model="service.name"
                       required
                       :aria-label="$t('addProperty.services.name')"
-                      class="w-full"
-                    />
+                      class="w-full" />
                     <label :for="`service-name-${index}`">{{
                       $t("addProperty.services.name")
                     }}</label>
@@ -104,22 +131,19 @@
                       backendErrors[`Services[${index}].Name`] ||
                       backendErrors[`Services.${index}.Name`]
                     "
-                    class="error-text"
-                  >
+                    class="error-text">
                     {{
                       backendErrors[`Services[${index}].Name`] ||
                       backendErrors[`Services.${index}.Name`][0]
                     }}
                   </small>
 
-
                   <pv-float-label>
                     <pv-input-text
                       :id="`service-description-${index}`"
                       v-model="service.description"
                       :aria-label="$t('addProperty.services.description')"
-                      class="w-full"
-                    />
+                      class="w-full" />
                     <label :for="`service-description-${index}`">{{
                       $t("addProperty.services.description")
                     }}</label>
@@ -129,14 +153,12 @@
                       backendErrors[`Services[${index}].Description`] ||
                       backendErrors[`Services.${index}.Description`]
                     "
-                    class="error-text"
-                  >
+                    class="error-text">
                     {{
                       backendErrors[`Services[${index}].Description`] ||
                       backendErrors[`Services.${index}.Description`][0]
                     }}
                   </small>
-
 
                   <pv-float-label>
                     <pv-input-text
@@ -145,8 +167,7 @@
                       v-model.number="service.cost"
                       min="0"
                       :aria-label="$t('addProperty.services.cost')"
-                      class="w-full"
-                    />
+                      class="w-full" />
                     <label :for="`service-cost-${index}`">{{
                       $t("addProperty.services.cost")
                     }}</label>
@@ -156,8 +177,7 @@
                       backendErrors[`Services[${index}].Cost`] ||
                       backendErrors[`Services.${index}.Cost`]
                     "
-                    class="error-text"
-                  >
+                    class="error-text">
                     {{
                       backendErrors[`Services[${index}].Cost`] ||
                       backendErrors[`Services.${index}.Cost`][0]
@@ -170,8 +190,7 @@
                     :aria-label="$t('addProperty.services.removeService')"
                     severity="danger"
                     size="small"
-                    class="remove-service-btn"
-                  >
+                    class="remove-service-btn">
                     {{ $t("addProperty.services.removeService") }}
                   </pv-button>
                 </div>
@@ -184,20 +203,17 @@
               :aria-label="$t('addProperty.services.add')"
               severity="success"
               outlined
-              class="add-service-btn"
-            >
+              class="add-service-btn">
               {{ $t("addProperty.services.add") }}
             </pv-button>
           </div>
 
           <pv-divider />
 
-
           <pv-button
             type="submit"
             :aria-label="$t('addProperty.submit')"
-            class="submit-btn"
-          >
+            class="submit-btn">
             {{ $t("addProperty.submit") }}
           </pv-button>
         </form>
@@ -225,6 +241,8 @@ const officesService = new OfficesAPIService();
 
 const form = ref({
   location: "",
+  description: "",
+  imageUrl: "",
   capacity: null,
   costPerDay: null,
   available: true,
@@ -250,6 +268,8 @@ const submitForm = async () => {
   try {
     const officeData = {
       location: form.value.location,
+      description: form.value.description,
+      imageUrl: form.value.imageUrl,
       capacity: form.value.capacity,
       costPerDay: form.value.costPerDay,
       available: form.value.available,
@@ -264,6 +284,8 @@ const submitForm = async () => {
 
     form.value = {
       location: "",
+      description: "",
+      imageUrl: "",
       capacity: null,
       costPerDay: null,
       available: true,
@@ -302,7 +324,9 @@ const submitForm = async () => {
   border-radius: 10px;
 }
 
-h1, h3, label {
+h1,
+h3,
+label {
   color: #0f0e2f;
   font-weight: 600;
 }
@@ -475,5 +499,4 @@ input[type="number"]:focus,
   transition: all 0.5s ease;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
-
 </style>
