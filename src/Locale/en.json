@@ -182,20 +182,24 @@
     "search":{
         "filters": "Filters",
         "capacity": "Capacity (people)",
-        "price": "Price per day (S/.)",
+        "cap": "Capacity: ",
+        "pri": "Price: ",
+        "perDay": "per day",
+        "price": "Price per day ($)",
         "onlyAvailable": "Only available offices",
         "clearFilters": "Clear filters",
         "hasActiveFilters": "Active filters",
         "capacitymin": "Min capacity: ",
         "capacitymax": "Max capacity: ",
-        "pricemin": "Min price: S/.",   
-        "pricemax": "Max price: S/.",
+        "pricemin": "Min price: $",   
+        "pricemax": "Max price: $",
         "results": "Results: ",
         "noresults": "No results found",
         "details": "Office details",
         "ubicacion": "Location",
         "capacitacion": "Capacity",
         "precio": "Price per day",
-        "disponible": "Available"
+        "disponible": "Available",
+        "back": "Back to results"
     }
 }

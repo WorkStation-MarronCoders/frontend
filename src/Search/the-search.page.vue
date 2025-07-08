@@ -33,7 +33,6 @@ const performSearch = async () => {
       results.value = offices;
 
       if (results.value.length === 0) {
-        //console.log("No offices found for location:", query.value.trim());
       }
     } else {
       await fetchOffices();
@@ -83,13 +82,8 @@ const selectOffice = async (office) => {
 
 const filteredResults = computed(() => {
   return results.value.filter((item) => {
-    const {
-      capacityMin,
-      capacityMax,
-      priceMin,
-      priceMax,
-      onlyAvailable
-    } = filters.value;
+    const { capacityMin, capacityMax, priceMin, priceMax, onlyAvailable } =
+      filters.value;
 
     const capacityMinOk = !capacityMin || item.capacity >= capacityMin;
     const capacityMaxOk = !capacityMax || item.capacity <= capacityMax;
@@ -98,8 +92,11 @@ const filteredResults = computed(() => {
     const availabilityOk = !onlyAvailable || item.available;
 
     return (
-      capacityMinOk && capacityMaxOk &&
-      priceMinOk && priceMaxOk && availabilityOk
+      capacityMinOk &&
+      capacityMaxOk &&
+      priceMinOk &&
+      priceMaxOk &&
+      availabilityOk
     );
   });
 });
@@ -151,7 +148,12 @@ const getResultsStats = computed(() => {
   };
 });
 
-onMounted(fetchOffices);
+onMounted(async () => {
+  await fetchOffices();
+  results.value.forEach((office) => {
+    office.fakeRating = Math.floor(Math.random() * 3) + 3;
+  });
+});
 </script>
 
 <template>
@@ -161,8 +163,7 @@ onMounted(fetchOffices);
     <section
       class="search-header flex items-center mb-6"
       role="search"
-      aria-label="Buscar oficinas"
-    >
+      aria-label="Buscar oficinas">
       <input
         v-model="query"
         @keyup.enter="handleEnterKey"
@@ -170,15 +171,13 @@ onMounted(fetchOffices);
         placeholder="Buscar oficinas..."
         class="flex-1 border rounded-full px-4 py-2 focus:outline-none"
         aria-label="Campo de búsqueda"
-        :disabled="isSearching"
-      />
+        :disabled="isSearching" />
       <button
         @click="handleSearchClick"
         class="green-button"
         :class="{ 'opacity-50 cursor-not-allowed': isSearching }"
         :disabled="isSearching"
-        aria-label="Buscar"
-      >
+        aria-label="Buscar">
         {{ isSearching ? "Buscando..." : "Buscar" }}
       </button>
     </section>
@@ -187,9 +186,7 @@ onMounted(fetchOffices);
       <aside
         class="filters-panel"
         role="region"
-        aria-label="Filtros de búsqueda"
-      >
-
+        aria-label="Filtros de búsqueda">
         <div class="filters-card">
           <h2 class="filters-title">{{ $t("search.filters") }}</h2>
 
@@ -200,14 +197,16 @@ onMounted(fetchOffices);
                 type="range"
                 v-model.number="filters.capacityMin"
                 :min="getResultsStats?.capacity.min || 25"
-                :max="filters.capacityMax || getResultsStats?.capacity.max || 50"
-              />
+                :max="
+                  filters.capacityMax || getResultsStats?.capacity.max || 50
+                " />
               <input
                 type="range"
                 v-model.number="filters.capacityMax"
-                :min="filters.capacityMin || getResultsStats?.capacity.min || 25"
-                :max="getResultsStats?.capacity.max || 50"
-              />
+                :min="
+                  filters.capacityMin || getResultsStats?.capacity.min || 25
+                "
+                :max="getResultsStats?.capacity.max || 50" />
               <div class="range-values">
                 <span>Min: {{ filters.capacityMin }}</span>
                 <span>Max: {{ filters.capacityMax }}</span>
@@ -222,17 +221,15 @@ onMounted(fetchOffices);
                 type="range"
                 v-model.number="filters.priceMin"
                 :min="getResultsStats?.price.min || 0"
-                :max="filters.priceMax || getResultsStats?.price.max || 1000"
-              />
+                :max="filters.priceMax || getResultsStats?.price.max || 1000" />
               <input
                 type="range"
                 v-model.number="filters.priceMax"
                 :min="filters.priceMin || getResultsStats?.price.min || 0"
-                :max="getResultsStats?.price.max || 1000"
-              />
+                :max="getResultsStats?.price.max || 1000" />
               <div class="range-values">
-                <span>Min: S/.{{ filters.priceMin }}</span>
-                <span>Max: S/.{{ filters.priceMax }}</span>
+                <span>Min: ${{ filters.priceMin }}</span>
+                <span>Max: ${{ filters.priceMax }}</span>
               </div>
             </div>
           </div>
@@ -242,15 +239,15 @@ onMounted(fetchOffices);
               <input type="checkbox" v-model="filters.onlyAvailable" />
               <span class="slider"></span>
             </label>
-            <span class="filter-label ml-2">{{ $t("search.onlyAvailable") }}</span>
+            <span class="filter-label ml-2">{{
+              $t("search.onlyAvailable")
+            }}</span>
           </div>
-
 
           <button
             v-if="hasActiveFilters"
             @click="clearFilters"
-            class="clear-filters-btn"
-          >
+            class="clear-filters-btn">
             {{ $t("search.clearFilters") }}
           </button>
 
@@ -258,36 +255,39 @@ onMounted(fetchOffices);
             <p class="title">{{ $t("search.hasActiveFilters") }}:</p>
             <div class="tags">
               <span v-if="filters.capacityMin" class="tag">
-                <i class="fas fa-users"></i> {{ $t("search.capacitymin") }}{{ filters.capacityMin }}
+                <i class="fas fa-users"></i> {{ $t("search.capacitymin")
+                }}{{ filters.capacityMin }}
               </span>
               <span v-if="filters.capacityMax" class="tag">
-                <i class="fas fa-users"></i> {{ $t("search.capacitymax") }}{{ filters.capacityMax }}
+                <i class="fas fa-users"></i> {{ $t("search.capacitymax")
+                }}{{ filters.capacityMax }}
               </span>
               <span v-if="filters.priceMin" class="tag">
-                <i class="fas fa-dollar-sign"></i> {{ $t("search.pricemin") }}{{ filters.priceMin }}
+                <i class="fas fa-dollar-sign"></i> {{ $t("search.pricemin")
+                }}{{ filters.priceMin }}
               </span>
               <span v-if="filters.priceMax" class="tag">
-                <i class="fas fa-dollar-sign"></i> {{ $t("search.pricemax") }}{{ filters.priceMax }}
+                <i class="fas fa-dollar-sign"></i> {{ $t("search.pricemax")
+                }}{{ filters.priceMax }}
               </span>
             </div>
           </div>
-
         </div>
       </aside>
 
       <main
         class="results w-full md:w-3/4"
         role="region"
-        aria-label="Resultados de búsqueda"
-      >
+        aria-label="Resultados de búsqueda">
         <div v-if="!selectedOffice">
           <div class="results-header mb-4">
             <div class="flex items-center justify-between">
               <div>
-                <span class="font-bold text-lg">{{ $t("search.results") }}</span>
+                <span class="font-bold text-lg">{{
+                  $t("search.results")
+                }}</span>
                 <small class="ml-2 text-gray-600">{{ paginatedText }}</small>
               </div>
-
             </div>
 
             <div
@@ -296,8 +296,7 @@ onMounted(fetchOffices);
                 filteredResults.length === 0 &&
                 hasActiveFilters
               "
-              class="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded"
-            >
+              class="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded">
               <p class="text-yellow-800 text-sm">
                 <i class="fas fa-exclamation-triangle mr-2"></i>
                 {{ $t("search.noresults") }}
@@ -307,8 +306,7 @@ onMounted(fetchOffices);
 
           <div
             v-if="filteredResults.length === 0 && !hasActiveFilters"
-            class="text-center py-8"
-          >
+            class="text-center py-8">
             <p class="text-gray-500 text-lg">
               {{
                 query.trim()
@@ -321,13 +319,21 @@ onMounted(fetchOffices);
             </p>
           </div>
 
-          <div v-else role="list" class="space-y-4">
+          <div v-else class="results-grid">
             <div
-              v-for="item in filteredResults"
+              v-for="(item, index) in filteredResults"
               :key="item.id"
-              class="result-card border rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition-shadow"
-              role="listitem"
-            >
+              class="office-card">
+              <img
+                :src="`/assets/office${(index % 5) + 1}.png`"
+                alt="Imagen de oficina"
+                class="office-image" />
+
+              <div class="office-title">
+                {{ item.location }}
+              </div>
+              class="result-card border rounded-lg p-4 shadow-sm bg-white
+              hover:shadow-md transition-shadow" role="listitem" >
               <div class="flex flex-col md:flex-row gap-4">
                 <!-- Imagen de la oficina -->
                 <div class="office-image-container">
@@ -335,8 +341,7 @@ onMounted(fetchOffices);
                     :src="item.imageUrl || '/placeholder-office.jpg'"
                     :alt="`Imagen de ${item.location}`"
                     class="office-image"
-                    @error="$event.target.src = '/placeholder-office.jpg'"
-                  />
+                    @error="$event.target.src = '/placeholder-office.jpg'" />
                 </div>
 
                 <!-- Contenido de la oficina -->
@@ -347,27 +352,75 @@ onMounted(fetchOffices);
                     </h3>
                   </div>
 
+                  <div class="office-rating">
+                    <template v-for="i in 5" :key="i">
+                      <i
+                        v-if="i <= (item.fakeRating || 0)"
+                        class="fas fa-star star-filled"></i>
+                      <i v-else class="far fa-star star-empty"></i>
+                    </template>
+                    <span class="rating-number"></span>
+                  </div>
+
+                  <div class="office-description">
+                    Espacio ideal para equipos colaborativos, reuniones o
+                    trabajo individual.
+                  </div>
+
+                  <hr class="office-divider" />
+
+                  <div class="office-info">
+                    <p>
+                      <strong>{{ $t("search.capacitacion") }}:</strong>
+                      {{ item.capacity }}
+                    </p>
+                    <p>
+                      <strong>{{ $t("search.precio") }}:</strong> ${{
+                        item.costPerDay
+                      }}
+                    </p>
+                    <p>
+                      <strong>{{ $t("search.disponible") }}:</strong>
+                      {{ item.available ? "Sí" : "No" }}
+                    </p>
+                  </div>
                   <!-- Descripción -->
-                  <p v-if="item.description" class="text-gray-600 mb-3 text-sm leading-relaxed">
+                  <p
+                    v-if="item.description"
+                    class="text-gray-600 mb-3 text-sm leading-relaxed">
                     {{ item.description }}
                   </p>
 
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                     <div class="flex items-center text-gray-600">
                       <i class="fas fa-users mr-2"></i>
-                      <span><strong>Capacidad:</strong> {{ item.capacity }} personas</span>
+                      <span
+                        ><strong>Capacidad:</strong>
+                        {{ item.capacity }} personas</span
+                      >
                     </div>
                     <div class="flex items-center text-gray-600">
                       <i class="fas fa-dollar-sign mr-2"></i>
-                      <span><strong>Precio:</strong> S/.{{ item.costPerDay }}/día</span>
+                      <span
+                        ><strong>Precio:</strong> S/.{{
+                          item.costPerDay
+                        }}/día</span
+                      >
                     </div>
                   </div>
 
+                  <div class="office-action">
+                    <button
+                      @click="showReservationMessage(item)"
+                      :disabled="!item.available"
+                      class="reserve-button">
+                      Reservar
+                    </button>
+                  </div>
                   <button
                     @click="selectOffice(item)"
                     class="green-button w-full md:w-auto"
-                    :disabled="!item.available"
-                  >
+                    :disabled="!item.available">
                     {{ item.available ? "Ver detalles" : "No disponible" }}
                   </button>
                 </div>
@@ -384,8 +437,7 @@ onMounted(fetchOffices);
                 :src="selectedOffice.imageUrl || '/placeholder-office.jpg'"
                 :alt="`Imagen de ${selectedOffice.location}`"
                 class="detail-image"
-                @error="$event.target.src = '/placeholder-office.jpg'"
-              />
+                @error="$event.target.src = '/placeholder-office.jpg'" />
             </div>
 
             <!-- Contenido de detalles -->
@@ -393,20 +445,39 @@ onMounted(fetchOffices);
               <h2 class="font-bold text-xl mb-4 text-primary">
                 {{ $t("search.details") }}
               </h2>
-              
+
               <div class="space-y-3">
-                <p><strong>{{ $t("search.ubicacion") }}:</strong> {{ selectedOffice.location }}</p>
-                
+                <p>
+                  <strong>{{ $t("search.ubicacion") }}:</strong>
+                  {{ selectedOffice.location }}
+                </p>
+
                 <div v-if="selectedOffice.description">
-                  <p><strong>{{ $t("search.descripcion") }}:</strong></p>
-                  <p class="text-gray-600 mt-1 leading-relaxed">{{ selectedOffice.description }}</p>
+                  <p>
+                    <strong>{{ $t("search.descripcion") }}:</strong>
+                  </p>
+                  <p class="text-gray-600 mt-1 leading-relaxed">
+                    {{ selectedOffice.description }}
+                  </p>
                 </div>
-                
-                <p><strong>{{ $t("search.capacitacion") }}:</strong> {{ selectedOffice.capacity }} personas</p>
-                <p><strong>{{ $t("search.precio") }}:</strong> S/.{{ selectedOffice.costPerDay }}/día</p>
+
+                <p>
+                  <strong>{{ $t("search.capacitacion") }}:</strong>
+                  {{ selectedOffice.capacity }} personas
+                </p>
+                <p>
+                  <strong>{{ $t("search.precio") }}:</strong> S/.{{
+                    selectedOffice.costPerDay
+                  }}/día
+                </p>
                 <p>
                   <strong>{{ $t("search.disponible") }}:</strong>
-                  <span :class="selectedOffice.available ? 'text-green-600' : 'text-red-600'">
+                  <span
+                    :class="
+                      selectedOffice.available
+                        ? 'text-green-600'
+                        : 'text-red-600'
+                    ">
                     {{ selectedOffice.available ? "Sí" : "No" }}
                   </span>
                 </p>
@@ -458,7 +529,7 @@ onMounted(fetchOffices);
 }
 
 .search-header button {
-  background-color: #1e3a8a; 
+  background-color: #1e3a8a;
   color: #ffffff;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -468,7 +539,7 @@ onMounted(fetchOffices);
 }
 
 .search-header button:hover:not(:disabled) {
-  background-color: #1e1e3f; 
+  background-color: #1e1e3f;
 }
 
 .search-header button:disabled {
@@ -481,6 +552,12 @@ onMounted(fetchOffices);
   max-width: 300px;
   padding: 1rem;
   animation: fadeIn 0.4s ease-in-out;
+}
+
+.office-image {
+  height: 12rem;
+  object-fit: cover;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .filters-card {
@@ -774,11 +851,113 @@ onMounted(fetchOffices);
 }
 
 .green-button:hover:not(:disabled) {
-  background-color: #059669;
+  background-color: #03593e;
 }
 
 .green-button:disabled {
   background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.office-card {
+  background-color: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.office-card:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.office-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.office-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1e1e3f;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.office-rating {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 0.4rem;
+}
+
+.star-filled {
+  color: #facc15;
+  font-size: 1rem;
+}
+
+.star-empty {
+  color: #e5e7eb;
+  font-size: 1rem;
+}
+
+.rating-number {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.office-description {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+  flex-grow: 1;
+}
+
+.office-divider {
+  margin: 0.75rem 1rem;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+.office-info {
+  padding: 0 1rem 0.5rem;
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.office-action {
+  padding: 1rem;
+  margin-top: auto;
+}
+
+.reserve-button {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.reserve-button:hover:not(:disabled) {
+  background-color: #1e1e3f;
+}
+
+.reserve-button:disabled {
+  background-color: #d1d5db;
   cursor: not-allowed;
 }
 
@@ -806,7 +985,6 @@ onMounted(fetchOffices);
     height: 180px;
   }
 }
-
 
 @media (max-width: 768px) {
   .filters {
