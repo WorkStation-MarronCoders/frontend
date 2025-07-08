@@ -33,7 +33,7 @@ const performSearch = async () => {
       results.value = offices;
 
       if (results.value.length === 0) {
-        //console.log("No offices found for location:", query.value.trim());
+ 
       }
     } else {
       await fetchOffices();
@@ -151,7 +151,12 @@ const getResultsStats = computed(() => {
   };
 });
 
-onMounted(fetchOffices);
+onMounted(async () => {
+  await fetchOffices();
+  results.value.forEach((office) => {
+    office.fakeRating = Math.floor(Math.random() * 3) + 3;
+  });
+});
 </script>
 
 <template>
@@ -231,8 +236,8 @@ onMounted(fetchOffices);
                 :max="getResultsStats?.price.max || 1000"
               />
               <div class="range-values">
-                <span>Min: S/.{{ filters.priceMin }}</span>
-                <span>Max: S/.{{ filters.priceMax }}</span>
+                <span>Min: ${{ filters.priceMin }}</span>
+                <span>Max: ${{ filters.priceMax }}</span>
               </div>
             </div>
           </div>
@@ -321,39 +326,64 @@ onMounted(fetchOffices);
             </p>
           </div>
 
-          <div v-else role="list" class="space-y-4">
+          <div v-else class="results-grid">
             <div
-              v-for="item in filteredResults"
+              v-for="(item, index) in filteredResults"
               :key="item.id"
-              class="result-card border rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition-shadow"
-              role="listitem"
+              class="office-card"
             >
-              <div class="flex justify-between items-start mb-3">
-                <h3 class="font-semibold text-lg text-primary">
-                  {{ item.location }}
-                </h3>
+              <img
+                :src="`/assets/office${(index % 5) + 1}.png`"
+                alt="Imagen de oficina"
+                class="office-image"
+              />
+
+              <div class="office-title">
+                {{ item.location }}
               </div>
 
-              <div class="grid grid-cols-2 gap-4 mb-3">
-                <div class="flex items-center text-gray-600">
-                  <i class="fas fa-users mr-2"></i>
-                  <span><strong>Capacidad:</strong> {{ item.capacity }} personas</span>
-                </div>
-                <div class="flex items-center text-gray-600">
-                  <i class="fas fa-dollar-sign mr-2"></i>
-                  <span><strong>Precio:</strong> S/.{{ item.costPerDay }}/día</span>
-                </div>
+              <div class="office-rating">
+                <template v-for="i in 5" :key="i">
+                  <i
+                    v-if="i <= (item.fakeRating || 0)"
+                    class="fas fa-star star-filled"
+                  ></i>
+                  <i
+                    v-else
+                    class="far fa-star star-empty"
+                  ></i>
+                </template>
+                <span class="rating-number"></span>
               </div>
 
-              <button
-                @click="selectOffice(item)"
-                class="green-button w-full md:w-auto"
-                :disabled="!item.available"
-              >
-                {{ item.available ? "Ver detalles" : "No disponible" }}
-              </button>
+              <div class="office-description">
+                Espacio ideal para equipos colaborativos, reuniones o trabajo individual.
+              </div>
+
+              <hr class="office-divider" />
+
+              <div class="office-info">
+                <p><strong>{{ $t("search.capacitacion") }}:</strong> {{ item.capacity }}</p>
+                <p><strong>{{ $t("search.precio") }}:</strong> ${{ item.costPerDay }}</p>
+                <p><strong>{{ $t("search.disponible") }}:</strong> {{ item.available ? "Sí" : "No" }}</p>
+              </div>
+
+              <div class="office-action">
+                <button
+                  @click="showReservationMessage(item)"
+                  :disabled="!item.available"
+                  class="reserve-button"
+                >
+                  Reservar
+                </button>
+              </div>
             </div>
           </div>
+
+
+
+
+
         </div>
 
         <div v-else class="result-card border rounded p-4 bg-white shadow-md">
@@ -437,6 +467,12 @@ onMounted(fetchOffices);
   max-width: 300px;
   padding: 1rem;
   animation: fadeIn 0.4s ease-in-out;
+}
+
+.office-image {
+  height: 12rem;
+  object-fit: cover;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .filters-card {
@@ -694,13 +730,117 @@ onMounted(fetchOffices);
 }
 
 .green-button:hover:not(:disabled) {
-  background-color: #059669;
+  background-color: #03593e;
 }
 
 .green-button:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
 }
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.office-card {
+  background-color: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.office-card:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.office-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.office-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1e1e3f;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.office-rating {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 0.4rem;
+}
+
+.star-filled {
+  color: #facc15; 
+  font-size: 1rem;
+}
+
+.star-empty {
+  color: #e5e7eb;
+  font-size: 1rem;
+}
+
+.rating-number {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.office-description {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+  flex-grow: 1;
+}
+
+.office-divider {
+  margin: 0.75rem 1rem;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+.office-info {
+  padding: 0 1rem 0.5rem;
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.office-action {
+  padding: 1rem;
+  margin-top: auto;
+}
+
+.reserve-button {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.reserve-button:hover:not(:disabled) {
+  background-color: #1e1e3f;
+}
+
+.reserve-button:disabled {
+  background-color: #d1d5db;
+  cursor: not-allowed;
+}
+
+
 
 @media (max-width: 768px) {
   .filters-panel {
