@@ -62,7 +62,7 @@
         "rent": "Alquila con nosotros",
         "addProperty": "Agregar Propiedad",
         "searchN": "Busca Oficinas",
-        "compareN": "Compara Oficinas",
+        "compareN": "Propiedades",
         "rentN": "Alquila Oficinas",
         "users": "Nuestros Usuarios",
         "developer": "Programadores",
@@ -139,14 +139,14 @@
         "cancel": "Cancelar"
     },
     "searchResults": {    
-  
-  "item1": {
-    "title": "Oficina en San Miguel",
-    "description": "Encuentra nuestras oficinas para tu trabajo en Lima..."
-  },
-  "item2": {
-    "title": "Cambiadores en Miraflores",
-    "description": "Desde modernos escritorios hasta acogedoras estaciones de trabajo..."
+    
+    "item1": {
+        "title": "Oficina en San Miguel",
+        "description": "Encuentra nuestras oficinas para tu trabajo en Lima..."
+    },
+    "item2": {
+        "title": "Cambiadores en Miraflores",
+        "description": "Desde modernos escritorios hasta acogedoras estaciones de trabajo..."
   },
 
     "searchPlaceholder": "Buscar espacios de trabajo...",
@@ -182,6 +182,25 @@
         "all": "Todos",
         "available": "Disponibles",
         "unavailable": "No disponibles"
+    },
+    "search":{
+        "filters": "Filtros",
+        "capacity": "Capacidad (personas)",
+        "price": "Precio por día (S/.)",
+        "onlyAvailable": "Solo oficinas disponibles",
+        "clearFilters": "Limpiar filtros",
+        "hasActiveFilters": "Filtros activos",
+        "capacitymin": "Capacidad Minima: ",
+        "capacitymax": "Capacidad Maxima: ",
+        "pricemin": "Precio Minimo: S/.",
+        "pricemax": "Precio Maximo: S/.",
+        "results": "Resultados: ",
+        "noresults": "No hay resultados",
+        "details": "Detalles de la Oficina",
+        "ubicacion": "Ubicación",
+        "capacitacion": "Capacidad",
+        "precio": "Precio por día",
+        "disponible": "Disponible"
     }
 
 }

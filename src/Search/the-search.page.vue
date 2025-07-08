@@ -29,9 +29,6 @@ const performSearch = async () => {
 
     if (query.value.trim()) {
       const response = await apiService.getOfficeByLocation(query.value.trim());
-
-      //console.log("API Response:", response);
-
       const offices = OfficeAssembler.toEntitiesFromResponse(response);
       results.value = offices;
 
@@ -45,7 +42,6 @@ const performSearch = async () => {
     console.error("Error al buscar oficina:", error);
 
     if (error.response?.status === 404) {
-      //console.log("No office found for location:", query.value.trim());
       results.value = [];
     } else {
       console.error("Unexpected error:", error);
@@ -87,19 +83,24 @@ const selectOffice = async (office) => {
 
 const filteredResults = computed(() => {
   return results.value.filter((item) => {
-    const capacityMinOk =
-      !filters.value.capacityMin || item.capacity >= filters.value.capacityMin;
+    const {
+      capacityMin,
+      capacityMax,
+      priceMin,
+      priceMax,
+      onlyAvailable
+    } = filters.value;
 
-    const capacityMaxOk =
-      !filters.value.capacityMax || item.capacity <= filters.value.capacityMax;
+    const capacityMinOk = !capacityMin || item.capacity >= capacityMin;
+    const capacityMaxOk = !capacityMax || item.capacity <= capacityMax;
+    const priceMinOk = !priceMin || item.costPerDay >= priceMin;
+    const priceMaxOk = !priceMax || item.costPerDay <= priceMax;
+    const availabilityOk = !onlyAvailable || item.available;
 
-    const priceMinOk =
-      !filters.value.priceMin || item.costPerDay >= filters.value.priceMin;
-
-    const priceMaxOk =
-      !filters.value.priceMax || item.costPerDay <= filters.value.priceMax;
-
-    return capacityMinOk && capacityMaxOk && priceMinOk && priceMaxOk;
+    return (
+      capacityMinOk && capacityMaxOk &&
+      priceMinOk && priceMaxOk && availabilityOk
+    );
   });
 });
 
@@ -157,7 +158,6 @@ onMounted(fetchOffices);
   <div class="search-page container mx-auto p-4">
     <nav-bar-component />
 
-    <!-- Sección del buscador actualizada -->
     <section
       class="search-header flex items-center mb-6"
       role="search"
@@ -184,124 +184,97 @@ onMounted(fetchOffices);
     </section>
 
     <div class="flex flex-wrap gap-4">
-      <!-- Sección de filtros mejorada -->
       <aside
-        class="filters w-full md:w-1/4 pr-4"
+        class="filters-panel"
         role="region"
         aria-label="Filtros de búsqueda"
       >
-        <div class="bg-white rounded-lg shadow-sm border p-4">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="font-bold text-lg">Filtros</h2>
-            <button
-              v-if="hasActiveFilters"
-              @click="clearFilters"
-              class="text-sm text-blue-600 hover:text-blue-800 underline"
-            >
-              Limpiar filtros
-            </button>
-          </div>
 
-          <!-- Filtro por Capacidad -->
-          <div class="mb-6">
-            <h3 class="font-semibold mb-3 text-gray-700">
-              Capacidad (personas)
-            </h3>
-            <div class="space-y-3">
-              <div>
-                <label class="block text-sm text-gray-600 mb-1">Mínimo</label>
-                <input
-                  v-model.number="filters.capacityMin"
-                  type="number"
-                  min="1"
-                  placeholder="Ej: 5"
-                  class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label class="block text-sm text-gray-600 mb-1">Máximo</label>
-                <input
-                  v-model.number="filters.capacityMax"
-                  type="number"
-                  min="1"
-                  placeholder="Ej: 20"
-                  class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+        <div class="filters-card">
+          <h2 class="filters-title">{{ $t("search.filters") }}</h2>
+
+          <div class="filters-group">
+            <label class="filter-label">{{ $t("search.capacity") }}</label>
+            <div class="range-group">
+              <input
+                type="range"
+                v-model.number="filters.capacityMin"
+                :min="getResultsStats?.capacity.min || 25"
+                :max="filters.capacityMax || getResultsStats?.capacity.max || 50"
+              />
+              <input
+                type="range"
+                v-model.number="filters.capacityMax"
+                :min="filters.capacityMin || getResultsStats?.capacity.min || 25"
+                :max="getResultsStats?.capacity.max || 50"
+              />
+              <div class="range-values">
+                <span>Min: {{ filters.capacityMin }}</span>
+                <span>Max: {{ filters.capacityMax }}</span>
               </div>
             </div>
           </div>
 
-          <!-- Filtro por Precio -->
-          <div class="mb-6">
-            <h3 class="font-semibold mb-3 text-gray-700">
-              Precio por día (S/.)
-            </h3>
-            <div class="space-y-3">
-              <div>
-                <label class="block text-sm text-gray-600 mb-1">Mínimo</label>
-                <input
-                  v-model.number="filters.priceMin"
-                  type="number"
-                  min="0"
-                  step="10"
-                  placeholder="Ej: 50"
-                  class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label class="block text-sm text-gray-600 mb-1">Máximo</label>
-                <input
-                  v-model.number="filters.priceMax"
-                  type="number"
-                  min="0"
-                  step="10"
-                  placeholder="Ej: 200"
-                  class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+          <div class="filters-group">
+            <label class="filter-label">{{ $t("search.price") }}</label>
+            <div class="range-group">
+              <input
+                type="range"
+                v-model.number="filters.priceMin"
+                :min="getResultsStats?.price.min || 0"
+                :max="filters.priceMax || getResultsStats?.price.max || 1000"
+              />
+              <input
+                type="range"
+                v-model.number="filters.priceMax"
+                :min="filters.priceMin || getResultsStats?.price.min || 0"
+                :max="getResultsStats?.price.max || 1000"
+              />
+              <div class="range-values">
+                <span>Min: S/.{{ filters.priceMin }}</span>
+                <span>Max: S/.{{ filters.priceMax }}</span>
               </div>
             </div>
           </div>
 
-          <!-- Información de rangos disponibles -->
-          <div
-            v-if="getResultsStats"
-            class="text-xs text-gray-500 bg-gray-50 p-3 rounded"
-          >
-            <p class="mb-1">
-              <strong>Capacidad:</strong> {{ getResultsStats.capacity.min }} -
-              {{ getResultsStats.capacity.max }} personas
-            </p>
-            <p>
-              <strong>Precio:</strong> S/.{{ getResultsStats.capacity.min }} -
-              S/.{{ getResultsStats.price.max }}
-            </p>
+          <div class="filters-group availability-toggle">
+            <label class="switch">
+              <input type="checkbox" v-model="filters.onlyAvailable" />
+              <span class="slider"></span>
+            </label>
+            <span class="filter-label ml-2">{{ $t("search.onlyAvailable") }}</span>
           </div>
 
-          <!-- Indicador de filtros activos -->
-          <div
+
+          <button
             v-if="hasActiveFilters"
-            class="mt-4 p-3 bg-blue-50 rounded border-l-4 border-blue-400"
+            @click="clearFilters"
+            class="clear-filters-btn"
           >
-            <p class="text-sm text-blue-800 font-medium">Filtros activos:</p>
-            <ul class="text-xs text-blue-700 mt-1 space-y-1">
-              <li v-if="filters.capacityMin">
-                Capacidad mínima: {{ filters.capacityMin }} personas
-              </li>
-              <li v-if="filters.capacityMax">
-                Capacidad máxima: {{ filters.capacityMax }} personas
-              </li>
-              <li v-if="filters.priceMin">
-                Precio mínimo: S/.{{ filters.priceMin }}
-              </li>
-              <li v-if="filters.priceMax">
-                Precio máximo: S/.{{ filters.priceMax }}
-              </li>
-            </ul>
+            {{ $t("search.clearFilters") }}
+          </button>
+
+          <div v-if="hasActiveFilters" class="active-filters-card"W>
+            <p class="title">{{ $t("search.hasActiveFilters") }}:</p>
+            <div class="tags">
+              <span v-if="filters.capacityMin" class="tag">
+                <i class="fas fa-users"></i> {{ $t("search.capacitymin") }}{{ filters.capacityMin }}
+              </span>
+              <span v-if="filters.capacityMax" class="tag">
+                <i class="fas fa-users"></i> {{ $t("search.capacitymax") }}{{ filters.capacityMax }}
+              </span>
+              <span v-if="filters.priceMin" class="tag">
+                <i class="fas fa-dollar-sign"></i> {{ $t("search.pricemin") }}{{ filters.priceMin }}
+              </span>
+              <span v-if="filters.priceMax" class="tag">
+                <i class="fas fa-dollar-sign"></i> {{ $t("search.pricemax") }}{{ filters.priceMax }}
+              </span>
+            </div>
           </div>
+
         </div>
       </aside>
 
-      <!-- Sección de resultados mejorada -->
       <main
         class="results w-full md:w-3/4"
         role="region"
@@ -311,24 +284,12 @@ onMounted(fetchOffices);
           <div class="results-header mb-4">
             <div class="flex items-center justify-between">
               <div>
-                <span class="font-bold text-lg">Resultados</span>
+                <span class="font-bold text-lg">{{ $t("search.results") }}</span>
                 <small class="ml-2 text-gray-600">{{ paginatedText }}</small>
               </div>
-              <!-- Indicador de filtros activos en el header -->
-              <div v-if="hasActiveFilters" class="flex items-center space-x-2">
-                <span class="text-sm text-blue-600">
-                  <i class="fas fa-filter"></i> Filtros aplicados
-                </span>
-                <button
-                  @click="clearFilters"
-                  class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded hover:bg-blue-200"
-                >
-                  Limpiar
-                </button>
-              </div>
+
             </div>
 
-            <!-- Alerta si no hay resultados por filtros -->
             <div
               v-if="
                 results.length > 0 &&
@@ -339,16 +300,11 @@ onMounted(fetchOffices);
             >
               <p class="text-yellow-800 text-sm">
                 <i class="fas fa-exclamation-triangle mr-2"></i>
-                No se encontraron oficinas que coincidan con los filtros
-                aplicados.
-                <button @click="clearFilters" class="underline ml-1">
-                  Limpiar filtros
-                </button>
+                {{ $t("search.noresults") }}
               </p>
             </div>
           </div>
 
-          <!-- Mostrar mensaje cuando no hay resultados -->
           <div
             v-if="filteredResults.length === 0 && !hasActiveFilters"
             class="text-center py-8"
@@ -365,7 +321,6 @@ onMounted(fetchOffices);
             </p>
           </div>
 
-          <!-- Lista de resultados -->
           <div v-else role="list" class="space-y-4">
             <div
               v-for="item in filteredResults"
@@ -377,31 +332,16 @@ onMounted(fetchOffices);
                 <h3 class="font-semibold text-lg text-primary">
                   {{ item.location }}
                 </h3>
-                <span
-                  class="text-sm px-2 py-1 rounded-full"
-                  :class="
-                    item.available
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
-                  "
-                >
-                  {{ item.available ? "Disponible" : "No disponible" }}
-                </span>
               </div>
 
               <div class="grid grid-cols-2 gap-4 mb-3">
                 <div class="flex items-center text-gray-600">
                   <i class="fas fa-users mr-2"></i>
-                  <span
-                    ><strong>Capacidad:</strong>
-                    {{ item.capacity }} personas</span
-                  >
+                  <span><strong>Capacidad:</strong> {{ item.capacity }} personas</span>
                 </div>
                 <div class="flex items-center text-gray-600">
                   <i class="fas fa-dollar-sign mr-2"></i>
-                  <span
-                    ><strong>Precio:</strong> S/.{{ item.costPerDay }}/día</span
-                  >
+                  <span><strong>Precio:</strong> S/.{{ item.costPerDay }}/día</span>
                 </div>
               </div>
 
@@ -416,18 +356,17 @@ onMounted(fetchOffices);
           </div>
         </div>
 
-        <!-- Detalle de oficina (sin cambios) -->
         <div v-else class="result-card border rounded p-4 bg-white shadow-md">
           <h2 class="font-bold text-xl mb-2 text-primary">
-            Detalle de oficina
+            {{ $t("search.details") }}
           </h2>
-          <p><strong>Ubicación:</strong> {{ selectedOffice.location }}</p>
-          <p><strong>Capacidad:</strong> {{ selectedOffice.capacity }}</p>
+          <p><strong>{{ $t("search.ubicacion") }}:</strong> {{ selectedOffice.location }}</p>
+          <p><strong>{{ $t("search.capacitacion") }}:</strong> {{ selectedOffice.capacity }}</p>
           <p>
-            <strong>Precio por día:</strong> S/.{{ selectedOffice.costPerDay }}
+            <strong>{{ $t("search.precio") }}:</strong> S/.{{ selectedOffice.costPerDay }}
           </p>
           <p>
-            <strong>Disponible:</strong>
+            <strong>{{ $t("search.disponible") }}:</strong>
             {{ selectedOffice.available ? "Sí" : "No" }}
           </p>
 
@@ -445,62 +384,208 @@ onMounted(fetchOffices);
   background-color: #f9fafb;
   min-height: 100vh;
   padding: 2rem 1rem;
-  color: #111827;
-  font-family: "Inter", sans-serif;
+  color: #1e1e3f;
 }
 
 .search-header {
+  padding: 1rem;
+  border-radius: 0.75rem;
   display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-  margin-top: 10px;
   gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .search-header input[type="text"] {
   flex: 1;
   padding: 0.75rem 1rem;
   border-radius: 0.75rem;
-  border: 1px solid #d1d5db;
-  background-color: #fff;
+  border: 1px solid #a1a1aa;
+  background-color: #f9fafb;
+  color: #1e1e3f;
   font-size: 1rem;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .search-header input[type="text"]:focus {
-  border-color: #6366f1;
+  border-color: #1e3a8a;
+  box-shadow: 0 0 0 3px #1e1e3f;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
 .search-header button {
-  padding: 0.75rem 1.25rem;
+  background-color: #1e3a8a; 
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border: none;
   border-radius: 0.75rem;
-  background-color: #6366f1;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.search-header button:hover:not(:disabled) {
+  background-color: #1e1e3f; 
+}
+
+.search-header button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.filters-panel {
+  width: 100%;
+  max-width: 300px;
+  padding: 1rem;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.filters-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.filters-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e1e3f;
+  margin-bottom: 0.5rem;
+}
+
+.filters-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-size: 0.95rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+.availability-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 22px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #d1d5db;
+  border-radius: 34px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.3s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+  background-color: #1e3a8a;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+.range-group input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #d1d5db;
+  border-radius: 4px;
+  outline: none;
+  accent-color: #1e1e3f;
+  margin-bottom: 4px;
+}
+
+.range-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin-top: -4px;
+}
+
+.clear-filters-btn {
+  background-color: #1e3a8a;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
   border: none;
   transition: background-color 0.2s;
+  align-self: start;
 }
 
-.search-header button:hover {
-  background-color: #4f46e5;
+.clear-filters-btn:hover {
+  background-color: #1e1e3f;
 }
 
-.filters {
-  width: 100%;
-  max-width: 280px;
-  padding-right: 1rem;
+.active-filters-card {
+  background-color: #f3f4f6;
+  border-left: 4px solid #1e3a8a;
+  padding: 1rem;
+  border-radius: 0.75rem;
 }
 
-.filters h2 {
-  font-size: 1.25rem;
+.active-filters-card .title {
   font-weight: 600;
-  margin-bottom: 1rem;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+}
+
+.active-filters-card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.active-filters-card .tag {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 0.4rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .results {
   flex: 1;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
 .result-card {
@@ -519,9 +604,10 @@ onMounted(fetchOffices);
 }
 
 .result-card h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.35rem;
+  font-weight: 700;
   margin-bottom: 0.25rem;
+  color: #1f2937;
 }
 
 .result-card p {
@@ -534,14 +620,20 @@ onMounted(fetchOffices);
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  background-color: #e5e7eb;
-  font-weight: 500;
-  border: 1px solid #d1d5db;
+  background-color: #10b981;
+  color: white;
+  font-weight: 600;
+  border: none;
   transition: background-color 0.2s;
 }
 
-.result-card button:hover {
-  background-color: #d1d5db;
+.result-card button:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.result-card button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
 }
 
 .details-card {
@@ -590,30 +682,6 @@ onMounted(fetchOffices);
   gap: 2rem;
 }
 
-.green-button:hover {
-  background-color: #047857;
-}
-
-.filters input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-.filters input[type="number"]::-webkit-outer-spin-button,
-.filters input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Hover effects para las cards */
-.result-card {
-  transition: all 0.3s ease;
-}
-
-.result-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
 .green-button {
   background-color: #10b981;
   color: white;
@@ -635,12 +703,37 @@ onMounted(fetchOffices);
 }
 
 @media (max-width: 768px) {
+  .filters-panel {
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .filters-card {
+    padding: 1rem;
+  }
+
+  .range-values {
+    font-size: 0.75rem;
+  }
+}
+
+
+@media (max-width: 768px) {
   .filters {
     margin-bottom: 1rem;
   }
 
   .result-card {
     margin-bottom: 1rem;
+  }
+
+  .flex {
+    flex-direction: column;
+  }
+
+  .filters,
+  .results {
+    width: 100%;
   }
 }
 
@@ -656,17 +749,6 @@ onMounted(fetchOffices);
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@media (max-width: 768px) {
-  .flex {
-    flex-direction: column;
-  }
-
-  .filters,
-  .results {
-    width: 100%;
   }
 }
 </style>
