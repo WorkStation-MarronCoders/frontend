@@ -82,7 +82,7 @@ const handleRegister = async () => {
     });
 
     localStorage.setItem("jwt", jwt);
-    router.push("/dashboard");
+    router.push("/login");
   } catch (error) {
     console.error("Error creating user:", error);
   }
