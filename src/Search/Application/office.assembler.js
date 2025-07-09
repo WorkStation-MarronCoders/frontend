@@ -69,7 +69,6 @@ export class OfficeAssembler {
       })
       .filter((office) => office !== null);
 
-    //console.log(" Final result:", result);
     return result;
   }
 

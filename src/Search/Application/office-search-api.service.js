@@ -27,4 +27,23 @@ export class OfficeSearchAPIService {
       throw error;
     }
   }
+
+  async updateOfficeAvailability(id, office) {
+  try {
+    const response = await axios.put(`${OfficesAPI}/${id}`, {
+      location: office.location,
+      description: office.description,
+      costPerDay: office.costPerDay,
+      capacity: office.capacity,
+      imageUrl: office.imageUrl,
+      available: false, 
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error actualizando disponibilidad:", error);
+    throw error;
+  }
+}
+
+
 }

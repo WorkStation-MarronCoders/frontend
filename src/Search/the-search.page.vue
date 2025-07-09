@@ -77,7 +77,6 @@ const fetchOffices = async () => {
 
 const selectOffice = async (office) => {
   selectedOffice.value = { ...office, services: [] };
-  //console.log("not implemented yet");
 };
 
 const filteredResults = computed(() => {
@@ -163,11 +162,30 @@ const showReservationMessage = (office) => {
   showReservationModal.value = true;
 };
 
-const confirmReservation = () => {
-  console.log("Oficina reservada:", officeToReserve.value);
-  
-  showReservationModal.value = false;
+const confirmReservation = async () => {
+  try {
+    console.log("Reservando oficina:", officeToReserve.value);
+
+    await apiService.updateOfficeAvailability(officeToReserve.value.id, {
+      ...officeToReserve.value,
+      available: false
+    });
+
+    const index = results.value.findIndex(
+      (office) => office.id === officeToReserve.value.id
+    );
+    if (index !== -1) {
+      results.value[index].available = false;
+    }
+
+    showReservationModal.value = false;
+  } catch (error) {
+    console.error("❌ ERROR AL RESERVAR:", error?.response || error);
+    alert("Hubo un error al reservar la oficina. Intenta nuevamente.");
+  }
 };
+
+
 
 </script>
 
