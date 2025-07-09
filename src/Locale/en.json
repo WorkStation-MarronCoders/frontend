@@ -200,6 +200,9 @@
         "capacitacion": "Capacity",
         "precio": "Price per day",
         "disponible": "Available",
-        "back": "Back to results"
+        "back": "Back to results",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "confirmReservation": "Confirm Reservation"
     }
 }

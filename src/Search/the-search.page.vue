@@ -154,6 +154,21 @@ onMounted(async () => {
     office.fakeRating = Math.floor(Math.random() * 3) + 3;
   });
 });
+
+const showReservationModal = ref(false);
+const officeToReserve = ref(null);
+
+const showReservationMessage = (office) => {
+  officeToReserve.value = office;
+  showReservationModal.value = true;
+};
+
+const confirmReservation = () => {
+  console.log("Oficina reservada:", officeToReserve.value);
+  
+  showReservationModal.value = false;
+};
+
 </script>
 
 <template>
@@ -402,7 +417,6 @@ onMounted(async () => {
                 @error="$event.target.src = '/placeholder-office.jpg'" />
             </div>
 
-            <!-- Contenido de detalles -->
             <div class="flex-1">
               <h2 class="font-bold text-xl mb-4 text-primary">
                 {{ $t("search.details") }}
@@ -452,7 +466,33 @@ onMounted(async () => {
           </div>
         </div>
       </main>
-    </div>
+
+     <div v-if="showReservationModal" class="modal-overlay">
+        <div class="modal-confirm-content">
+          <h3 class="modal-title">{{ $t("search.confirmReservation") }}</h3>
+
+          <div class="modal-confirm-body">
+            <div class="confirm-info">
+              <p><strong>{{ $t("search.ubicacion") }}:</strong> {{ officeToReserve.location }}</p>
+              <p><strong>{{ $t("search.capacitacion") }}:</strong> {{ officeToReserve.capacity }}</p>
+              <p><strong>{{ $t("search.pri") }}:</strong> $ {{ officeToReserve.costPerDay }} {{ $t("search.perDay") }}</p>
+            </div>
+          </div>
+
+          <div class="modal-confirm-actions">
+            <button @click="showReservationModal = false" 
+              class="confirm-button">
+              {{ $t("search.cancel") }}
+            </button>
+            <button @click="confirmReservation" 
+              class="confirm-button">
+              {{ $t("search.confirm") }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      </div>
   </div>
 </template>
 
@@ -719,7 +759,6 @@ onMounted(async () => {
   cursor: not-allowed;
 }
 
-/* Estilos para las imágenes de oficinas */
 .office-image-container {
   width: 200px;
   height: 140px;
@@ -920,6 +959,91 @@ onMounted(async () => {
 .reserve-button:disabled {
   background-color: #d1d5db;
   cursor: not-allowed;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.25s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-confirm-content {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.25s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-align: center;
+  color: #1e3a8a;
+}
+
+.modal-confirm-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.confirm-info {
+  flex: 1 1 55%;
+  font-size: 0.95rem;
+  color: #1f2937;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.confirm-button {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
