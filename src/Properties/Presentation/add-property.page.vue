@@ -8,8 +8,11 @@
       </template>
 
       <template #content>
-        <form @submit.prevent="submitForm" class="office-form">
-          <!-- Location -->
+        <form
+          @submit.prevent="submitForm"
+          class="office-form"
+          aria-label="Formulario para agregar una nueva propiedad"
+        >
           <pv-float-label>
             <pv-input-text
               id="office-location"
@@ -24,7 +27,7 @@
           <small v-if="backendErrors.Location" class="error-text">
             {{ backendErrors.Location[0] }}
           </small>
-          <!-- Description -->
+
           <pv-float-label>
             <pv-input-text
               id="office-description"
@@ -40,22 +43,20 @@
             {{ backendErrors.Description[0] }}
           </small>
 
-          <!-- Image URL -->
           <pv-float-label>
             <pv-input-text
               id="office-image-url"
               v-model="form.imageUrl"
-              :aria-label="$t('addProperty.imageUrl')"
+              :aria-label="$t('addProperty.imgUrl')"
               class="w-full" />
             <label for="office-image-url">{{
-              $t("addProperty.imageUrl")
+              $t("addProperty.imgUrl")
             }}</label>
           </pv-float-label>
           <small v-if="backendErrors.ImageUrl" class="error-text">
             {{ backendErrors.ImageUrl[0] }}
           </small>
 
-          <!-- Capacity -->
           <pv-float-label>
             <pv-input-text
               id="office-capacity"
@@ -73,7 +74,6 @@
             {{ backendErrors.Capacity[0] }}
           </small>
 
-          <!-- Cost per Day -->
           <pv-float-label>
             <pv-input-text
               id="office-cost"
@@ -97,7 +97,8 @@
               v-model="form.available"
               :options="availableOptions"
               option-label="label"
-              option-value="value" />
+              option-value="value"
+              :aria-label="$t('addProperty.available')" />
           </div>
 
           <pv-divider />
@@ -221,6 +222,7 @@
     </pv-card>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from "vue";

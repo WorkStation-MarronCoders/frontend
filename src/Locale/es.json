@@ -100,6 +100,7 @@
         "photos": "Fotos",
         "disponible": "Disponible",
         "unavailable": "No disponible",
+        "imgUrl": "URL de la Imagen",
         "chooseFiles": "Elegir Archivos",
         "submit": "Publicar",
         "preview": "Vista Previa",
@@ -181,7 +182,10 @@
         "services": "Servicios",
         "all": "Todos",
         "available": "Disponibles",
-        "unavailable": "No disponibles"
+        "unavailable": "No disponibles",
+        "save": "Guardar",
+        "saving": "Guardando...",
+        "image": "Imagen"
     },
     "search":{
         "filters": "Filtros",

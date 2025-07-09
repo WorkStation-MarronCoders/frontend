@@ -94,6 +94,7 @@
         "name": "Office Name",
         "description": "Description",
         "location": "Location",
+        "imgUrl": "Image URL",
         "capacity": "Capacity",
         "price": "Price per hour ($)",
         "photos": "Photos",
@@ -177,7 +178,10 @@
         "services": "Services",
         "all": "All",
         "available": "Available",
-        "unavailable": "Unavailable"
+        "unavailable": "Unavailable",
+        "save": "Save",
+        "saving": "Saving...",
+        "image": "Image"
     },
     "search":{
         "filters": "Filters",

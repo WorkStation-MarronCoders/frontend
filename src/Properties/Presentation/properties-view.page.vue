@@ -46,7 +46,7 @@
               {{ office.location }}
             </div>
             <div v-else class="edit-field">
-              <label class="edit-label">Ubicación:</label>
+              <label class="edit-label">{{ $t("properties.location") }}:</label>
               <input
                 v-model="editForm.location"
                 type="text"
@@ -58,24 +58,24 @@
 
           <template #content>
             <div class="office-details">
-              <!-- Modo vista -->
+
               <div v-if="editingOffice !== office.id">
                 <p class="description" v-if="office.description">
-                  <strong>Descripción:</strong> {{ office.description }}
+                  <strong>{{ $t("addProperty.description") }}:</strong> {{ office.description }}
                 </p>
 
                 <p class="image-url" v-if="office.imageUrl">
-                  <strong>Imagen:</strong>
+                  <strong>{{ $t("properties.image") }}: </strong>
                   <a
                     :href="office.imageUrl"
                     target="_blank"
                     rel="noopener noreferrer">
-                    Ver imagen
+                    {{ $t("properties.image") }} Url
                   </a>
                 </p>
                 <p class="capacity">
                   <strong>{{ $t("properties.capacity") }}:</strong>
-                  {{ office.capacity }} personas
+                  {{ office.capacity }} 
                 </p>
                 <p class="cost">
                   <strong>{{ $t("properties.price") }}:</strong> ${{
@@ -117,10 +117,9 @@
                 </div>
               </div>
 
-              <!-- Modo edición -->
               <div v-else class="edit-form">
                 <div class="edit-field">
-                  <label class="edit-label">Descripción:</label>
+                  <label class="edit-label">{{ $t("addProperty.description") }}:</label>
                   <textarea
                     v-model="editForm.description"
                     class="edit-input"
@@ -129,7 +128,7 @@
                 </div>
 
                 <div class="edit-field">
-                  <label class="edit-label">URL de imagen:</label>
+                  <label class="edit-label">URL {{ $t("properties.image") }}:</label>
                   <input
                     v-model="editForm.imageUrl"
                     type="url"
@@ -138,7 +137,7 @@
                 </div>
 
                 <div class="edit-field">
-                  <label class="edit-label">Capacidad:</label>
+                  <label class="edit-label">{{ $t("properties.capacity") }}:</label>
                   <input
                     v-model.number="editForm.capacity"
                     type="number"
@@ -149,7 +148,7 @@
                 </div>
 
                 <div class="edit-field">
-                  <label class="edit-label">Precio por día:</label>
+                  <label class="edit-label">{{ $t("properties.price") }}:</label>
                   <input
                     v-model.number="editForm.costPerDay"
                     type="number"
@@ -161,19 +160,19 @@
                 </div>
 
                 <div class="edit-field">
-                  <label class="edit-label">Estado:</label>
+                  <label class="edit-label">{{ $t("properties.status") }}:</label>
                   <select
                     v-model="editForm.available"
                     class="edit-select"
                     @keyup.enter="saveEdit(office.id)"
                     @keyup.escape="cancelEdit">
-                    <option :value="true">Disponible</option>
-                    <option :value="false">No disponible</option>
+                    <option :value="true">{{ $t("properties.disponible") }}</option>
+                    <option :value="false">{{ $t("properties.nodisponible") }}</option>
                   </select>
                 </div>
 
                 <div class="edit-field">
-                  <label class="edit-label">Servicios:</label>
+                  <label class="edit-label">{{ $t("properties.services") }}:</label>
                   <div class="services-edit">
                     <div
                       v-for="(service, index) in editForm.services"
@@ -219,13 +218,13 @@
                     @click="saveEdit(office.id)"
                     class="save-btn"
                     :disabled="saving">
-                    {{ saving ? "Guardando..." : "Guardar" }}
+                    {{ saving ? $t("properties.saving") : $t("properties.save") }}
                   </button>
                   <button
                     @click="cancelEdit"
                     class="cancel-btn"
                     :disabled="saving">
-                    Cancelar
+                    {{ $t("search.cancel") }}
                   </button>
                 </div>
               </div>

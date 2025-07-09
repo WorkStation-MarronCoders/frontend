@@ -92,38 +92,52 @@ onMounted(fetchUserProfile);
             <div v-if="isEditing">
               <div class="field-group">
                 <label>{{ $t("profile.firstName") }}</label>
-                <pv-input-text v-model="user.firstName" />
+                <pv-input-text
+                  v-model="user.firstName"
+                  :aria-label="$t('profile.firstName')" />
               </div>
 
               <div class="field-group">
                 <label>{{ $t("profile.lastName") }}</label>
-                <pv-input-text v-model="user.lastName" />
+                <pv-input-text
+                  v-model="user.lastName"
+                  :aria-label="$t('profile.lastName')" />
               </div>
 
               <div class="field-group">
                 <label>{{ $t("profile.dni") }}</label>
-                <pv-input-text v-model="user.dni" />
+                <pv-input-text
+                  v-model="user.dni"
+                  :aria-label="$t('profile.dni')" />
               </div>
 
               <div class="field-group">
                 <label>{{ $t("profile.phone") }}</label>
-                <pv-input-text v-model="user.phoneNumber" />
+                <pv-input-text
+                  v-model="user.phoneNumber"
+                  :aria-label="$t('profile.phone')" />
               </div>
 
               <div class="field-group">
                 <label>{{ $t("profile.email") }}</label>
-                <pv-input-text v-model="user.email" />
+                <pv-input-text
+                  v-model="user.email"
+                  :aria-label="$t('profile.email')" />
               </div>
 
               <div class="field-group">
                 <label>{{ $t("profile.role") }}</label>
-                <pv-input-text :value="user.role" disabled />
+                <pv-input-text
+                  :value="user.role"
+                  disabled
+                  :aria-label="$t('profile.role')" />
               </div>
 
               <pv-button
                 class="button mt-4"
                 :disabled="isSaving"
                 @click="saveUserProfile"
+                :aria-label="$t('profile.save')"
               >
                 {{ isSaving ? "Guardando..." : $t("profile.save") }}
               </pv-button>
@@ -153,6 +167,7 @@ onMounted(fetchUserProfile);
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .profile {

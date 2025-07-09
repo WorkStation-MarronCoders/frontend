@@ -19,7 +19,9 @@
               <p>{{ $t('plans.basic.description') }}</p>
             </div>
             <h3>{{ $t('plans.basic.price') }}</h3>
-            <button aria-label="Seleccionar plan Básico">{{ $t('plans.button') }}</button>
+            <button aria-label="Seleccionar plan Básico">
+              {{ $t('plans.button') }}
+            </button>
           </div>
         </div>
 
@@ -32,7 +34,9 @@
               <p>{{ $t('plans.intermediate.description') }}</p>
             </div>
             <h3>{{ $t('plans.intermediate.price') }}</h3>
-            <button aria-label="Seleccionar plan Intermedio">{{ $t('plans.button') }}</button>
+            <button aria-label="Seleccionar plan Intermedio">
+              {{ $t('plans.button') }}
+            </button>
           </div>
         </div>
 
@@ -45,14 +49,15 @@
               <p>{{ $t('plans.premium.description') }}</p>
             </div>
             <h3>{{ $t('plans.premium.price') }}</h3>
-            <button aria-label="Seleccionar plan Premium">{{ $t('plans.button') }}</button>
+            <button aria-label="Seleccionar plan Premium">
+              {{ $t('plans.button') }}
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 
 
 <style scoped>
